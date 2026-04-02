@@ -600,73 +600,177 @@
     <section class="section build-section" id="build">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag tag-coming-soon" data-en="Coming soon" data-fr="Bientôt disponible">Coming soon</span>
+                <span class="section-tag" data-en="Semi-Custom" data-fr="Semi-Personnalisé">Semi-Custom</span>
                 <h2 class="section-title" data-en="Build Your Figurine" data-fr="Créez Votre Figurine">Build Your Figurine</h2>
                 <p class="section-description" data-en="Start with a base that looks like you, then adjust the details — hair, outfit, and more — to create your perfect mini me." data-fr="Commencez avec une base qui vous ressemble, puis ajustez les détails — cheveux, tenue, et plus — pour créer votre parfait mini vous.">
                     Start with a base that looks like you, then adjust the details — hair, outfit, and more — to create your perfect mini me.
                 </p>
             </div>
 
-            <div class="build-preview">
-                <div class="coming-soon-overlay">
-                    <div class="coming-soon-content">
-                        <span class="coming-soon-icon">🔜</span>
-                        <h3 data-en="Coming soon" data-fr="Bientôt disponible">Coming soon</h3>
-                        <p data-en="We're preparing something special for you!" data-fr="Nous préparons quelque chose de spécial pour vous!">
-                            We're preparing something special for you!
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="build-options">
-                    <div class="build-option">
-                        <div class="option-icon">🎨</div>
-                        <h4 data-en="Step 1: Choose Your Base" data-fr="Étape 1 : Choisissez Votre Base">Step 1: Choose Your Base</h4>
-                        <p data-en="Select the base that looks most like you — face shape, body type, and features" data-fr="Sélectionnez la base qui vous ressemble le plus — forme du visage, type de corps, et traits">Select the base that looks most like you — face shape, body type, and features</p>
-                        <div class="option-preview">
-                            <span class="preview-item">Classic</span>
-                            <span class="preview-item">Modern</span>
-                            <span class="preview-item">Fantasy</span>
+            <div style="background: white; border-radius: 24px; padding: 40px; box-shadow: var(--shadow-soft);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
+                    <!-- Preview Area -->
+                    <div style="text-align: center;">
+                        <div id="figurinePreview" style="background: linear-gradient(135deg, #FFF4CC, #FFE4E9); border-radius: 20px; padding: 40px; min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <img src="images/standard-figurine.jpeg" id="previewImage" alt="Your Figurine" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid white; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
+                            <div id="previewName" style="margin-top: 20px; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600;">Classic Couple</div>
+                            <div id="previewPrice" style="font-size: 1.5rem; font-weight: 700; color: #FF9EB5; margin-top: 10px;">59,99€</div>
+                        </div>
+                        <div id="customizationSummary" style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                            <span id="hairSummary">Short Hair</span> • <span id="outfitSummary">Classic Dress</span> • <span id="skinSummary">Light Skin</span>
                         </div>
                     </div>
 
-                    <div class="build-option">
-                        <div class="option-icon">💇</div>
-                        <h4 data-en="Step 2: Adjust Hair" data-fr="Étape 2 : Ajustez les Cheveux">Step 2: Adjust Hair</h4>
-                        <p data-en="Pick the hairstyle that matches yours — length, style, and color" data-fr="Choisissez la coiffure qui correspond à la vôtre — longueur, style, et couleur">Pick the hairstyle that matches yours — length, style, and color</p>
-                        <div class="option-preview">
-                            <span class="preview-item">Short</span>
-                            <span class="preview-item">Long</span>
-                            <span class="preview-item">Curly</span>
+                    <!-- Configurator Options -->
+                    <div>
+                        <!-- Step 1: Base Style -->
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</span>
+                                <span data-en="Choose Your Base Style" data-fr="Choisissez Votre Style de Base">Choose Your Base Style</span>
+                            </h4>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                                <label class="config-option selected" data-value="classic" onclick="selectBase('classic', this)">
+                                    <img src="images/standard-figurine.jpeg" alt="Classic" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
+                                    <span>Classic</span>
+                                </label>
+                                <label class="config-option" data-value="romantic" onclick="selectBase('romantic', this)">
+                                    <img src="images/standard-figurine1.jpeg" alt="Romantic" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
+                                    <span>Romantic</span>
+                                </label>
+                                <label class="config-option" data-value="elegant" onclick="selectBase('elegant', this)">
+                                    <img src="images/standard-figurine4.jpeg" alt="Elegant" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
+                                    <span>Elegant</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="build-option">
-                        <div class="option-icon">👗</div>
-                        <h4 data-en="Step 3: Dress It Up" data-fr="Étape 3 : Habillez">Step 3: Dress It Up</h4>
-                        <p data-en="Choose the wedding outfit — dress style, suit color, accessories" data-fr="Choisissez la tenue de mariage — style de robe, couleur de costume, accessoires">Choose the wedding outfit — dress style, suit color, accessories</p>
-                        <div class="option-preview">
-                            <span class="preview-item">Dress</span>
-                            <span class="preview-item">Suit</span>
-                            <span class="preview-item">Custom</span>
+                        <!-- Step 2: Hair Style -->
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</span>
+                                <span data-en="Hair Style" data-fr="Style de Cheveux">Hair Style</span>
+                            </h4>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="hair-btn selected" data-value="short" onclick="selectHair('short', this)">Short</button>
+                                <button class="hair-btn" data-value="long" onclick="selectHair('long', this)">Long</button>
+                                <button class="hair-btn" data-value="curly" onclick="selectHair('curly', this)">Curly</button>
+                                <button class="hair-btn" data-value="bun" onclick="selectHair('bun', this)">Updo/Bun</button>
+                            </div>
+                            <h5 style="margin: 15px 0 10px; font-size: 0.9rem;" data-en="Hair Color" data-fr="Couleur des Cheveux">Hair Color</h5>
+                            <div class="color-swatches">
+                                <span class="color-swatch selected" style="background: #2C1810;" title="Dark Brown" onclick="selectHairColor('dark-brown', this); updateHairOverlay()"></span>
+                                <span class="color-swatch" style="background: #8B4513;" title="Auburn" onclick="selectHairColor('auburn', this); updateHairOverlay()"></span>
+                                <span class="color-swatch" style="background: #DAA520;" title="Blonde" onclick="selectHairColor('blonde', this); updateHairOverlay()"></span>
+                                <span class="color-swatch" style="background: #1a1a1a;" title="Black" onclick="selectHairColor('black', this); updateHairOverlay()"></span>
+                                <span class="color-swatch" style="background: #C9A9A6;" title="Light/Red" onclick="selectHairColor('light-red', this); updateHairOverlay()"></span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="build-option">
-                        <div class="option-icon">🎨</div>
-                        <h4 data-en="Step 4: Match Your Look" data-fr="Étape 4 : Adaptez Votre Look">Step 4: Match Your Look</h4>
-                        <p data-en="Fine-tune skin tone and add finishing touches" data-fr="Affinez le teint et ajoutez les touches finales">Fine-tune skin tone and add finishing touches</p>
-                        <div class="option-preview skin-tones">
-                            <span class="skin-tone" style="background-color: #FFDBAC;"></span>
-                            <span class="skin-tone" style="background-color: #F1C27D;"></span>
-                            <span class="skin-tone" style="background-color: #E0AC69;"></span>
-                            <span class="skin-tone" style="background-color: #8D5524;"></span>
+                        <!-- Step 3: Outfit -->
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</span>
+                                <span data-en="Outfit Style" data-fr="Style de Tenue">Outfit Style</span>
+                            </h4>
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <button class="outfit-btn selected" data-value="classic" onclick="selectOutfit('classic', this)">Classic Dress</button>
+                                <button class="outfit-btn" data-value="mermaid" onclick="selectOutfit('mermaid', this)">Mermaid</button>
+                                <button class="outfit-btn" data-value="ballgown" onclick="selectOutfit('ballgown', this)">Ball Gown</button>
+                                <button class="outfit-btn" data-value="suit" onclick="selectOutfit('suit', this)">Suit</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Skin Tone -->
+                        <div style="margin-bottom: 30px;">
+                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">4</span>
+                                <span data-en="Skin Tone" data-fr="Teint">Skin Tone</span>
+                            </h4>
+                            <div class="color-swatches">
+                                <span class="color-swatch selected" style="background: #FFDBAC;" title="Light" onclick="selectSkinTone('light', this); updateSkinOverlay()"></span>
+                                <span class="color-swatch" style="background: #F1C27D;" title="Light Medium" onclick="selectSkinTone('light-medium', this); updateSkinOverlay()"></span>
+                                <span class="color-swatch" style="background: #E0AC69;" title="Medium" onclick="selectSkinTone('medium', this); updateSkinOverlay()"></span>
+                                <span class="color-swatch" style="background: #C68642;" title="Medium Dark" onclick="selectSkinTone('medium-dark', this); updateSkinOverlay()"></span>
+                                <span class="color-swatch" style="background: #8D5524;" title="Dark" onclick="selectSkinTone('dark', this); updateSkinOverlay()"></span>
+                                <span class="color-swatch" style="background: #5C3317;" title="Deep Dark" onclick="selectSkinTone('deep-dark', this); updateSkinOverlay()"></span>
+                            </div>
+                        </div>
+
+                        <!-- Names -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+                            <div>
+                                <label style="font-size: 0.9rem; color: #666; margin-bottom: 5px; display: block;" data-en="Groom's Name (optional)" data-fr="Nom du Marié (optionnel)">Groom's Name (optional)</label>
+                                <input type="text" id="semiGroomName" class="form-input" placeholder="Jean" style="padding: 10px 12px;">
+                            </div>
+                            <div>
+                                <label style="font-size: 0.9rem; color: #666; margin-bottom: 5px; display: block;" data-en="Bride's Name (optional)" data-fr="Nom de la Mariée (optionnel)">Bride's Name (optional)</label>
+                                <input type="text" id="semiBrideName" class="form-input" placeholder="Marie" style="padding: 10px 12px;">
+                            </div>
+                        </div>
+
+                        <!-- Total & Add to Cart -->
+                        <div style="background: linear-gradient(135deg, #FFF4CC, #FFE4E9); border-radius: 16px; padding: 25px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <span style="font-size: 1.2rem; font-weight: 600;" data-en="Total Price" data-fr="Prix Total">Total Price</span>
+                                <span id="semiTotalPrice" style="font-size: 2rem; font-weight: 700; color: #FF9EB5;">59,99€</span>
+                            </div>
+                            <button onclick="addSemiCustomToCart()" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem; background: linear-gradient(135deg, #FFE566, #FFB6C1); border: none; border-radius: 12px; font-weight: 600; color: white; cursor: pointer;">
+                                <i class="fas fa-shopping-cart"></i> <span data-en="Add to Cart" data-fr="Ajouter au Panier">Add to Cart</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <style>
+        .config-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 2px solid #E8E8E8;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .config-option:hover {
+            border-color: #FFB6C1;
+        }
+        .config-option.selected {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .config-option span {
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        .hair-btn, .outfit-btn {
+            padding: 10px 20px;
+            border: 2px solid #E8E8E8;
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        .hair-btn:hover, .outfit-btn:hover {
+            border-color: #FFB6C1;
+        }
+        .hair-btn.selected, .outfit-btn.selected {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+            color: #FF9EB5;
+        }
+        @media (max-width: 768px) {
+            .build-section .container > div > div {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
 
     <!-- Fully Custom Figurines Section -->
     <section class="section custom-section" id="custom">

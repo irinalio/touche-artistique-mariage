@@ -654,3 +654,174 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Semi-Custom Configurator
+const semiConfig = {
+    base: { value: 'classic', image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 59.99 },
+    hair: { style: 'short', color: 'dark-brown' },
+    outfit: { style: 'classic' },
+    skinTone: 'light',
+    groomName: '',
+    brideName: ''
+};
+
+const baseOptions = {
+    classic: { image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 59.99 },
+    romantic: { image: 'images/standard-figurine1.jpeg', name: 'Romantic Couple', price: 59.99 },
+    elegant: { image: 'images/standard-figurine4.jpeg', name: 'Elegant Couple', price: 59.99 }
+};
+
+const hairStyles = {
+    short: 'Short Hair',
+    long: 'Long Hair',
+    curly: 'Curly Hair',
+    bun: 'Updo/Bun'
+};
+
+const outfitStyles = {
+    classic: 'Classic Dress',
+    mermaid: 'Mermaid Dress',
+    ballgown: 'Ball Gown',
+    suit: 'Suit'
+};
+
+const skinTones = {
+    light: 'Light',
+    'light-medium': 'Light Medium',
+    medium: 'Medium',
+    'medium-dark': 'Medium Dark',
+    dark: 'Dark',
+    'deep-dark': 'Deep Dark'
+};
+
+function selectBase(value, element) {
+    document.querySelectorAll('.config-option').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    semiConfig.base = baseOptions[value];
+    updateSemiPreview();
+}
+
+function selectHair(value, element) {
+    document.querySelectorAll('.hair-btn').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    semiConfig.hair.style = value;
+    updateSemiPreview();
+}
+
+function selectHairColor(value, element) {
+    const swatches = element.parentElement.querySelectorAll('.color-swatch');
+    swatches.forEach(s => s.classList.remove('selected'));
+    element.classList.add('selected');
+    semiConfig.hair.color = value;
+    updateHairOverlay();
+}
+
+function updateHairOverlay() {
+    const hairOverlay = document.getElementById('hairOverlay');
+    if (hairOverlay) {
+        const hairColors = {
+            'dark-brown': '#3D2314',
+            auburn: '#8B4513',
+            blonde: '#DAA520',
+            black: '#1a1a1a',
+            'light-red': '#B5523B'
+        };
+        const color = hairColors[semiConfig.hair.color] || '#3D2314';
+        hairOverlay.style.background = `radial-gradient(ellipse at 50% 30%, ${color} 0%, transparent 50%)`;
+        hairOverlay.style.mixBlendMode = 'multiply';
+        hairOverlay.style.opacity = '0.6';
+    }
+}
+
+function updateSkinOverlay() {
+    const skinOverlay = document.getElementById('skinOverlay');
+    if (skinOverlay) {
+        const skinColors = {
+            light: '#FFDBAC',
+            'light-medium': '#E8B88A',
+            medium: '#D4A574',
+            'medium-dark': '#A67B4C',
+            dark: '#6B4226',
+            'deep-dark': '#4A2E1A'
+        };
+        const color = skinColors[semiConfig.skinTone] || '#FFDBAC';
+        skinOverlay.style.background = `radial-gradient(ellipse at 50% 60%, ${color} 0%, transparent 70%)`;
+        skinOverlay.style.mixBlendMode = 'color';
+        skinOverlay.style.opacity = '0.5';
+    }
+}
+
+function selectOutfit(value, element) {
+    document.querySelectorAll('.outfit-btn').forEach(el => el.classList.remove('selected'));
+    element.classList.add('selected');
+    semiConfig.outfit.style = value;
+    updateSemiPreview();
+}
+
+function selectSkinTone(value, element) {
+    const swatches = element.parentElement.querySelectorAll('.color-swatch');
+    swatches.forEach(s => s.classList.remove('selected'));
+    element.classList.add('selected');
+    semiConfig.skinTone = value;
+    updateSemiPreview();
+}
+
+function updateSemiPreview() {
+    const previewImage = document.getElementById('previewImage');
+    const previewName = document.getElementById('previewName');
+    const previewPrice = document.getElementById('previewPrice');
+    const hairSummary = document.getElementById('hairSummary');
+    const outfitSummary = document.getElementById('outfitSummary');
+    const skinSummary = document.getElementById('skinSummary');
+    const semiTotalPrice = document.getElementById('semiTotalPrice');
+
+    if (previewImage) previewImage.src = semiConfig.base.image;
+    if (previewName) {
+        let name = semiConfig.base.name;
+        const groom = document.getElementById('semiGroomName')?.value;
+        const bride = document.getElementById('semiBrideName')?.value;
+        if (groom || bride) {
+            name = (bride || 'Bride') + ' & ' + (groom || 'Groom');
+        }
+        previewName.textContent = name;
+    }
+    if (hairSummary) hairSummary.textContent = hairStyles[semiConfig.hair.style];
+    if (outfitSummary) outfitSummary.textContent = outfitStyles[semiConfig.outfit.style];
+    if (skinSummary) skinSummary.textContent = skinTones[semiConfig.skinTone];
+    if (previewPrice) previewPrice.textContent = semiConfig.base.price.toFixed(2) + '€';
+    if (semiTotalPrice) semiTotalPrice.textContent = semiConfig.base.price.toFixed(2) + '€';
+}
+
+function addSemiCustomToCart() {
+    const groom = document.getElementById('semiGroomName')?.value || '';
+    const bride = document.getElementById('semiBrideName')?.value || '';
+    
+    let itemName = 'Semi-Custom Figurine';
+    if (groom || bride) {
+        itemName += ' - ' + (bride || 'Bride') + ' & ' + (groom || 'Groom');
+    }
+    itemName += ' (' + semiConfig.base.name.replace(' Couple', '') + ')';
+
+    const customItem = {
+        id: 'semi-' + Date.now(),
+        name: itemName,
+        price: semiConfig.base.price,
+        customizations: {
+            base: semiConfig.base.name,
+            hairStyle: semiConfig.hair.style,
+            hairColor: semiConfig.hair.color,
+            outfit: semiConfig.outfit.style,
+            skinTone: semiConfig.skinTone
+        }
+    };
+    
+    addToCart(customItem);
+}
+
+// Listen for name input changes
+document.addEventListener('DOMContentLoaded', () => {
+    const groomInput = document.getElementById('semiGroomName');
+    const brideInput = document.getElementById('semiBrideName');
+    if (groomInput) groomInput.addEventListener('input', updateSemiPreview);
+    if (brideInput) brideInput.addEventListener('input', updateSemiPreview);
+});
