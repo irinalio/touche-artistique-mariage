@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - Artistic Touch Wedding</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Multi-step Form Styles */
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        .form-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .form-container {
+            background: white;
+            border-radius: 24px;
+            max-width: 700px;
+            width: 100%;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+            position: relative;
+        }
+        .form-header {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            padding: 30px;
+            border-radius: 24px 24px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .form-header h2 {
+            color: white;
+            margin-bottom: 5px;
+        }
+        .form-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+        }
+        .form-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: white;
+            transition: all 0.3s;
+        }
+        .form-close:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        .form-body {
+            padding: 30px;
+        }
+        /* Progress Steps */
+        .form-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+        .progress-step {
+            width: 40px;
+            height: 6px;
+            border-radius: 3px;
+            background: #E0E0E0;
+            transition: all 0.3s;
+        }
+        .progress-step.active {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+        }
+        .progress-step.completed {
+            background: #D4E8D4;
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-title i {
+            color: #FFB6C1;
+        }
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2D2D2D;
+        }
+        .form-label .required {
+            color: #FF6B6B;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #FFB6C1;
+            box-shadow: 0 0 0 4px rgba(255,182,193,0.2);
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed #D4E8D4;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #FAFAFA;
+        }
+        .file-upload-area:hover {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .file-upload-area i {
+            font-size: 3rem;
+            color: #FFB6C1;
+            margin-bottom: 15px;
+        }
+        .file-upload-area p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .file-upload-area .hint {
+            font-size: 0.85rem;
+            color: #999;
+        }
+        .file-upload-area input {
+            display: none;
+        }
+        .uploaded-files {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #E8F5E8;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .uploaded-file i {
+            color: #4CAF50;
+        }
+        /* Radio/Checkbox Cards */
+        .option-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .option-card {
+            border: 2px solid #E8E8E8;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .option-card:hover {
+            border-color: #FFB6C1;
+        }
+        .option-card.selected {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .option-card input {
+            display: none;
+        }
+        .option-card i {
+            font-size: 2rem;
+            color: #FFB6C1;
+            margin-bottom: 10px;
+        }
+        .option-card .option-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .option-card .option-price {
+            font-size: 0.9rem;
+            color: #FF9EB5;
+        }
+        /* Color Swatches */
+        .color-swatches {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .color-swatch:hover, .color-swatch.selected {
+            transform: scale(1.1);
+            border-color: #2D2D2D;
+        }
+        /* Size Options */
+        .size-options {
+            display: flex;
+            gap: 15px;
+        }
+        .size-option {
+            flex: 1;
+            border: 2px solid #E8E8E8;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .size-option:hover {
+            border-color: #FFB6C1;
+        }
+        .size-option.selected {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .size-option input {
+            display: none;
+        }
+        .size-option .size-label {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFB6C1;
+        }
+        .size-option .size-height {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .size-option .size-price {
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        /* Form Footer */
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            border-top: 1px solid #E8E8E8;
+            background: #FAFAFA;
+            border-radius: 0 0 24px 24px;
+        }
+        .btn-form {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-back {
+            background: #E8E8E8;
+            color: #666;
+        }
+        .btn-back:hover {
+            background: #D0D0D0;
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            color: white;
+        }
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,182,193,0.4);
+        }
+        /* Order Summary */
+        .order-summary {
+            background: linear-gradient(135deg, #FFF4CC, #FFE4E9);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        .order-summary h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding-top: 15px;
+        }
+        .summary-row .plus {
+            color: #FF9EB5;
+        }
+        /* Review Step */
+        .review-section {
+            background: #F8F8F8;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .review-section h5 {
+            color: #FFB6C1;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .review-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #E8E8E8;
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-item .label {
+            color: #666;
+            min-width: 120px;
+        }
+        .review-item .value {
+            font-weight: 500;
+        }
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        .success-modal.active {
+            display: flex;
+        }
+        .success-content {
+            background: white;
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            max-width: 500px;
+        }
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #D4E8D4, #C8E6C9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+        .success-icon i {
+            font-size: 3rem;
+            color: #4CAF50;
+        }
+        .success-content h2 {
+            margin-bottom: 15px;
+        }
+        .success-content p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        /* Semi-custom Badge */
+        .coming-soon-badge {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        /* Grid layout for custom section */
+        .custom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        @media (max-width: 768px) {
+            .custom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .custom-image img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        .custom-steps {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #FFE566;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .custom-steps h4 {
+            margin-bottom: 5px;
+        }
+        .custom-steps p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .btn-custom {
+            width: 100%;
+            margin-top: 30px;
+            padding: 18px;
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            border: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,182,193,0.4);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">💕</span>
+                <span class="logo-text">Artistic Touch Wedding</span>
+            </a>
+            <div class="nav-actions">
+                <button class="cart-btn" id="cartBtn" style="position: relative; background: none; border: none; font-size: 1.3rem; cursor: pointer;">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount" style="position: absolute; top: -5px; right: -5px; background: #FFB6C1; color: white; font-size: 0.7rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">0</span>
+                </button>
+                <a href="index.html" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.9rem;">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="cart-overlay" id="cartOverlay" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1500; opacity: 0; visibility: hidden;"></div>
+    <div class="cart-sidebar" id="cartSidebar" style="position: fixed; top: 0; right: -400px; width: 400px; height: 100vh; background: white; z-index: 1600; box-shadow: -5px 0 30px rgba(0,0,0,0.1); display: flex; flex-direction: column;">
+        <div class="cart-header" style="padding: 20px; border-bottom: 1px solid #F5F5F5; display: flex; justify-content: space-between; align-items: center;">
+            <h3>Your Cart</h3>
+            <button class="cart-close" id="cartClose" style="background: none; border: none; font-size: 1.3rem; cursor: pointer;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems" style="flex: 1; overflow-y: auto; padding: 20px;">
+            <div class="cart-empty" style="text-align: center; padding: 60px 20px; color: #666;">
+                <i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none; padding: 20px; border-top: 1px solid #F5F5F5; background: #F5F5F5;">
+            <div class="shipping-info" id="shippingInfo" style="background: #E8F5E8; padding: 15px; border-radius: 10px; margin-bottom: 15px; text-align: center;">
+                <i class="fas fa-truck"></i>
+                <span id="shippingText">Free shipping on orders over 120€</span>
+            </div>
+            <div class="cart-total" style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: 600; margin-bottom: 15px;">
+                <span>Subtotal</span>
+                <span id="totalPrice">0€</span>
+            </div>
+            <button onclick="goToCheckout()" style="width: 100%; padding: 15px; background: linear-gradient(135deg, #FFE566, #FFB6C1); border: none; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;"><i class="fas fa-credit-card"></i>Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <section class="store-page" style="min-height: 100vh; padding: 120px 0 80px; background: linear-gradient(135deg, #FFF4CC 0%, #FFE4E9 50%, #E8F5E8 100%);">
+        <div class="container">
+            <div style="margin-bottom: 30px;">
+                <a href="index.html" style="display: inline-flex; align-items: center; gap: 10px; color: #2D2D2D; text-decoration: none; font-weight: 500;">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Back to home</span>
+                </a>
+            </div>
+
+            <h1 style="text-align: center; margin-bottom: 50px;">Our Figurines</h1>
+
+            <!-- Standard Figurines -->
+            <div class="category-section" style="margin-bottom: 60px;">
+                <div class="category-header" style="background: white; padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <h2 style="font-size: 1.8rem; margin-bottom: 10px;">Select the one looking most like you</h2>
+                    <p>Ready-made figurines, perfect as-is. Ships within 2-3 business days.</p>
+                    <span style="display: inline-block; background: #FFB6C1; color: white; padding: 8px 20px; border-radius: 20px; font-weight: 600; margin-top: 10px;">39,99€</span>
+                </div>
+                <div class="store-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                    <div class="store-card" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <div style="aspect-ratio: 1; overflow: hidden;">
+                            <img src="images/standard-figurine.jpeg" alt="Classic Couple" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="padding: 25px;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 8px;">Classic Couple</h3>
+                            <p style="color: #666; margin-bottom: 15px;">Traditional style for a timeless look</p>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #FF9EB5; margin-bottom: 15px;">39,99€</div>
+                            <button class="add-to-cart-btn" onclick="addToCart('Classic Couple', 39.99)" style="width: 100%; padding: 12px; background: #FFB6C1; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="store-card" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <div style="aspect-ratio: 1; overflow: hidden;">
+                            <img src="images/standard-figurine1.jpeg" alt="Romantic Couple" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="padding: 25px;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 8px;">Romantic Couple</h3>
+                            <p style="color: #666; margin-bottom: 15px;">Sweet and romantic with delicate details</p>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #FF9EB5; margin-bottom: 15px;">39,99€</div>
+                            <button class="add-to-cart-btn" onclick="addToCart('Romantic Couple', 39.99)" style="width: 100%; padding: 12px; background: #FFB6C1; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Add to Cart</button>
+                        </div>
+                    </div>
+                    <div class="store-card" style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <div style="aspect-ratio: 1; overflow: hidden;">
+                            <img src="images/standard-figurine4.jpeg" alt="Elegant Couple" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="padding: 25px;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 8px;">Elegant Couple</h3>
+                            <p style="color: #666; margin-bottom: 15px;">Sophisticated style with graceful charm</p>
+                            <div style="font-size: 1.5rem; font-weight: 700; color: #FF9EB5; margin-bottom: 15px;">39,99€</div>
+                            <button class="add-to-cart-btn" onclick="addToCart('Elegant Couple', 39.99)" style="width: 100%; padding: 12px; background: #FFB6C1; color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Semi-Custom Figurines -->
+            <div class="category-section" style="margin-bottom: 60px;">
+                <div class="category-header" style="background: white; padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                        <h2 style="font-size: 1.8rem;">Semi-Custom</h2>
+                        <span class="coming-soon-badge">Coming Soon</span>
+                    </div>
+                    <p>Choose from our base styles and personalize with names and date.</p>
+                    <span style="display: inline-block; background: #D4E8D4; color: #2D2D2D; padding: 8px 20px; border-radius: 20px; font-weight: 600; margin-top: 10px;">From 59,99€</span>
+                </div>
+                <div style="background: #F5F5F5; border-radius: 20px; padding: 60px; text-align: center; border: 2px dashed #D4E8D4;">
+                    <i class="fas fa-clock" style="font-size: 3rem; color: #D4E8D4; margin-bottom: 20px;"></i>
+                    <h3 style="margin-bottom: 10px;">Launching Soon</h3>
+                    <p style="color: #666;">We're working on this feature. Sign up to be notified!</p>
+                </div>
+            </div>
+
+            <!-- Custom Figurines from Photos -->
+            <div class="category-section" style="margin-bottom: 60px;">
+                <div class="category-header" style="background: linear-gradient(135deg, #FFE566 0%, #FFB6C1 100%); padding: 30px; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <h2 style="font-size: 1.8rem; margin-bottom: 10px; color: white;">Fully Custom from Your Photos</h2>
+                    <p style="color: rgba(255,255,255,0.9);">Send us your photos and we'll create a unique figurine just like you! Perfect likeness guaranteed.</p>
+                    <span style="display: inline-block; background: white; color: #FFB6C1; padding: 8px 20px; border-radius: 20px; font-weight: 600; margin-top: 10px;">From 79,99€</span>
+                </div>
+                <div style="background: white; border-radius: 20px; padding: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                    <div class="custom-grid">
+                        <div class="custom-image">
+                            <img src="images/custom-figurine.jpg" alt="Custom Figurine Example">
+                        </div>
+                        <div>
+                            <h3 style="font-size: 1.5rem; margin-bottom: 20px;">How It Works</h3>
+                            <div class="custom-steps">
+                                <div class="step-number">1</div>
+                                <div>
+                                    <h4>Upload Your Photos</h4>
+                                    <p>Send clear front-facing photos of the couple</p>
+                                </div>
+                            </div>
+                            <div class="custom-steps">
+                                <div class="step-number">2</div>
+                                <div>
+                                    <h4>We Create Your Design</h4>
+                                    <p>Our artists craft a digital proof for your approval</p>
+                                </div>
+                            </div>
+                            <div class="custom-steps">
+                                <div class="step-number">3</div>
+                                <div>
+                                    <h4>Approve & We Create</h4>
+                                    <p>Once you approve, we handcraft your figurine</p>
+                                </div>
+                            </div>
+                            <div class="custom-steps">
+                                <div class="step-number">4</div>
+                                <div>
+                                    <h4>Delivered to Your Door</h4>
+                                    <p>Carefully packaged and shipped worldwide</p>
+                                </div>
+                            </div>
+                            <button class="btn-custom" onclick="openCustomForm()">
+                                <i class="fas fa-magic"></i> Start Your Custom Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Figurine Order Form Modal -->
+    <div class="form-modal" id="customFormModal">
+        <div class="form-container">
+            <div class="form-header">
+                <button class="form-close" onclick="closeCustomForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2><i class="fas fa-magic"></i> Custom Figurine Order</h2>
+                <p>Tell us everything we need to create your perfect figurine</p>
+            </div>
+            
+            <div class="form-progress" id="formProgress">
+                <div class="progress-step active" data-step="1"></div>
+                <div class="progress-step" data-step="2"></div>
+                <div class="progress-step" data-step="3"></div>
+                <div class="progress-step" data-step="4"></div>
+                <div class="progress-step" data-step="5"></div>
+                <div class="progress-step" data-step="6"></div>
+                <div class="progress-step" data-step="7"></div>
+            </div>
+
+            <form id="customOrderForm" onsubmit="return false;">
+                <div class="form-body">
+                    <!-- Step 1: Photos -->
+                    <div class="form-step active" data-step="1">
+                        <h3 class="step-title"><i class="fas fa-camera"></i> Step 1: Upload Your Photos</h3>
+                        <div class="form-group">
+                            <label class="form-label">Front-facing photo of couple <span class="required">*</span></label>
+                            <div class="file-upload-area" onclick="document.getElementById('photo1').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload or drag and drop</p>
+                                <span class="hint">Clear, well-lit front view works best</span>
+                                <input type="file" id="photo1" accept="image/*" onchange="handleFileUpload(this, 'photo1-name')">
+                            </div>
+                            <div class="uploaded-files" id="photo1-name"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Additional reference photos (optional)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('photo2').click()">
+                                <i class="fas fa-images"></i>
+                                <p>Side profile, poses, details</p>
+                                <span class="hint">More photos = better accuracy</span>
+                                <input type="file" id="photo2" accept="image/*" multiple onchange="handleFileUpload(this, 'photo2-name')">
+                            </div>
+                            <div class="uploaded-files" id="photo2-name"></div>
+                        </div>
+                        <div style="background: #FFF9E6; padding: 15px; border-radius: 12px; margin-top: 20px;">
+                            <h5 style="color: #D4A500; margin-bottom: 8px;"><i class="fas fa-lightbulb"></i> Photo Tips</h5>
+                            <ul style="font-size: 0.9rem; color: #666; padding-left: 20px;">
+                                <li>Use clear, well-lit photos</li>
+                                <li>Front-facing view is essential</li>
+                                <li>Avoid sunglasses or hats</li>
+                                <li>Close-up photos show more detail</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Product Type -->
+                    <div class="form-step" data-step="2">
+                        <h3 class="step-title"><i class="fas fa-box-open"></i> Step 2: Product Type</h3>
+                        <div class="option-cards">
+                            <label class="option-card selected">
+                                <input type="radio" name="productType" value="figurine" checked>
+                                <i class="fas fa-user-friends"></i>
+                                <div class="option-name">Figurine</div>
+                                <div class="option-price">Base price</div>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="productType" value="cake-topper">
+                                <i class="fas fa-birthday-cake"></i>
+                                <div class="option-name">Cake Topper</div>
+                                <div class="option-price">+10€</div>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="productType" value="keepsake">
+                                <i class="fas fa-gift"></i>
+                                <div class="option-name">Keepsake/Ornament</div>
+                                <div class="option-price">+5€</div>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="productType" value="gift-box">
+                                <i class="fas fa-box"></i>
+                                <div class="option-name">Gift Box Set</div>
+                                <div class="option-price">+15€</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Names & Text -->
+                    <div class="form-step" data-step="3">
+                        <h3 class="step-title"><i class="fas fa-font"></i> Step 3: Names & Text</h3>
+                        <div class="form-group">
+                            <label class="form-label">Groom's name <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="groomName" placeholder="e.g., Jean-Pierre" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bride's name <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="brideName" placeholder="e.g., Marie-Claire" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Wedding date <span class="required">*</span></label>
+                            <input type="date" class="form-input" id="weddingDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Additional text (optional)</label>
+                            <select class="form-select" id="additionalTextPreset" onchange="toggleCustomText()">
+                                <option value="">Select preset or enter custom</option>
+                                <option value="Mr & Mrs">Mr & Mrs</option>
+                                <option value="Forever">Forever</option>
+                                <option value="Love">Love</option>
+                                <option value="Est. ">Est. [Year]</option>
+                                <option value="custom">Custom text...</option>
+                            </select>
+                            <input type="text" class="form-input" id="customText" placeholder="Enter your custom text" style="margin-top: 10px; display: none;">
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Font & Base -->
+                    <div class="form-step" data-step="4">
+                        <h3 class="step-title"><i class="fas fa-pen-fancy"></i> Step 4: Font & Base Style</h3>
+                        <div class="form-group">
+                            <label class="form-label">Font style for text</label>
+                            <div class="option-cards">
+                                <label class="option-card selected">
+                                    <input type="radio" name="fontStyle" value="script" checked>
+                                    <div class="option-name" style="font-family: cursive;">Script</div>
+                                    <div class="option-price">Elegant cursive</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="fontStyle" value="block">
+                                    <div class="option-name" style="font-family: sans-serif;">Block</div>
+                                    <div class="option-price">Modern clean</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="fontStyle" value="serif">
+                                    <div class="option-name" style="font-family: serif;">Classic</div>
+                                    <div class="option-price">Traditional serif</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="fontStyle" value="none">
+                                    <div class="option-name">No Text</div>
+                                    <div class="option-price">Names only</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Base shape</label>
+                            <div class="option-cards">
+                                <label class="option-card selected">
+                                    <input type="radio" name="baseType" value="round" checked>
+                                    <i class="fas fa-circle"></i>
+                                    <div class="option-name">Round</div>
+                                    <div class="option-price">Included</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="baseType" value="square">
+                                    <i class="fas fa-square"></i>
+                                    <div class="option-name">Square</div>
+                                    <div class="option-price">Included</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Colors & Size -->
+                    <div class="form-step" data-step="5">
+                        <h3 class="step-title"><i class="fas fa-palette"></i> Step 5: Colors & Size</h3>
+                        <div class="form-group">
+                            <label class="form-label">Figurine size</label>
+                            <div class="size-options">
+                                <label class="size-option selected">
+                                    <input type="radio" name="figurineSize" value="small" checked>
+                                    <div class="size-label">S</div>
+                                    <div class="size-height">15cm height</div>
+                                    <div class="size-price">79,99€</div>
+                                </label>
+                                <label class="size-option">
+                                    <input type="radio" name="figurineSize" value="medium">
+                                    <div class="size-label">M</div>
+                                    <div class="size-height">20cm height</div>
+                                    <div class="size-price">99,99€</div>
+                                </label>
+                                <label class="size-option">
+                                    <input type="radio" name="figurineSize" value="large">
+                                    <div class="size-label">L</div>
+                                    <div class="size-height">25cm height</div>
+                                    <div class="size-price">129,99€</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Outfit color matching</label>
+                            <select class="form-select" id="outfitColor">
+                                <option value="match-photo">Match the photo exactly</option>
+                                <option value="classic-white">Classic white wedding dress</option>
+                                <option value="custom">I'll describe in special requests</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Skin tone preference</label>
+                            <div class="color-swatches">
+                                <div class="color-swatch selected" style="background: #FDBF94;" title="Light" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #E8A87C;" title="Light Medium" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #D4956A;" title="Medium" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #A67C52;" title="Medium Brown" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #6B4423;" title="Dark Brown" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #3B2414;" title="Deep Dark" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #FFDBAC;" title="Match Photo" onclick="selectSwatch(this)"></div>
+                            </div>
+                            <input type="hidden" id="skinTone" value="Light">
+                        </div>
+                    </div>
+
+                    <!-- Step 6: Delivery & Special Requests -->
+                    <div class="form-step" data-step="6">
+                        <h3 class="step-title"><i class="fas fa-truck"></i> Step 6: Delivery & Special Requests</h3>
+                        <div class="form-group">
+                            <label class="form-label">Delivery timeframe</label>
+                            <div class="option-cards">
+                                <label class="option-card selected">
+                                    <input type="radio" name="delivery" value="standard" checked>
+                                    <i class="fas fa-clock"></i>
+                                    <div class="option-name">Standard</div>
+                                    <div class="option-price">2-3 weeks (Free)</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="delivery" value="express">
+                                    <i class="fas fa-bolt"></i>
+                                    <div class="option-name">Express</div>
+                                    <div class="option-price">+25€ (10 days)</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="delivery" value="rush">
+                                    <i class="fas fa-fire"></i>
+                                    <div class="option-name">Rush</div>
+                                    <div class="option-price">+50€ (5 days)</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Special requests or details</label>
+                            <textarea class="form-textarea" id="specialRequests" placeholder="Anything else we should know? Hair color, accessories, pose preferences, specific details to capture..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="photoConfirmation" style="width: 20px; height: 20px; margin-top: 3px;">
+                                <span>I have attached all reference photos needed for this order</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="proofApproval" style="width: 20px; height: 20px; margin-top: 3px;">
+                                <span>I understand I will receive a digital proof for approval before production begins</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Review & Submit -->
+                    <div class="form-step" data-step="7">
+                        <h3 class="step-title"><i class="fas fa-clipboard-check"></i> Step 7: Review Your Order</h3>
+                        
+                        <div class="review-section">
+                            <h5><i class="fas fa-user"></i> Personal Details</h5>
+                            <div class="review-item">
+                                <span class="label">Couple Names:</span>
+                                <span class="value" id="reviewNames">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label">Wedding Date:</span>
+                                <span class="value" id="reviewDate">-</span>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h5><i class="fas fa-cog"></i> Product Details</h5>
+                            <div class="review-item">
+                                <span class="label">Product Type:</span>
+                                <span class="value" id="reviewProduct">Figurine</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label">Size:</span>
+                                <span class="value" id="reviewSize">Small (15cm) - 79,99€</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label">Base:</span>
+                                <span class="value" id="reviewBase">Round Wood</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label">Font:</span>
+                                <span class="value" id="reviewFont">Script</span>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h5><i class="fas fa-truck"></i> Delivery</h5>
+                            <div class="review-item">
+                                <span class="label">Timeframe:</span>
+                                <span class="value" id="reviewDelivery">Standard (2-3 weeks)</span>
+                            </div>
+                        </div>
+
+                        <div class="order-summary">
+                            <h4><i class="fas fa-receipt"></i> Order Total</h4>
+                            <div class="summary-row">
+                                <span>Base figurine</span>
+                                <span class="plus">+</span>
+                                <span id="summaryBase">79,99€</span>
+                            </div>
+                            <div class="summary-row" id="summaryOptions">
+                                <span>Options</span>
+                                <span class="plus">+</span>
+                                <span id="summaryOptionsValue">0€</span>
+                            </div>
+                            <div class="summary-row" id="summaryRush" style="display: none;">
+                                <span>Rush delivery</span>
+                                <span class="plus">+</span>
+                                <span id="summaryRushValue">0€</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Total</span>
+                                <span id="summaryTotal">79,99€</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label class="form-label">Your email for the proof <span class="required">*</span></label>
+                            <input type="email" class="form-input" id="customerEmail" placeholder="We'll send the digital proof here" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button type="button" class="btn-form btn-back" id="prevBtn" onclick="prevStep()" style="visibility: hidden;">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </button>
+                    <button type="button" class="btn-form btn-next" id="nextBtn" onclick="nextStep()">
+                        Next <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2>Order Submitted!</h2>
+            <p>Thank you for your custom figurine order. We've received your request and will create a digital proof within 48 hours. You'll receive an email shortly.</p>
+            <button onclick="closeSuccessModal()" style="padding: 15px 40px; background: linear-gradient(135deg, #FFE566, #FFB6C1); border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; color: white;">
+                Continue Shopping
+            </button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #2D2D2D; color: white; padding: 15px 30px; border-radius: 30px; display: flex; align-items: center; gap: 10px; z-index: 3000; opacity: 0; transition: all 0.3s ease;">
+        <i class="fas fa-check-circle" style="color: #C8E6C9;"></i>
+        <span id="toastMessage">Added to cart!</span>
+    </div>
+
+    <script>
+        let cart = [];
+        let currentStep = 1;
+        const totalSteps = 7;
+        const SHIPPING_THRESHOLD = 120;
+
+        // Pricing
+        const prices = {
+            small: 79.99,
+            medium: 99.99,
+            large: 129.99,
+            'cake-topper': 10,
+            keepsake: 5,
+            'gift-box': 15,
+            express: 25,
+            rush: 50
+        };
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1 });
+            }
+            updateCartUI();
+            showToast(name + ' added to cart!');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateQuantity(index, change) {
+            cart[index].quantity += change;
+            if (cart[index].quantity <= 0) {
+                removeFromCart(index);
+            } else {
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            const cartItems = document.getElementById('cartItems');
+            const cartFooter = document.getElementById('cartFooter');
+            const cartCount = document.getElementById('cartCount');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: #666;"><i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 20px;"></i><p>Your cart is empty</p></div>';
+                cartFooter.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => '<div style="display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #F5F5F5;"><img src="images/standard-figurine.jpg" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 10px;"><div style="flex: 1;"><div style="font-weight: 600; margin-bottom: 5px;">${item.name}</div><div style="color: #FF9EB5; font-weight: 600;">${item.price.toFixed(2)}€</div><div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;"><button onclick="updateQuantity(${index}, -1)" style="background: #F5F5F5; border: none; width: 25px; height: 25px; border-radius: 5px; cursor: pointer;">-</button><span>${item.quantity}</span><button onclick="updateQuantity(${index}, 1)" style="background: #F5F5F5; border: none; width: 25px; height: 25px; border-radius: 5px; cursor: pointer;">+</button><button onclick="removeFromCart(${index})" style="background: none; border: none; color: #666; cursor: pointer; font-size: 0.9rem; margin-left: auto;">Remove</button></div></div></div>').join('');
+                
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                document.getElementById('totalPrice').textContent = subtotal.toFixed(2) + '€';
+                
+                const shippingInfo = document.getElementById('shippingInfo');
+                const shippingText = document.getElementById('shippingText');
+                
+                if (subtotal >= SHIPPING_THRESHOLD) {
+                    shippingInfo.style.background = '#FFE566';
+                    shippingText.innerHTML = '<strong>Free shipping unlocked!</strong><br>Orders over €120 ship free';
+                } else {
+                    shippingInfo.style.background = '#E8F5E8';
+                    const remaining = (SHIPPING_THRESHOLD - subtotal).toFixed(2);
+                    shippingText.innerHTML = 'Add €' + remaining + ' more for free shipping<br><span style="font-size: 0.85rem;">Shipping calculated at checkout</span>';
+                }
+                cartFooter.style.display = 'block';
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(100px)';
+            }, 3000);
+        }
+
+        function openCart() {
+            document.getElementById('cartSidebar').style.right = '0';
+            document.getElementById('cartOverlay').style.opacity = '1';
+            document.getElementById('cartOverlay').style.visibility = 'visible';
+        }
+
+        function closeCart() {
+            document.getElementById('cartSidebar').style.right = '-400px';
+            document.getElementById('cartOverlay').style.opacity = '0';
+            document.getElementById('cartOverlay').style.visibility = 'hidden';
+        }
+
+        function goToCheckout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty');
+                return;
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            window.location.href = 'checkout.html';
+        }
+
+        // Custom Form Functions
+        function openCustomForm() {
+            document.getElementById('customFormModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            currentStep = 1;
+            updateFormProgress();
+        }
+
+        function closeCustomForm() {
+            document.getElementById('customFormModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateFormProgress() {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((step, index) => {
+                if (index + 1 < currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.querySelector('.form-step[data-step="' + currentStep + '"]').classList.add('active');
+
+            document.getElementById('prevBtn').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentStep === totalSteps) {
+                nextBtn.innerHTML = 'Submit Order <i class="fas fa-check"></i>';
+            } else {
+                nextBtn.innerHTML = 'Next <i class="fas fa-arrow-right"></i>';
+            }
+        }
+
+        function nextStep() {
+            if (currentStep === totalSteps) {
+                submitCustomOrder();
+                return;
+            }
+            
+            if (currentStep === 3) {
+                const groomName = document.getElementById('groomName').value;
+                const brideName = document.getElementById('brideName').value;
+                const weddingDate = document.getElementById('weddingDate').value;
+                if (!groomName || !brideName || !weddingDate) {
+                    showToast('Please fill in all required fields');
+                    return;
+                }
+            }
+
+            if (currentStep === 6) {
+                const photoConfirmed = document.getElementById('photoConfirmation').checked;
+                const proofApproved = document.getElementById('proofApproval').checked;
+                if (!photoConfirmed || !proofApproved) {
+                    showToast('Please confirm photo and proof conditions');
+                    return;
+                }
+                prepareReview();
+            }
+
+            if (currentStep === 7) {
+                const email = document.getElementById('customerEmail').value;
+                if (!email) {
+                    showToast('Please enter your email');
+                    return;
+                }
+            }
+
+            currentStep++;
+            updateFormProgress();
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateFormProgress();
+            }
+        }
+
+        function toggleCustomText() {
+            const preset = document.getElementById('additionalTextPreset').value;
+            const customInput = document.getElementById('customText');
+            customInput.style.display = preset === 'custom' ? 'block' : 'none';
+        }
+
+        function selectSwatch(element) {
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+            element.classList.add('selected');
+            document.getElementById('skinTone').value = element.title;
+        }
+
+        function handleFileUpload(input, displayId) {
+            const display = document.getElementById(displayId);
+            if (input.files.length > 0) {
+                let html = '';
+                for (let i = 0; i < input.files.length; i++) {
+                    html += '<div class="uploaded-file"><i class="fas fa-check-circle"></i> ' + input.files[i].name + '</div>';
+                }
+                display.innerHTML = html;
+            }
+        }
+
+        function prepareReview() {
+            const groomName = document.getElementById('groomName').value;
+            const brideName = document.getElementById('brideName').value;
+            const weddingDate = document.getElementById('weddingDate').value;
+            
+            document.getElementById('reviewNames').textContent = brideName + ' & ' + groomName;
+            document.getElementById('reviewDate').textContent = weddingDate;
+
+            const productType = document.querySelector('input[name="productType"]:checked').value;
+            const productNames = { figurine: 'Figurine', 'cake-topper': 'Cake Topper', keepsake: 'Keepsake', 'gift-box': 'Gift Box' };
+            document.getElementById('reviewProduct').textContent = productNames[productType];
+
+            const size = document.querySelector('input[name="figurineSize"]:checked').value;
+            const sizeNames = { small: 'Small (15cm)', medium: 'Medium (20cm)', large: 'Large (25cm)' };
+            const basePrice = prices[size];
+            document.getElementById('reviewSize').textContent = sizeNames[size] + ' - ' + basePrice.toFixed(2) + '€';
+
+            const base = document.querySelector('input[name="baseType"]:checked').value;
+            const baseNames = { round: 'Round', square: 'Square' };
+            document.getElementById('reviewBase').textContent = baseNames[base] + ' (3D Printed)';
+
+            const font = document.querySelector('input[name="fontStyle"]:checked').value;
+            const fontNames = { script: 'Script', block: 'Block', serif: 'Classic', none: 'No Text' };
+            document.getElementById('reviewFont').textContent = fontNames[font];
+
+            const delivery = document.querySelector('input[name="delivery"]:checked').value;
+            const deliveryNames = { standard: 'Standard (2-3 weeks)', express: 'Express (10 days)', rush: 'Rush (5 days)' };
+            document.getElementById('reviewDelivery').textContent = deliveryNames[delivery];
+
+            let total = basePrice;
+            let options = 0;
+
+            if (productType !== 'figurine') {
+                options += prices[productType];
+                total += prices[productType];
+            }
+
+            // Base is always included (round or square)
+
+            const rushCost = prices[delivery] || 0;
+            if (rushCost > 0) {
+                document.getElementById('summaryRush').style.display = 'flex';
+                document.getElementById('summaryRushValue').textContent = '+' + rushCost.toFixed(2) + '€';
+                total += rushCost;
+            } else {
+                document.getElementById('summaryRush').style.display = 'none';
+            }
+
+            document.getElementById('summaryBase').textContent = basePrice.toFixed(2) + '€';
+            document.getElementById('summaryOptionsValue').textContent = options > 0 ? '+' + options.toFixed(2) + '€' : '0€';
+            document.getElementById('summaryTotal').textContent = total.toFixed(2) + '€';
+        }
+
+        function submitCustomOrder() {
+            const orderData = {
+                productType: document.querySelector('input[name="productType"]:checked').value,
+                groomName: document.getElementById('groomName').value,
+                brideName: document.getElementById('brideName').value,
+                weddingDate: document.getElementById('weddingDate').value,
+                additionalText: document.getElementById('additionalTextPreset').value === 'custom' 
+                    ? document.getElementById('customText').value 
+                    : document.getElementById('additionalTextPreset').value,
+                fontStyle: document.querySelector('input[name="fontStyle"]:checked').value,
+                baseType: document.querySelector('input[name="baseType"]:checked').value,
+                figurineSize: document.querySelector('input[name="figurineSize"]:checked').value,
+                outfitColor: document.getElementById('outfitColor').value,
+                skinTone: document.getElementById('skinTone').value,
+                delivery: document.querySelector('input[name="delivery"]:checked').value,
+                specialRequests: document.getElementById('specialRequests').value,
+                customerEmail: document.getElementById('customerEmail').value
+            };
+
+            const size = orderData.figurineSize;
+            const sizeNames = { small: 'S', medium: 'M', large: 'L' };
+            const productTypeNames = { figurine: 'Custom Figurine', 'cake-topper': 'Custom Cake Topper', keepsake: 'Custom Keepsake', 'gift-box': 'Custom Gift Box' };
+            const itemName = productTypeNames[orderData.productType] + ' (' + sizeNames[size] + ') - ' + orderData.brideName + ' & ' + orderData.groomName;
+
+            let price = prices[size];
+            if (orderData.productType !== 'figurine') price += prices[orderData.productType];
+            // Base (round or square) is always included
+            if (orderData.delivery !== 'standard') price += prices[orderData.delivery];
+
+            localStorage.setItem('customOrder', JSON.stringify(orderData));
+            addToCart(itemName, price);
+            closeCustomForm();
+            document.getElementById('successModal').classList.add('active');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.remove('active');
+            openCart();
+        }
+
+        // Initialize
+        document.getElementById('cartBtn').addEventListener('click', openCart);
+        document.getElementById('cartClose').addEventListener('click', closeCart);
+        document.getElementById('cartOverlay').addEventListener('click', closeCart);
+
+        // Option card click handlers
+        document.querySelectorAll('.option-card').forEach(card => {
+            const input = card.querySelector('input[type="radio"]');
+            if (input) {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('input[name="' + input.name + '"]').forEach(r => {
+                        r.closest('.option-card')?.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                });
+            }
+        });
+
+        document.querySelectorAll('.size-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.size-option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+    </script>
+</body>
+</html>

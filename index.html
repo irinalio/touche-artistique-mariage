@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touche Artistique Mariage - Figurines Personnalisées</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <span class="logo-icon">💕</span>
+                <span class="logo-text" data-fr="Touche Artistique Mariage" data-en="Artistic Touch Wedding">Touche Artistique Mariage</span>
+            </a>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#home" class="nav-link active" data-en="Home" data-fr="Accueil">Home</a>
+                <a href="#standard" class="nav-link" data-en="Standard Figurines" data-fr="Figurines Standard">Standard Figurines</a>
+                <a href="#build" class="nav-link" data-en="Build Your Own" data-fr="Créer Votre">Build Your Own</a>
+                <a href="#custom" class="nav-link" data-en="Custom" data-fr="Sur Mesure">Custom</a>
+                <a href="#reviews" class="nav-link" data-en="Reviews" data-fr="Avis">Reviews</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-en active">EN</span>
+                    <span class="separator">/</span>
+                    <span class="lang-fr">FR</span>
+                </button>
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="logo-text" data-fr="Touche Artistique Mariage" data-en="Artistic Touch Wedding">Touche Artistique Mariage</span>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="#accueil" class="mobile-nav-link" data-fr="Accueil" data-en="Home">Accueil</a>
+            <a href="#standard" class="mobile-nav-link" data-fr="Figurines Standard" data-en="Standard Figurines">Figurines Standard</a>
+            <a href="#creer" class="mobile-nav-link" data-fr="Créer Votre" data-en="Build Your Own">Créer Votre</a>
+            <a href="#surmesure" class="mobile-nav-link" data-fr="Sur Mesure" data-en="Custom">Sur Mesure</a>
+            <a href="#avis" class="mobile-nav-link" data-fr="Avis" data-en="Reviews">Avis</a>
+            <a href="https://www.trustpilot.com/review/toucheartmariage.com" target="_blank" class="mobile-nav-link" data-fr="Laisser un avis sur Trustpilot" data-en="Review on Trustpilot">Review on Trustpilot</a>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 data-fr="Votre Panier" data-en="Your Cart">Votre Panier</h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-bag"></i>
+                <p data-fr="Votre panier est vide" data-en="Your cart is empty">Votre panier est vide</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span data-fr="Total" data-en="Total">Total</span>
+                <span class="total-price" id="totalPrice">0€</span>
+            </div>
+            <button class="checkout-btn" data-fr="Commander" data-en="Checkout">Commander</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-shape shape-1"></div>
+            <div class="hero-shape shape-2"></div>
+            <div class="hero-shape shape-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-subtitle" data-en="Unique Wedding Figurines" data-fr="Figurines de Mariage Uniques">Unique Wedding Figurines</span>
+                <h1 class="hero-title">
+                    <span data-en="A tiny version of you" data-fr="Une petite version de vous">A tiny version of you</span>
+                    <span class="highlight" data-en="— from your biggest day" data-fr="— de votre plus beau jour">— from your biggest day</span>
+                </h1>
+                <p class="hero-description" data-en="Three ways to capture your wedding day: choose from our ready-made collection, build your own with customizable features, or create a one-of-a-kind figurine from your photos." data-fr="Trois façons de capturer votre jour de mariage : choisissez dans notre collection prête à l'emploi, créez la vôtre avec des options personnalisables, ou créez une figurine unique à partir de vos photos.">
+                    Three ways to capture your wedding day: choose from our ready-made collection, build your own with customizable features, or create a one-of-a-kind figurine from your photos.
+                </p>
+                <div class="hero-buttons">
+                    <a href="store.html" class="btn btn-primary" data-en="Shop Now" data-fr="Acheter">Shop Now</a>
+                    <a href="index.html#custom" class="btn btn-secondary" data-en="Custom Orders" data-fr="Commandes Sur Mesure">Custom Orders</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-wrapper">
+                    <img src="images/hero-figurine.jpeg" alt="Wedding Figurines" class="hero-img" style="object-fit: contain; background: transparent;">
+                    <div class="floating-card card-1">
+                        <span class="floating-icon">✨</span>
+                        <span data-en="Handmade" data-fr="Fait main">Handmade</span>
+                    </div>
+                    <div class="floating-card card-2">
+                        <span class="floating-icon">💝</span>
+                        <span data-en="Personalized" data-fr="Personnalisé">Personalized</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Standard Figurines Section -->
+    <section class="section standard-section" id="standard">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="Standard Collection" data-fr="Collection Standard">Standard Collection</span>
+                <h2 class="section-title" data-en="Select the Most Looking Like You" data-fr="Sélectionnez Celui Qui Vous Ressemble le Plus">Select the Most Looking Like You</h2>
+                <p class="section-description" data-en="Our ready-made figurines are perfect as-is. Pick the one that looks closest to you! Ships within 2-3 business days." data-fr="Nos figurines prêtes à l'emploi sont parfaites telles quelles. Choisissez celle qui vous ressemble le plus ! Expédiées sous 2-3 jours ouvrés.">
+                    Our ready-made figurines are perfect as-is. Pick the one that looks closest to you! Ships within 2-3 business days.
+                </p>
+            </div>
+            
+            <h3 style="text-align: center; margin-bottom: 30px; font-size: 1.5rem; color: var(--color-black);">Select the one looking most like you</h3>
+            
+            <div class="pricing-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px;">
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft);">
+                    <div style="aspect-ratio: 1; overflow: hidden;">
+                        <img src="images/standard-figurine.jpeg" alt="Classic Couple" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 25px; text-align: center;">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Classic Couple</h3>
+                        <p style="color: var(--color-gray); margin-bottom: 15px; font-size: 0.9rem;">Traditional style</p>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-pink-dark); margin-bottom: 15px;">39,99€</div>
+                        <a href="store.html" class="btn btn-primary" style="width: 100%;">View in Store</a>
+                    </div>
+                </div>
+                
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft);">
+                    <div style="aspect-ratio: 1; overflow: hidden;">
+                        <img src="images/standard-figurine1.jpeg" alt="Romantic Couple" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 25px; text-align: center;">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Romantic Couple</h3>
+                        <p style="color: var(--color-gray); margin-bottom: 15px; font-size: 0.9rem;">Sweet & romantic</p>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-pink-dark); margin-bottom: 15px;">39,99€</div>
+                        <a href="store.html" class="btn btn-primary" style="width: 100%;">View in Store</a>
+                    </div>
+                </div>
+                
+                <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft);">
+                    <div style="aspect-ratio: 1; overflow: hidden;">
+                        <img src="images/standard-figurine4.jpeg" alt="Elegant Couple" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="padding: 25px; text-align: center;">
+                        <h3 style="font-size: 1.3rem; margin-bottom: 8px;">Elegant Couple</h3>
+                        <p style="color: var(--color-gray); margin-bottom: 15px; font-size: 0.9rem;">Sophisticated charm</p>
+                        <div style="font-size: 1.8rem; font-weight: 700; color: var(--color-pink-dark); margin-bottom: 15px;">39,99€</div>
+                        <a href="store.html" class="btn btn-primary" style="width: 100%;">View in Store</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="store.html" class="btn btn-secondary" data-en="Visit Store" data-fr="Visiter la Boutique">Visit Store</a>
+            
+            <div style="text-align: center; margin-top: 30px; padding: 20px; background: var(--color-green-light); border-radius: 15px;">
+                <i class="fas fa-truck" style="color: var(--color-black); margin-right: 10px;"></i>
+                <span data-en="Free shipping on orders over 120€" data-fr="Livraison gratuite sur les commandes de plus de 120€">Free shipping on orders over 120€</span>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Build Your Own Section -->
+    <section class="section build-section" id="build">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag tag-coming-soon" data-en="Coming soon" data-fr="Bientôt disponible">Coming soon</span>
+                <h2 class="section-title" data-en="Build Your Figurine" data-fr="Créez Votre Figurine">Build Your Figurine</h2>
+                <p class="section-description" data-en="Start with a base that looks like you, then adjust the details — hair, outfit, and more — to create your perfect mini me." data-fr="Commencez avec une base qui vous ressemble, puis ajustez les détails — cheveux, tenue, et plus — pour créer votre parfait mini vous.">
+                    Start with a base that looks like you, then adjust the details — hair, outfit, and more — to create your perfect mini me.
+                </p>
+            </div>
+
+            <div class="build-preview">
+                <div class="coming-soon-overlay">
+                    <div class="coming-soon-content">
+                        <span class="coming-soon-icon">🔜</span>
+                        <h3 data-en="Coming soon" data-fr="Bientôt disponible">Coming soon</h3>
+                        <p data-en="We're preparing something special for you!" data-fr="Nous préparons quelque chose de spécial pour vous!">
+                            We're preparing something special for you!
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="build-options">
+                    <div class="build-option">
+                        <div class="option-icon">🎨</div>
+                        <h4 data-en="Step 1: Choose Your Base" data-fr="Étape 1 : Choisissez Votre Base">Step 1: Choose Your Base</h4>
+                        <p data-en="Select the base that looks most like you — face shape, body type, and features" data-fr="Sélectionnez la base qui vous ressemble le plus — forme du visage, type de corps, et traits">Select the base that looks most like you — face shape, body type, and features</p>
+                        <div class="option-preview">
+                            <span class="preview-item">Classic</span>
+                            <span class="preview-item">Modern</span>
+                            <span class="preview-item">Fantasy</span>
+                        </div>
+                    </div>
+
+                    <div class="build-option">
+                        <div class="option-icon">💇</div>
+                        <h4 data-en="Step 2: Adjust Hair" data-fr="Étape 2 : Ajustez les Cheveux">Step 2: Adjust Hair</h4>
+                        <p data-en="Pick the hairstyle that matches yours — length, style, and color" data-fr="Choisissez la coiffure qui correspond à la vôtre — longueur, style, et couleur">Pick the hairstyle that matches yours — length, style, and color</p>
+                        <div class="option-preview">
+                            <span class="preview-item">Short</span>
+                            <span class="preview-item">Long</span>
+                            <span class="preview-item">Curly</span>
+                        </div>
+                    </div>
+
+                    <div class="build-option">
+                        <div class="option-icon">👗</div>
+                        <h4 data-en="Step 3: Dress It Up" data-fr="Étape 3 : Habillez">Step 3: Dress It Up</h4>
+                        <p data-en="Choose the wedding outfit — dress style, suit color, accessories" data-fr="Choisissez la tenue de mariage — style de robe, couleur de costume, accessoires">Choose the wedding outfit — dress style, suit color, accessories</p>
+                        <div class="option-preview">
+                            <span class="preview-item">Dress</span>
+                            <span class="preview-item">Suit</span>
+                            <span class="preview-item">Custom</span>
+                        </div>
+                    </div>
+
+                    <div class="build-option">
+                        <div class="option-icon">🎨</div>
+                        <h4 data-en="Step 4: Match Your Look" data-fr="Étape 4 : Adaptez Votre Look">Step 4: Match Your Look</h4>
+                        <p data-en="Fine-tune skin tone and add finishing touches" data-fr="Affinez le teint et ajoutez les touches finales">Fine-tune skin tone and add finishing touches</p>
+                        <div class="option-preview skin-tones">
+                            <span class="skin-tone" style="background-color: #FFDBAC;"></span>
+                            <span class="skin-tone" style="background-color: #F1C27D;"></span>
+                            <span class="skin-tone" style="background-color: #E0AC69;"></span>
+                            <span class="skin-tone" style="background-color: #8D5524;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fully Custom Figurines Section -->
+    <section class="section custom-section" id="custom">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="Fully Custom" data-fr="Entièrement Sur Mesure">Fully Custom</span>
+                <h2 class="section-title" data-en="Custom Figurine from Photos" data-fr="Figurine Sur Mesure à Partir de Photos">Custom Figurine from Photos</h2>
+                <p class="section-description" data-en="A perfect replica of you! Send us your photos and we'll create your mini me." data-fr="Une réplique parfaite de vous ! Envoyez-nous vos photos et nous créerons votre mini vous.">
+                    A perfect replica of you! Send us your photos and we'll create your mini me.
+                </p>
+            </div>
+
+            <!-- Price Banner -->
+            <div style="background: linear-gradient(135deg, var(--color-pink), var(--color-yellow)); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 50px; color: var(--color-black);">
+                <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">from 99,99€</div>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">One-of-a-kind figurine crafted from your photos</p>
+                <button onclick="addCustomToCart()" class="btn" style="background: var(--color-black); color: white; padding: 15px 40px; font-size: 1.1rem; border: none; border-radius: 30px; cursor: pointer; font-weight: 600;">
+                    <i class="fas fa-shopping-cart" style="margin-right: 10px;"></i>Order Now
+                </button>
+            </div>
+
+            <!-- Before & After -->
+            <div style="margin-bottom: 50px;">
+                <h3 style="text-align: center; margin-bottom: 30px; font-size: 1.5rem;">Before & After</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); margin-bottom: 15px;">
+                            <img src="images/5.jpeg" alt="Your Photo" style="width: 100%; height: auto; display: block;">
+                        </div>
+                        <p style="color: var(--color-gray); font-weight: 500;">
+                            <i class="fas fa-camera" style="margin-right: 8px;"></i>Your Photo
+                        </p>
+                    </div>
+                    <div style="text-align: center; font-size: 3rem; color: var(--color-pink);">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); margin-bottom: 15px;">
+                            <img src="images/custom-figurine.jpeg" alt="Your Figurine" style="width: 100%; height: auto; display: block;">
+                        </div>
+                        <p style="color: var(--color-gray); font-weight: 500;">
+                            <i class="fas fa-gift" style="margin-right: 8px;"></i>Your Figurine
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-content">
+                <div class="custom-info">
+                    <div class="custom-features">
+                        <div class="feature">
+                            <span class="feature-icon">📸</span>
+                            <div class="feature-text">
+                                <h4 data-en="From your photos" data-fr="À partir de vos photos">From your photos</h4>
+                                <p data-en="We create a figurine faithful to your image" data-fr="Nous créons une figurine fidèle à votre image">
+                                    We create a figurine faithful to your image
+                                </p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">✋</span>
+                            <div class="feature-text">
+                                <h4 data-en="Handmade" data-fr="Fait main">Handmade</h4>
+                                <p data-en="Every detail is hand-sculpted with love" data-fr="Chaque détail est sculpté à la main avec amour">
+                                    Every detail is hand-sculpted with love
+                                </p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🎨</span>
+                            <div class="feature-text">
+                                <h4 data-en="Custom painting" data-fr="Peinture personnalisée">Custom painting</h4>
+                                <p data-en="Colors and finishes adapted to your preferences" data-fr="Couleurs et finitions adaptées à vos préférences">
+                                    Colors and finishes adapted to your preferences
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="custom-form-container">
+                    <form class="custom-form" id="customForm">
+                        <h3 data-en="Upload Your Photos" data-fr="Téléchargez Vos Photos">Upload Your Photos</h3>
+                        
+                        <div class="form-group">
+                            <label data-en="Full name *" data-fr="Nom complet *">Full name *</label>
+                            <input type="text" name="fullname" required data-en-placeholder="Your name" data-fr-placeholder="Votre nom" placeholder="Your name">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-en="Email *" data-fr="Email *">Email *</label>
+                                <input type="email" name="email" required data-en-placeholder="your@email.com" data-fr-placeholder="votre@email.com" placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label data-en="Phone" data-fr="Téléphone">Phone</label>
+                                <input type="tel" name="phone" data-en-placeholder="Your number" data-fr-placeholder="Votre numéro" placeholder="Your number">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Special instructions" data-fr="Instructions spéciales">Special instructions</label>
+                            <textarea name="instructions" rows="3" data-en-placeholder="Describe any special requests..." data-fr-placeholder="Décrivez vos souhaits particuliers..." placeholder="Describe any special requests..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Required photos (max 5)" data-fr="Photos requises (max 5)">Required photos (max 5)</label>
+                            <div class="upload-container" id="uploadContainer">
+                                <div class="upload-zone" id="uploadZone">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p data-en="Drag and drop photos here or click to browse" data-fr="Glissez-déposez vos photos ici ou cliquez pour parcourir">
+                                        Drag and drop photos here or click to browse
+                                    </p>
+                                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                                </div>
+                                
+                                <div class="upload-requirements">
+                                    <div class="requirement-item">
+                                        <span class="req-number">1</span>
+                                        <span data-en="Clear face" data-fr="Visage clair">Clear face</span>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <span class="req-number">2</span>
+                                        <span data-en="Pose and background" data-fr="Pose et arrière-plan">Pose and background</span>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <span class="req-number">3</span>
+                                        <span data-en="Full height" data-fr="Plein pied">Full height</span>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <span class="req-number">4</span>
+                                        <span data-en="Close shot" data-fr="Gros plan">Close shot</span>
+                                    </div>
+                                    <div class="requirement-item">
+                                        <span class="req-number">5</span>
+                                        <span data-en="Additional photo" data-fr="Photo supplémentaire">Additional photo</span>
+                                    </div>
+                                </div>
+
+                                <div class="upload-preview" id="uploadPreview"></div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-full" data-en="Complete Order - 99,99€" data-fr="Finaliser la Commande - 99,99€">
+                            Complete Order - 99,99€
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="section reviews-section" id="reviews">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-en="Testimonials" data-fr="Témoignages">Testimonials</span>
+                <h2 class="section-title" data-en="What our customers say" data-fr="Ce que disent nos clients">What our customers say</h2>
+                <p class="section-description" data-en="Discover the experiences of our happy customers" data-fr="Découvrez les expériences de nos clients heureux">
+                    Discover the experiences of our happy customers
+                </p>
+            </div>
+
+            <div class="trustpilot-widget-container" style="background: white; border-radius: 20px; padding: 30px; margin-bottom: 40px; box-shadow: var(--shadow-soft); text-align: center;">
+                <div class="trustpilot-widget" data-locale="en-US" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="698c5a0414ed867d23226824" data-style-height="52px" data-style-width="100%" data-token="25ae53e1-14cb-4876-bede-8726e21be8c0">
+                    <a href="https://www.trustpilot.com/review/toucheartmariage.com" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 10px; color: var(--color-black); text-decoration: none; font-weight: 600; font-size: 1.1rem; padding: 15px 30px; background: var(--color-yellow-light); border-radius: 30px;">
+                        <i class="fas fa-star" style="color: #00B67A;"></i>
+                        <span>See our reviews on Trustpilot</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="reviews-grid" id="reviewsContainer">
+                <div class="review-card loading">
+                    <p style="text-align: center; color: var(--color-gray);">Loading reviews...</p>
+                </div>
+            </div>
+
+            <div class="reviews-cta">
+                <a href="https://www.trustpilot.com/review/toucheartmariage.com" target="_blank" class="btn btn-secondary" data-en="Leave a review on Trustpilot" data-fr="Laisser un avis sur Trustpilot">Leave a review on Trustpilot</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="footer-logo">
+                        <span class="logo-icon">💕</span>
+<span class="logo-text" data-en="Artistic Touch Wedding" data-fr="Touche Artistique Mariage">Artistic Touch Wedding</span>
+                    </a>
+                    <p data-en="Creator of unique memories since 2020" data-fr="Créateur de souvenirs uniques depuis 2020">
+                        Creator of unique memories since 2020
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4 data-en="Navigation" data-fr="Navigation">Navigation</h4>
+                    <a href="#standard" data-en="Standard Figurines" data-fr="Figurines Standard">Standard Figurines</a>
+                    <a href="#build" data-en="Build Your Own" data-fr="Créer Votre">Build Your Own</a>
+                    <a href="#custom" data-en="Custom" data-fr="Sur Mesure">Custom</a>
+                    <a href="#reviews" data-en="Reviews" data-fr="Avis">Reviews</a>
+                </div>
+
+                <div class="footer-links">
+                    <h4 data-en="Customer Service" data-fr="Service Client">Customer Service</h4>
+                    <a href="#" data-en="FAQ" data-fr="FAQ">FAQ</a>
+                    <a href="#" data-en="Shipping" data-fr="Livraison">Shipping</a>
+                    <a href="#" data-en="Returns" data-fr="Retours">Returns</a>
+                    <a href="#" data-en="Contact" data-fr="Contact">Contact</a>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4 data-en="Newsletter" data-fr="Newsletter">Newsletter</h4>
+                    <p data-en="Subscribe to receive our exclusive offers" data-fr="Inscrivez-vous pour recevoir nos offres exclusives">
+                        Subscribe to receive our exclusive offers
+                    </p>
+                    <form class="newsletter-form">
+                        <input type="email" data-en-placeholder="Your email" data-fr-placeholder="Votre email" placeholder="Your email">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Artistic Touch Wedding. <span data-en="All rights reserved" data-fr="Tous droits réservés">All rights reserved</span>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Product added to cart!</span>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

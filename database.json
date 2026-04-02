@@ -1,0 +1,54 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "name": "Marie & Sophie",
+      "rating": 5,
+      "text": "An absolutely perfect figurine! The details are incredible and the resemblance is striking. Thank you for this beautiful memory of our wedding.",
+      "date": "2025-03-15",
+      "photos": [],
+      "avatar": "MS",
+      "approved": true
+    },
+    {
+      "id": 2,
+      "name": "Pierre & David",
+      "rating": 5,
+      "text": "Exceptional service from start to finish. The team was very attentive to our requests and the result exceeded our expectations. I highly recommend!",
+      "date": "2025-02-28",
+      "photos": [],
+      "avatar": "PD",
+      "approved": true
+    },
+    {
+      "id": 3,
+      "name": "Claire & Luc",
+      "rating": 5,
+      "text": "We ordered figurines for our parents and they were moved to tears. The quality is remarkable and the packaging was very careful.",
+      "date": "2025-02-10",
+      "photos": [],
+      "avatar": "CL",
+      "approved": true
+    },
+    {
+      "id": 1770888437748,
+      "name": "Irina Kuzembay",
+      "rating": 5,
+      "text": "It turned out to be very cute",
+      "date": "2026-02-12",
+      "photos": [],
+      "avatar": "IK",
+      "approved": false
+    },
+    {
+      "id": 1770888754489,
+      "name": "Irina Kuzembay",
+      "rating": 5,
+      "text": "test",
+      "date": "2026-02-12",
+      "photos": [],
+      "avatar": "IK",
+      "approved": false
+    }
+  ]
+}

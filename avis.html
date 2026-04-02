@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a Review - Artistic Touch Wedding</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .review-page {
+            min-height: 100vh;
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, var(--color-yellow-light) 0%, var(--color-pink-light) 50%, var(--color-green-light) 100%);
+        }
+        
+        .review-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .review-card-large {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .review-card-large h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        .review-card-large .subtitle {
+            text-align: center;
+            color: var(--color-gray);
+            margin-bottom: 40px;
+        }
+        
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .star-rating i {
+            font-size: 2.5rem;
+            color: var(--color-gray-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .star-rating i.active,
+        .star-rating i:hover {
+            color: var(--color-yellow-dark);
+        }
+        
+        .photo-upload-section {
+            margin-top: 30px;
+        }
+        
+        .photo-upload-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--color-black);
+            text-decoration: none;
+            margin-bottom: 30px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .back-link:hover {
+            color: var(--color-pink-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .review-card-large {
+                padding: 30px 20px;
+            }
+            
+            .review-card-large h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-icon">💕</span>
+                <span class="logo-text" data-en="Artistic Touch Wedding" data-fr="Touche Artistique Mariage">Artistic Touch Wedding</span>
+            </a>
+            
+            <div class="nav-actions">
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-en active">EN</span>
+                    <span class="separator">/</span>
+                    <span class="lang-fr">FR</span>
+                </button>
+                <a href="index.html#standard" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.9rem;" data-en="Back" data-fr="Retour">Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="review-page">
+        <div class="container review-container">
+            <a href="index.html#reviews" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                <span data-en="Back to reviews" data-fr="Retour aux avis">Back to reviews</span>
+            </a>
+            
+            <div class="review-card-large">
+                <h1 data-en="Share your experience" data-fr="Partagez votre expérience">Share your experience</h1>
+                <p class="subtitle" data-en="Your feedback means a lot to us" data-fr="Votre avis compte beaucoup pour nous">Your feedback means a lot to us</p>
+                
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label data-en="Your name *" data-fr="Votre nom *">Your name *</label>
+                        <input type="text" name="name" required data-en-placeholder="Your name" data-fr-placeholder="Votre nom" placeholder="Your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Your rating *" data-fr="Votre note *">Your rating *</label>
+                        <div class="star-rating" id="starRating">
+                            <i class="fas fa-star" data-rating="1"></i>
+                            <i class="fas fa-star" data-rating="2"></i>
+                            <i class="fas fa-star" data-rating="3"></i>
+                            <i class="fas fa-star" data-rating="4"></i>
+                            <i class="fas fa-star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" name="rating" id="ratingInput" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label data-en="Your review *" data-fr="Votre avis *">Your review *</label>
+                        <textarea name="review" rows="5" required data-en-placeholder="Describe your experience..." data-fr-placeholder="Décrivez votre expérience..." placeholder="Describe your experience..."></textarea>
+                    </div>
+                    
+                    <div class="photo-upload-section">
+                        <label data-en="Add photos (optional)" data-fr="Ajouter des photos (optionnel)">Add photos (optional)</label>
+                        <div class="upload-container">
+                            <div class="upload-zone" id="reviewUploadZone">
+                                <i class="fas fa-camera"></i>
+                                <p data-en="Click to add photos of your figurine" data-fr="Cliquez pour ajouter des photos de votre figurine">
+                                    Click to add photos of your figurine
+                                </p>
+                                <input type="file" id="reviewFileInput" multiple accept="image/*" style="display: none;">
+                            </div>
+                            <div class="upload-preview" id="reviewUploadPreview"></div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-full" style="margin-top: 30px;" data-en="Post my review" data-fr="Publier mon avis">
+                        Post my review
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Message</span>
+    </div>
+
+    <script>
+        let currentLanguage = 'en';
+        let currentRating = 0;
+        let reviewFiles = [];
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'fr' ? 'en' : 'fr';
+            updateLanguage();
+            updateLangToggleUI();
+        }
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                if (element.hasAttribute('data-fr-placeholder')) {
+                    element.placeholder = element.getAttribute(`data-${currentLanguage}-placeholder`);
+                } else {
+                    element.textContent = element.getAttribute(`data-${currentLanguage}`);
+                }
+            });
+            document.documentElement.lang = currentLanguage;
+        }
+
+        function updateLangToggleUI() {
+            document.querySelector('.lang-fr').classList.toggle('active', currentLanguage === 'fr');
+            document.querySelector('.lang-en').classList.toggle('active', currentLanguage === 'en');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function handleFileUpload(files) {
+            const newFiles = Array.from(files).slice(0, 5 - reviewFiles.length);
+            reviewFiles = [...reviewFiles, ...newFiles];
+            updateUploadPreview();
+        }
+
+        function removeFile(index) {
+            reviewFiles.splice(index, 1);
+            updateUploadPreview();
+        }
+
+        function updateUploadPreview() {
+            const preview = document.getElementById('reviewUploadPreview');
+            if (reviewFiles.length === 0) {
+                preview.innerHTML = '';
+            } else {
+                preview.innerHTML = reviewFiles.map((file, index) => `
+                    <div class="preview-item-img">
+                        <img src="${URL.createObjectURL(file)}" alt="Preview ${index + 1}">
+                        <button type="button" class="preview-remove" onclick="removeFile(${index})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+
+            const stars = document.querySelectorAll('.star-rating i');
+            const ratingInput = document.getElementById('ratingInput');
+            
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    currentRating = parseInt(star.dataset.rating);
+                    ratingInput.value = currentRating;
+                    stars.forEach((s, index) => {
+                        if (index < currentRating) {
+                            s.classList.add('active');
+                        } else {
+                            s.classList.remove('active');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseenter', () => {
+                    const hoverRating = parseInt(star.dataset.rating);
+                    stars.forEach((s, index) => {
+                        if (index < hoverRating) {
+                            s.style.color = 'var(--color-yellow-dark)';
+                        } else {
+                            s.style.color = 'var(--color-gray-light)';
+                        }
+                    });
+                });
+            });
+            
+            document.querySelector('.star-rating').addEventListener('mouseleave', () => {
+                stars.forEach((s, index) => {
+                    if (index < currentRating) {
+                        s.style.color = 'var(--color-yellow-dark)';
+                    } else {
+                        s.style.color = 'var(--color-gray-light)';
+                    }
+                });
+            });
+
+            const uploadZone = document.getElementById('reviewUploadZone');
+            const fileInput = document.getElementById('reviewFileInput');
+            
+            uploadZone.addEventListener('click', () => fileInput.click());
+            
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.style.background = 'var(--color-yellow-light)';
+            });
+            
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.style.background = 'var(--color-pink-light)';
+            });
+            
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.style.background = 'var(--color-pink-light)';
+                handleFileUpload(e.dataTransfer.files);
+            });
+            
+            fileInput.addEventListener('change', (e) => {
+                handleFileUpload(e.target.files);
+            });
+
+            document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (currentRating === 0) {
+                    showToast(currentLanguage === 'fr' ? 'Veuillez sélectionner une note' : 'Please select a rating');
+                    return;
+                }
+                
+                const formData = {
+                    name: document.querySelector('input[name="name"]').value,
+                    rating: currentRating,
+                    text: document.querySelector('textarea[name="review"]').value,
+                    photos: []
+                };
+                
+                try {
+                    const response = await fetch('/api/reviews', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        showToast(result.message);
+                        setTimeout(() => {
+                            window.location.href = 'index.html#reviews';
+                        }, 2000);
+                    } else {
+                        showToast('Error: ' + result.error);
+                    }
+                } catch (error) {
+                    showToast('Please ensure the server is running (node server.js)');
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
