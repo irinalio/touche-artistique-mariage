@@ -10,6 +10,415 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+    <style>
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+        .form-modal.active {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .form-container {
+            background: white;
+            border-radius: 24px;
+            max-width: 700px;
+            width: 100%;
+            max-height: calc(100vh - 80px);
+            overflow-y: auto;
+            position: relative;
+        }
+        .form-header {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            padding: 30px;
+            border-radius: 24px 24px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .form-header h2 {
+            color: white;
+            margin-bottom: 5px;
+        }
+        .form-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+        }
+        .form-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.3);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: white;
+            transition: all 0.3s;
+        }
+        .form-close:hover {
+            background: rgba(255,255,255,0.5);
+        }
+        .form-body {
+            padding: 30px;
+        }
+        .form-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+        .progress-step {
+            width: 40px;
+            height: 6px;
+            border-radius: 3px;
+            background: #E0E0E0;
+            transition: all 0.3s;
+        }
+        .progress-step.active {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+        }
+        .progress-step.completed {
+            background: #D4E8D4;
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-title i {
+            color: #FFB6C1;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2D2D2D;
+        }
+        .form-label .required {
+            color: #FF6B6B;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #E8E8E8;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #FFB6C1;
+            box-shadow: 0 0 0 4px rgba(255,182,193,0.2);
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .file-upload-area {
+            border: 2px dashed #D4E8D4;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #FAFAFA;
+        }
+        .file-upload-area:hover {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .file-upload-area i {
+            font-size: 3rem;
+            color: #FFB6C1;
+            margin-bottom: 15px;
+        }
+        .file-upload-area p {
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .file-upload-area .hint {
+            font-size: 0.85rem;
+            color: #999;
+        }
+        .file-upload-area input {
+            display: none;
+        }
+        .uploaded-files {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #E8F5E8;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .uploaded-file i {
+            color: #4CAF50;
+        }
+        .option-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .option-card {
+            border: 2px solid #E8E8E8;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .option-card:hover {
+            border-color: #FFB6C1;
+        }
+        .option-card.selected {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .option-card input {
+            display: none;
+        }
+        .option-card i {
+            font-size: 2rem;
+            color: #FFB6C1;
+            margin-bottom: 10px;
+        }
+        .option-card .option-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .option-card .option-price {
+            font-size: 0.9rem;
+            color: #FF9EB5;
+        }
+        .color-swatches {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .color-swatch {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .color-swatch:hover, .color-swatch.selected {
+            transform: scale(1.1);
+            border-color: #2D2D2D;
+        }
+        .size-options {
+            display: flex;
+            gap: 15px;
+        }
+        .size-option {
+            flex: 1;
+            border: 2px solid #E8E8E8;
+            border-radius: 16px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .size-option:hover {
+            border-color: #FFB6C1;
+        }
+        .size-option.selected {
+            border-color: #FFB6C1;
+            background: #FFF5F7;
+        }
+        .size-option input {
+            display: none;
+        }
+        .size-option .size-label {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFB6C1;
+        }
+        .size-option .size-height {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .size-option .size-price {
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 30px;
+            border-top: 1px solid #E8E8E8;
+            background: #FAFAFA;
+            border-radius: 0 0 24px 24px;
+        }
+        .btn-form {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-back {
+            background: #E8E8E8;
+            color: #666;
+        }
+        .btn-back:hover {
+            background: #D0D0D0;
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            color: white;
+        }
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,182,193,0.4);
+        }
+        .order-summary {
+            background: linear-gradient(135deg, #FFF4CC, #FFE4E9);
+            border-radius: 16px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        .order-summary h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .summary-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding-top: 15px;
+        }
+        .summary-row .plus {
+            color: #FF9EB5;
+        }
+        .review-section {
+            background: #F8F8F8;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .review-section h5 {
+            color: #FFB6C1;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .review-item {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #E8E8E8;
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-item .label {
+            color: #666;
+            min-width: 120px;
+        }
+        .review-item .value {
+            font-weight: 500;
+        }
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+        .success-modal.active {
+            display: flex;
+        }
+        .success-content {
+            background: white;
+            border-radius: 24px;
+            padding: 50px;
+            text-align: center;
+            max-width: 500px;
+        }
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #D4E8D4, #C8E6C9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+        .success-icon i {
+            font-size: 3rem;
+            color: #4CAF50;
+        }
+        .success-content h2 {
+            margin-bottom: 15px;
+        }
+        .success-content p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+        @media (max-width: 768px) {
+            .custom-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -270,25 +679,59 @@
                 </p>
             </div>
 
-            <!-- Price Banner -->
-            <div style="background: linear-gradient(135deg, var(--color-pink), var(--color-yellow)); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 50px; color: var(--color-black);">
-                <div style="font-size: 3rem; font-weight: 700; margin-bottom: 10px;">from 99,99€</div>
-                <p style="font-size: 1.2rem; margin-bottom: 20px;">One-of-a-kind figurine crafted from your photos</p>
-                <button onclick="addCustomToCart()" class="btn" style="background: var(--color-black); color: white; padding: 15px 40px; font-size: 1.1rem; border: none; border-radius: 30px; cursor: pointer; font-weight: 600;">
-                    <i class="fas fa-shopping-cart" style="margin-right: 10px;"></i>Order Now
-                </button>
+            <!-- How It Works -->
+            <div style="background: white; border-radius: 20px; padding: 50px; box-shadow: var(--shadow-soft); margin-bottom: 40px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;">
+                    <div>
+                        <img src="images/custom-figurine.jpeg" alt="Custom Figurine Example" style="width: 100%; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 20px;" data-en="How It Works" data-fr="Comment Ça Marche">How It Works</h3>
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">1</div>
+                            <div>
+                                <strong data-en="Upload Your Photos" data-fr="Téléchargez Vos Photos">Upload Your Photos</strong>
+                                <p style="color: #666; font-size: 0.9rem;" data-en="Send clear front-facing photos of the couple" data-fr="Envoyez des photos de face claires du couple">Send clear front-facing photos of the couple</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</div>
+                            <div>
+                                <strong data-en="We Create Your Design" data-fr="Nous Créons Votre Design">We Create Your Design</strong>
+                                <p style="color: #666; font-size: 0.9rem;" data-en="Our artists craft a digital proof for your approval" data-fr="Nos artistes créent un proof numérique pour votre approbation">Our artists craft a digital proof for your approval</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">3</div>
+                            <div>
+                                <strong data-en="Approve & We Create" data-fr="Approuvez & Nous Créons">Approve & We Create</strong>
+                                <p style="color: #666; font-size: 0.9rem;" data-en="Once you approve, we handcraft your figurine" data-fr="Une fois approuvé, nous fabriquons votre figurine">Once you approve, we handcraft your figurine</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 15px; align-items: flex-start;">
+                            <div style="width: 40px; height: 40px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">4</div>
+                            <div>
+                                <strong data-en="Delivered to Your Door" data-fr="Livré à Votre Porte">Delivered to Your Door</strong>
+                                <p style="color: #666; font-size: 0.9rem;" data-en="Carefully packaged and shipped worldwide" data-fr="Soigneusement emballé et expédié dans le monde entier">Carefully packaged and shipped worldwide</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="openCustomForm()" style="width: 100%; margin-top: 30px; padding: 18px; background: linear-gradient(135deg, #FFE566, #FFB6C1); border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 700; cursor: pointer; color: white;">
+                            <i class="fas fa-magic"></i> <span data-en="Start Your Custom Order" data-fr="Commencer Votre Commande Sur Mesure">Start Your Custom Order</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Before & After -->
-            <div style="margin-bottom: 50px;">
-                <h3 style="text-align: center; margin-bottom: 30px; font-size: 1.5rem;">Before & After</h3>
+            <!-- Before & After Gallery -->
+            <div style="margin-bottom: 40px;">
+                <h3 style="text-align: center; margin-bottom: 30px; font-size: 1.5rem;" data-en="Before & After" data-fr="Avant & Après">Before & After</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; align-items: center;">
                     <div style="text-align: center;">
                         <div style="background: white; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-soft); margin-bottom: 15px;">
                             <img src="images/5.jpeg" alt="Your Photo" style="width: 100%; height: auto; display: block;">
                         </div>
                         <p style="color: var(--color-gray); font-weight: 500;">
-                            <i class="fas fa-camera" style="margin-right: 8px;"></i>Your Photo
+                            <i class="fas fa-camera" style="margin-right: 8px;"></i><span data-en="Your Photo" data-fr="Votre Photo">Your Photo</span>
                         </p>
                     </div>
                     <div style="text-align: center; font-size: 3rem; color: var(--color-pink);">
@@ -299,112 +742,9 @@
                             <img src="images/custom-figurine.jpeg" alt="Your Figurine" style="width: 100%; height: auto; display: block;">
                         </div>
                         <p style="color: var(--color-gray); font-weight: 500;">
-                            <i class="fas fa-gift" style="margin-right: 8px;"></i>Your Figurine
+                            <i class="fas fa-gift" style="margin-right: 8px;"></i><span data-en="Your Figurine" data-fr="Votre Figurine">Your Figurine</span>
                         </p>
                     </div>
-                </div>
-            </div>
-
-            <div class="custom-content">
-                <div class="custom-info">
-                    <div class="custom-features">
-                        <div class="feature">
-                            <span class="feature-icon">📸</span>
-                            <div class="feature-text">
-                                <h4 data-en="From your photos" data-fr="À partir de vos photos">From your photos</h4>
-                                <p data-en="We create a figurine faithful to your image" data-fr="Nous créons une figurine fidèle à votre image">
-                                    We create a figurine faithful to your image
-                                </p>
-                            </div>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">✋</span>
-                            <div class="feature-text">
-                                <h4 data-en="Handmade" data-fr="Fait main">Handmade</h4>
-                                <p data-en="Every detail is hand-sculpted with love" data-fr="Chaque détail est sculpté à la main avec amour">
-                                    Every detail is hand-sculpted with love
-                                </p>
-                            </div>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">🎨</span>
-                            <div class="feature-text">
-                                <h4 data-en="Custom painting" data-fr="Peinture personnalisée">Custom painting</h4>
-                                <p data-en="Colors and finishes adapted to your preferences" data-fr="Couleurs et finitions adaptées à vos préférences">
-                                    Colors and finishes adapted to your preferences
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="custom-form-container">
-                    <form class="custom-form" id="customForm">
-                        <h3 data-en="Upload Your Photos" data-fr="Téléchargez Vos Photos">Upload Your Photos</h3>
-                        
-                        <div class="form-group">
-                            <label data-en="Full name *" data-fr="Nom complet *">Full name *</label>
-                            <input type="text" name="fullname" required data-en-placeholder="Your name" data-fr-placeholder="Votre nom" placeholder="Your name">
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label data-en="Email *" data-fr="Email *">Email *</label>
-                                <input type="email" name="email" required data-en-placeholder="your@email.com" data-fr-placeholder="votre@email.com" placeholder="your@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label data-en="Phone" data-fr="Téléphone">Phone</label>
-                                <input type="tel" name="phone" data-en-placeholder="Your number" data-fr-placeholder="Votre numéro" placeholder="Your number">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label data-en="Special instructions" data-fr="Instructions spéciales">Special instructions</label>
-                            <textarea name="instructions" rows="3" data-en-placeholder="Describe any special requests..." data-fr-placeholder="Décrivez vos souhaits particuliers..." placeholder="Describe any special requests..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label data-en="Required photos (max 5)" data-fr="Photos requises (max 5)">Required photos (max 5)</label>
-                            <div class="upload-container" id="uploadContainer">
-                                <div class="upload-zone" id="uploadZone">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <p data-en="Drag and drop photos here or click to browse" data-fr="Glissez-déposez vos photos ici ou cliquez pour parcourir">
-                                        Drag and drop photos here or click to browse
-                                    </p>
-                                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
-                                </div>
-                                
-                                <div class="upload-requirements">
-                                    <div class="requirement-item">
-                                        <span class="req-number">1</span>
-                                        <span data-en="Clear face" data-fr="Visage clair">Clear face</span>
-                                    </div>
-                                    <div class="requirement-item">
-                                        <span class="req-number">2</span>
-                                        <span data-en="Pose and background" data-fr="Pose et arrière-plan">Pose and background</span>
-                                    </div>
-                                    <div class="requirement-item">
-                                        <span class="req-number">3</span>
-                                        <span data-en="Full height" data-fr="Plein pied">Full height</span>
-                                    </div>
-                                    <div class="requirement-item">
-                                        <span class="req-number">4</span>
-                                        <span data-en="Close shot" data-fr="Gros plan">Close shot</span>
-                                    </div>
-                                    <div class="requirement-item">
-                                        <span class="req-number">5</span>
-                                        <span data-en="Additional photo" data-fr="Photo supplémentaire">Additional photo</span>
-                                    </div>
-                                </div>
-
-                                <div class="upload-preview" id="uploadPreview"></div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-full" data-en="Complete Order - 99,99€" data-fr="Finaliser la Commande - 99,99€">
-                            Complete Order - 99,99€
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -441,6 +781,356 @@
             </div>
         </div>
     </section>
+
+    <!-- Custom Figurine Order Form Modal -->
+    <div class="form-modal" id="customFormModal">
+        <div class="form-container">
+            <div class="form-header">
+                <button class="form-close" onclick="closeCustomForm()">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2><i class="fas fa-magic"></i> <span data-en="Custom Figurine Order" data-fr="Commande de Figurine Sur Mesure">Custom Figurine Order</span></h2>
+                <p data-en="Tell us everything we need to create your perfect figurine" data-fr="Dites-nous tout ce dont nous avons besoin pour créer votre figurine parfaite">Tell us everything we need to create your perfect figurine</p>
+            </div>
+            
+            <div class="form-progress" id="formProgress">
+                <div class="progress-step active" data-step="1"></div>
+                <div class="progress-step" data-step="2"></div>
+                <div class="progress-step" data-step="3"></div>
+                <div class="progress-step" data-step="4"></div>
+                <div class="progress-step" data-step="5"></div>
+                <div class="progress-step" data-step="6"></div>
+                <div class="progress-step" data-step="7"></div>
+            </div>
+
+            <form id="customOrderForm" onsubmit="return false;">
+                <div class="form-body">
+                    <div class="form-step active" data-step="1">
+                        <h3 class="step-title"><i class="fas fa-camera"></i> <span data-en="Step 1: Upload Your Photos" data-fr="Étape 1: Téléchargez Vos Photos">Step 1: Upload Your Photos</span></h3>
+                        <div class="form-group">
+                            <label class="form-label"><span data-en="Front-facing photo of couple" data-fr="Photo de face du couple">Front-facing photo of couple</span> <span class="required">*</span></label>
+                            <div class="file-upload-area" onclick="document.getElementById('photo1').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p data-en="Click to upload or drag and drop" data-fr="Cliquez pour télécharger ou glissez-déposez">Click to upload or drag and drop</p>
+                                <span class="hint" data-en="Clear, well-lit front view works best" data-fr="Une vue de face claire et bien éclairée est la meilleure">Clear, well-lit front view works best</span>
+                                <input type="file" id="photo1" accept="image/*" onchange="handleFileUpload(this, 'photo1-name')">
+                            </div>
+                            <div class="uploaded-files" id="photo1-name"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Additional reference photos (optional)" data-fr="Photos de référence supplémentaires (optionnel)">Additional reference photos (optional)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('photo2').click()">
+                                <i class="fas fa-images"></i>
+                                <p data-en="Side profile, poses, details" data-fr="Profil de côté, poses, détails">Side profile, poses, details</p>
+                                <span class="hint" data-en="More photos = better accuracy" data-fr="Plus de photos = meilleure précision">More photos = better accuracy</span>
+                                <input type="file" id="photo2" accept="image/*" multiple onchange="handleFileUpload(this, 'photo2-name')">
+                            </div>
+                            <div class="uploaded-files" id="photo2-name"></div>
+                        </div>
+                        <div style="background: #FFF9E6; padding: 15px; border-radius: 12px; margin-top: 20px;">
+                            <h5 style="color: #D4A500; margin-bottom: 8px;"><i class="fas fa-lightbulb"></i> <span data-en="Photo Tips" data-fr="Conseils Photos">Photo Tips</span></h5>
+                            <ul style="font-size: 0.9rem; color: #666; padding-left: 20px;">
+                                <li data-en="Use clear, well-lit photos" data-fr="Utilisez des photos claires et bien éclairées">Use clear, well-lit photos</li>
+                                <li data-en="Front-facing view is essential" data-fr="La vue de face est essentielle">Front-facing view is essential</li>
+                                <li data-en="Avoid sunglasses or hats" data-fr="Évitez les lunettes de soleil ou les chapeaux">Avoid sunglasses or hats</li>
+                                <li data-en="Close-up photos show more detail" data-fr="Les photos de près montrent plus de détails">Close-up photos show more detail</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="2">
+                        <h3 class="step-title"><i class="fas fa-box-open"></i> <span data-en="Step 2: Product Type" data-fr="Étape 2: Type de Produit">Step 2: Product Type</span></h3>
+                        <div class="option-cards">
+                            <label class="option-card selected">
+                                <input type="radio" name="productType" value="figurine" checked>
+                                <i class="fas fa-user-friends"></i>
+                                <div class="option-name">Figurine</div>
+                                <div class="option-price" data-en="Base price" data-fr="Prix de base">Base price</div>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="productType" value="cake-topper">
+                                <i class="fas fa-birthday-cake"></i>
+                                <div class="option-name"><span data-en="Cake Topper" data-fr="Topper de Gâteau">Cake Topper</span></div>
+                                <div class="option-price">+10€</div>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="productType" value="keepsake">
+                                <i class="fas fa-gift"></i>
+                                <div class="option-name"><span data-en="Keepsake/Ornament" data-fr="Porte-bonheur/Ornement">Keepsake/Ornament</span></div>
+                                <div class="option-price">+5€</div>
+                            </label>
+                            <label class="option-card">
+                                <input type="radio" name="productType" value="gift-box">
+                                <i class="fas fa-box"></i>
+                                <div class="option-name"><span data-en="Gift Box Set" data-fr="Coffret Cadeau">Gift Box Set</span></div>
+                                <div class="option-price">+15€</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="3">
+                        <h3 class="step-title"><i class="fas fa-font"></i> <span data-en="Step 3: Names & Text" data-fr="Étape 3: Noms & Texte">Step 3: Names & Text</span></h3>
+                        <div class="form-group">
+                            <label class="form-label"><span data-en="Groom's name" data-fr="Nom du marié"></span> <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="groomName" placeholder="e.g., Jean-Pierre" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span data-en="Bride's name" data-fr="Nom de la mariée"></span> <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="brideName" placeholder="e.g., Marie-Claire" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span data-en="Wedding date" data-fr="Date du mariage"></span> <span class="required">*</span></label>
+                            <input type="date" class="form-input" id="weddingDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span data-en="Additional text (optional)" data-fr="Texte supplémentaire (optionnel)">Additional text (optional)</span></label>
+                            <select class="form-select" id="additionalTextPreset" onchange="toggleCustomText()">
+                                <option value="" data-en="Select preset or enter custom" data-fr="Sélectionnez un préréglage ou entrez un texte">Select preset or enter custom</option>
+                                <option value="Mr & Mrs">Mr & Mrs</option>
+                                <option value="Forever">Forever</option>
+                                <option value="Love">Love</option>
+                                <option value="Est. ">Est. [Year]</option>
+                                <option value="custom" data-en="Custom text..." data-fr="Texte personnalisé...">Custom text...</option>
+                            </select>
+                            <input type="text" class="form-input" id="customText" placeholder="Enter your custom text" style="margin-top: 10px; display: none;">
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="4">
+                        <h3 class="step-title"><i class="fas fa-pen-fancy"></i> <span data-en="Step 4: Font & Base Style" data-fr="Étape 4: Police & Style de Base">Step 4: Font & Base Style</span></h3>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Font style for text" data-fr="Style de police pour le texte">Font style for text</label>
+                            <div class="option-cards">
+                                <label class="option-card selected">
+                                    <input type="radio" name="fontStyle" value="script" checked>
+                                    <div class="option-name" style="font-family: cursive;">Script</div>
+                                    <div class="option-price" data-en="Elegant cursive" data-fr="Cursive élégante">Elegant cursive</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="fontStyle" value="block">
+                                    <div class="option-name" style="font-family: sans-serif;">Block</div>
+                                    <div class="option-price" data-en="Modern clean" data-fr="Moderne propre">Modern clean</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="fontStyle" value="serif">
+                                    <div class="option-name" style="font-family: serif;">Classic</div>
+                                    <div class="option-price" data-en="Traditional serif" data-fr="Serif traditionnel">Traditional serif</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="fontStyle" value="none">
+                                    <div class="option-name"><span data-en="No Text" data-fr="Sans Texte">No Text</span></div>
+                                    <div class="option-price" data-en="Names only" data-fr="Noms uniquement">Names only</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Base shape" data-fr="Forme de base">Base shape</label>
+                            <div class="option-cards">
+                                <label class="option-card selected">
+                                    <input type="radio" name="baseType" value="round" checked>
+                                    <i class="fas fa-circle"></i>
+                                    <div class="option-name">Round</div>
+                                    <div class="option-price" data-en="Included" data-fr="Inclus">Included</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="baseType" value="square">
+                                    <i class="fas fa-square"></i>
+                                    <div class="option-name">Square</div>
+                                    <div class="option-price" data-en="Included" data-fr="Inclus">Included</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="5">
+                        <h3 class="step-title"><i class="fas fa-palette"></i> <span data-en="Step 5: Colors & Size" data-fr="Étape 5: Couleurs & Taille">Step 5: Colors & Size</span></h3>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Figurine size" data-fr="Taille de la figurine">Figurine size</label>
+                            <div class="size-options">
+                                <label class="size-option selected">
+                                    <input type="radio" name="figurineSize" value="small" checked>
+                                    <div class="size-label">S</div>
+                                    <div class="size-height">15cm</div>
+                                    <div class="size-price">79,99€</div>
+                                </label>
+                                <label class="size-option">
+                                    <input type="radio" name="figurineSize" value="medium">
+                                    <div class="size-label">M</div>
+                                    <div class="size-height">20cm</div>
+                                    <div class="size-price">99,99€</div>
+                                </label>
+                                <label class="size-option">
+                                    <input type="radio" name="figurineSize" value="large">
+                                    <div class="size-label">L</div>
+                                    <div class="size-height">25cm</div>
+                                    <div class="size-price">129,99€</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Outfit color matching" data-fr="Correspondance de couleur de tenue">Outfit color matching</label>
+                            <select class="form-select" id="outfitColor">
+                                <option value="match-photo" data-en="Match the photo exactly" data-fr="Correspondre exactement à la photo">Match the photo exactly</option>
+                                <option value="classic-white" data-en="Classic white wedding dress" data-fr="Robe de mariée blanche classique">Classic white wedding dress</option>
+                                <option value="custom" data-en="I'll describe in special requests" data-fr="Je décrirai dans les demandes spéciales">I'll describe in special requests</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Skin tone preference" data-fr="Préférence de teint">Skin tone preference</label>
+                            <div class="color-swatches">
+                                <div class="color-swatch selected" style="background: #FDBF94;" title="Light" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #E8A87C;" title="Light Medium" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #D4956A;" title="Medium" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #A67C52;" title="Medium Brown" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #6B4423;" title="Dark Brown" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #3B2414;" title="Deep Dark" onclick="selectSwatch(this)"></div>
+                                <div class="color-swatch" style="background: #FFDBAC;" title="Match Photo" onclick="selectSwatch(this)"></div>
+                            </div>
+                            <input type="hidden" id="skinTone" value="Light">
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="6">
+                        <h3 class="step-title"><i class="fas fa-truck"></i> <span data-en="Step 6: Delivery & Special Requests" data-fr="Étape 6: Livraison & Demandes Spéciales">Step 6: Delivery & Special Requests</span></h3>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Delivery timeframe" data-fr="Délai de livraison">Delivery timeframe</label>
+                            <div class="option-cards">
+                                <label class="option-card selected">
+                                    <input type="radio" name="delivery" value="standard" checked>
+                                    <i class="fas fa-clock"></i>
+                                    <div class="option-name">Standard</div>
+                                    <div class="option-price" data-en="2-3 weeks (Free)" data-fr="2-3 semaines (Gratuit)">2-3 weeks (Free)</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="delivery" value="express">
+                                    <i class="fas fa-bolt"></i>
+                                    <div class="option-name">Express</div>
+                                    <div class="option-price">+25€ (10 <span data-en="days" data-fr="jours">days</span>)</div>
+                                </label>
+                                <label class="option-card">
+                                    <input type="radio" name="delivery" value="rush">
+                                    <i class="fas fa-fire"></i>
+                                    <div class="option-name">Rush</div>
+                                    <div class="option-price">+50€ (5 <span data-en="days" data-fr="jours">days</span>)</div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-en="Special requests or details" data-fr="Demandes spéciales ou détails">Special requests or details</label>
+                            <textarea class="form-textarea" id="specialRequests" data-en-placeholder="Anything else we should know? Hair color, accessories, pose preferences..." data-fr-placeholder="Autre chose que nous devrions savoir ? Couleur des cheveux, accessoires, préférences de pose..." placeholder="Anything else we should know? Hair color, accessories, pose preferences..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="photoConfirmation" style="width: 20px; height: 20px; margin-top: 3px;">
+                                <span data-en="I have attached all reference photos needed for this order" data-fr="J'ai joint toutes les photos de référence nécessaires pour cette commande">I have attached all reference photos needed for this order</span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" id="proofApproval" style="width: 20px; height: 20px; margin-top: 3px;">
+                                <span data-en="I understand I will receive a digital proof for approval before production begins" data-fr="Je comprends que je recevrai un proof numérique pour approbation avant le début de la production">I understand I will receive a digital proof for approval before production begins</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-step" data-step="7">
+                        <h3 class="step-title"><i class="fas fa-clipboard-check"></i> <span data-en="Step 7: Review Your Order" data-fr="Étape 7: Vérifiez Votre Commande">Step 7: Review Your Order</span></h3>
+                        
+                        <div class="review-section">
+                            <h5><i class="fas fa-user"></i> <span data-en="Personal Details" data-fr="Détails Personnels">Personal Details</span></h5>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Couple Names:" data-fr="Noms du Couple :">Couple Names:</span></span>
+                                <span class="value" id="reviewNames">-</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Wedding Date:" data-fr="Date du Mariage :">Wedding Date:</span></span>
+                                <span class="value" id="reviewDate">-</span>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h5><i class="fas fa-cog"></i> <span data-en="Product Details" data-fr="Détails du Produit">Product Details</span></h5>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Product Type:" data-fr="Type de Produit :">Product Type:</span></span>
+                                <span class="value" id="reviewProduct">Figurine</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Size:" data-fr="Taille :">Size:</span></span>
+                                <span class="value" id="reviewSize">Small (15cm) - 79,99€</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Base:" data-fr="Base :">Base:</span></span>
+                                <span class="value" id="reviewBase">Round (3D Printed)</span>
+                            </div>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Font:" data-fr="Police :">Font:</span></span>
+                                <span class="value" id="reviewFont">Script</span>
+                            </div>
+                        </div>
+
+                        <div class="review-section">
+                            <h5><i class="fas fa-truck"></i> <span data-en="Delivery" data-fr="Livraison">Delivery</span></h5>
+                            <div class="review-item">
+                                <span class="label"><span data-en="Timeframe:" data-fr="Délai :">Timeframe:</span></span>
+                                <span class="value" id="reviewDelivery">Standard (2-3 weeks)</span>
+                            </div>
+                        </div>
+
+                        <div class="order-summary">
+                            <h4><i class="fas fa-receipt"></i> <span data-en="Order Total" data-fr="Total de la Commande">Order Total</span></h4>
+                            <div class="summary-row">
+                                <span data-en="Base figurine" data-fr="Figurine de base">Base figurine</span>
+                                <span class="plus">+</span>
+                                <span id="summaryBase">79,99€</span>
+                            </div>
+                            <div class="summary-row" id="summaryOptions">
+                                <span data-en="Options" data-fr="Options">Options</span>
+                                <span class="plus">+</span>
+                                <span id="summaryOptionsValue">0€</span>
+                            </div>
+                            <div class="summary-row" id="summaryRush" style="display: none;">
+                                <span data-en="Rush delivery" data-fr="Livraison urgente">Rush delivery</span>
+                                <span class="plus">+</span>
+                                <span id="summaryRushValue">0€</span>
+                            </div>
+                            <div class="summary-row">
+                                <span data-en="Total" data-fr="Total">Total</span>
+                                <span id="summaryTotal">79,99€</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label class="form-label"><span data-en="Your email for the proof" data-fr="Votre email pour le proof"></span> <span class="required">*</span></label>
+                            <input type="email" class="form-input" id="customerEmail" data-en-placeholder="We'll send the digital proof here" data-fr-placeholder="Nous enverrons le proof numérique ici" placeholder="We'll send the digital proof here" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button type="button" class="btn-form btn-back" id="prevBtn" onclick="prevStep()" style="visibility: hidden;">
+                        <i class="fas fa-arrow-left"></i> <span data-en="Back" data-fr="Retour">Back</span>
+                    </button>
+                    <button type="button" class="btn-form btn-next" id="nextBtn" onclick="nextStep()">
+                        <span data-en="Next" data-fr="Suivant">Next</span> <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 data-en="Order Submitted!" data-fr="Commande Soumise !">Order Submitted!</h2>
+            <p data-en="Thank you for your custom figurine order. We've received your request and will create a digital proof within 48 hours." data-fr="Merci pour votre commande de figurine sur mesure. Nous avons reçu votre demande et créerons un proof numérique sous 48 heures.">Thank you for your custom figurine order. We've received your request and will create a digital proof within 48 hours.</p>
+            <button onclick="closeSuccessModal()" style="padding: 15px 40px; background: linear-gradient(135deg, #FFE566, #FFB6C1); border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; color: white;">
+                <span data-en="Continue Shopping" data-fr="Continuer les Achats">Continue Shopping</span>
+            </button>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

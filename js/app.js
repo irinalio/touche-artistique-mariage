@@ -386,3 +386,271 @@ document.querySelectorAll('.product-card, .build-option, .feature, .review-card'
     el.style.transition = 'all 0.6s ease';
     observer.observe(el);
 });
+
+// Custom Form Functions
+let currentStep = 1;
+const totalSteps = 7;
+
+const prices = {
+    small: 79.99,
+    medium: 99.99,
+    large: 129.99,
+    'cake-topper': 10,
+    keepsake: 5,
+    'gift-box': 15,
+    express: 25,
+    rush: 50
+};
+
+function openCustomForm() {
+    const modal = document.getElementById('customFormModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        currentStep = 1;
+        updateFormProgress();
+    }
+}
+
+function closeCustomForm() {
+    const modal = document.getElementById('customFormModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+function updateFormProgress() {
+    const steps = document.querySelectorAll('.progress-step');
+    steps.forEach((step, index) => {
+        if (index + 1 < currentStep) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+        } else if (index + 1 === currentStep) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+
+    document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+    const activeStep = document.querySelector('.form-step[data-step="' + currentStep + '"]');
+    if (activeStep) activeStep.classList.add('active');
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    if (prevBtn) prevBtn.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+    if (nextBtn) {
+        if (currentStep === totalSteps) {
+            nextBtn.innerHTML = (currentLanguage === 'fr' ? 'Soumettre la Commande' : 'Submit Order') + ' <i class="fas fa-check"></i>';
+        } else {
+            nextBtn.innerHTML = (currentLanguage === 'fr' ? 'Suivant' : 'Next') + ' <i class="fas fa-arrow-right"></i>';
+        }
+    }
+}
+
+function nextStep() {
+    if (currentStep === totalSteps) {
+        submitCustomOrder();
+        return;
+    }
+    
+    if (currentStep === 3) {
+        const groomName = document.getElementById('groomName')?.value;
+        const brideName = document.getElementById('brideName')?.value;
+        const weddingDate = document.getElementById('weddingDate')?.value;
+        if (!groomName || !brideName || !weddingDate) {
+            showToast(currentLanguage === 'fr' ? 'Veuillez remplir tous les champs obligatoires' : 'Please fill in all required fields');
+            return;
+        }
+    }
+
+    if (currentStep === 6) {
+        const photoConfirmed = document.getElementById('photoConfirmation')?.checked;
+        const proofApproved = document.getElementById('proofApproval')?.checked;
+        if (!photoConfirmed || !proofApproved) {
+            showToast(currentLanguage === 'fr' ? 'Veuillez confirmer les conditions' : 'Please confirm the conditions');
+            return;
+        }
+        prepareReview();
+    }
+
+    if (currentStep === 7) {
+        const email = document.getElementById('customerEmail')?.value;
+        if (!email) {
+            showToast(currentLanguage === 'fr' ? "Veuillez entrer votre email" : 'Please enter your email');
+            return;
+        }
+    }
+
+    currentStep++;
+    updateFormProgress();
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        currentStep--;
+        updateFormProgress();
+    }
+}
+
+function toggleCustomText() {
+    const preset = document.getElementById('additionalTextPreset')?.value;
+    const customInput = document.getElementById('customText');
+    if (customInput) customInput.style.display = preset === 'custom' ? 'block' : 'none';
+}
+
+function selectSwatch(element) {
+    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+    element.classList.add('selected');
+    const skinToneInput = document.getElementById('skinTone');
+    if (skinToneInput) skinToneInput.value = element.title;
+}
+
+function handleFileUpload(input, displayId) {
+    const display = document.getElementById(displayId);
+    if (display && input.files.length > 0) {
+        let html = '';
+        for (let i = 0; i < input.files.length; i++) {
+            html += '<div class="uploaded-file"><i class="fas fa-check-circle"></i> ' + input.files[i].name + '</div>';
+        }
+        display.innerHTML = html;
+    }
+}
+
+function prepareReview() {
+    const groomName = document.getElementById('groomName')?.value || '';
+    const brideName = document.getElementById('brideName')?.value || '';
+    const weddingDate = document.getElementById('weddingDate')?.value || '';
+    
+    const reviewNames = document.getElementById('reviewNames');
+    const reviewDate = document.getElementById('reviewDate');
+    if (reviewNames) reviewNames.textContent = brideName + ' & ' + groomName;
+    if (reviewDate) reviewDate.textContent = weddingDate;
+
+    const productType = document.querySelector('input[name="productType"]:checked')?.value || 'figurine';
+    const productNames = { figurine: 'Figurine', 'cake-topper': 'Cake Topper', keepsake: 'Keepsake', 'gift-box': 'Gift Box' };
+    const reviewProduct = document.getElementById('reviewProduct');
+    if (reviewProduct) reviewProduct.textContent = productNames[productType];
+
+    const size = document.querySelector('input[name="figurineSize"]:checked')?.value || 'small';
+    const sizeNames = { small: 'Small (15cm)', medium: 'Medium (20cm)', large: 'Large (25cm)' };
+    const basePrice = prices[size];
+    const reviewSize = document.getElementById('reviewSize');
+    if (reviewSize) reviewSize.textContent = sizeNames[size] + ' - ' + basePrice.toFixed(2) + '€';
+
+    const base = document.querySelector('input[name="baseType"]:checked')?.value || 'round';
+    const baseNames = { round: 'Round', square: 'Square' };
+    const reviewBase = document.getElementById('reviewBase');
+    if (reviewBase) reviewBase.textContent = baseNames[base] + ' (3D Printed)';
+
+    const font = document.querySelector('input[name="fontStyle"]:checked')?.value || 'script';
+    const fontNames = { script: 'Script', block: 'Block', serif: 'Classic', none: 'No Text' };
+    const reviewFont = document.getElementById('reviewFont');
+    if (reviewFont) reviewFont.textContent = fontNames[font];
+
+    const delivery = document.querySelector('input[name="delivery"]:checked')?.value || 'standard';
+    const deliveryNames = { standard: 'Standard (2-3 weeks)', express: 'Express (10 days)', rush: 'Rush (5 days)' };
+    const reviewDelivery = document.getElementById('reviewDelivery');
+    if (reviewDelivery) reviewDelivery.textContent = deliveryNames[delivery];
+
+    let total = basePrice;
+    let options = 0;
+
+    if (productType !== 'figurine') {
+        options += prices[productType];
+        total += prices[productType];
+    }
+
+    const summaryOptions = document.getElementById('summaryOptions');
+    const summaryOptionsValue = document.getElementById('summaryOptionsValue');
+    if (summaryOptionsValue) summaryOptionsValue.textContent = options > 0 ? '+' + options.toFixed(2) + '€' : '0€';
+
+    const rushCost = prices[delivery] || 0;
+    const summaryRush = document.getElementById('summaryRush');
+    const summaryRushValue = document.getElementById('summaryRushValue');
+    if (rushCost > 0) {
+        if (summaryRush) summaryRush.style.display = 'flex';
+        if (summaryRushValue) summaryRushValue.textContent = '+' + rushCost.toFixed(2) + '€';
+        total += rushCost;
+    } else {
+        if (summaryRush) summaryRush.style.display = 'none';
+    }
+
+    const summaryBase = document.getElementById('summaryBase');
+    const summaryTotal = document.getElementById('summaryTotal');
+    if (summaryBase) summaryBase.textContent = basePrice.toFixed(2) + '€';
+    if (summaryTotal) summaryTotal.textContent = total.toFixed(2) + '€';
+}
+
+function submitCustomOrder() {
+    const orderData = {
+        productType: document.querySelector('input[name="productType"]:checked')?.value,
+        groomName: document.getElementById('groomName')?.value,
+        brideName: document.getElementById('brideName')?.value,
+        weddingDate: document.getElementById('weddingDate')?.value,
+        additionalText: document.getElementById('additionalTextPreset')?.value === 'custom' 
+            ? document.getElementById('customText')?.value 
+            : document.getElementById('additionalTextPreset')?.value,
+        fontStyle: document.querySelector('input[name="fontStyle"]:checked')?.value,
+        baseType: document.querySelector('input[name="baseType"]:checked')?.value,
+        figurineSize: document.querySelector('input[name="figurineSize"]:checked')?.value,
+        outfitColor: document.getElementById('outfitColor')?.value,
+        skinTone: document.getElementById('skinTone')?.value,
+        delivery: document.querySelector('input[name="delivery"]:checked')?.value,
+        specialRequests: document.getElementById('specialRequests')?.value,
+        customerEmail: document.getElementById('customerEmail')?.value
+    };
+
+    const size = orderData.figurineSize || 'small';
+    const sizeNames = { small: 'S', medium: 'M', large: 'L' };
+    const productTypeNames = { figurine: 'Custom Figurine', 'cake-topper': 'Custom Cake Topper', keepsake: 'Custom Keepsake', 'gift-box': 'Custom Gift Box' };
+    const itemName = productTypeNames[orderData.productType] + ' (' + sizeNames[size] + ') - ' + orderData.brideName + ' & ' + orderData.groomName;
+
+    let price = prices[size];
+    if (orderData.productType !== 'figurine') price += prices[orderData.productType];
+    if (orderData.delivery !== 'standard') price += prices[orderData.delivery];
+
+    localStorage.setItem('customOrder', JSON.stringify(orderData));
+    
+    const customItem = {
+        id: 'custom-' + Date.now(),
+        name: itemName,
+        price: price
+    };
+    addToCart(customItem);
+    
+    closeCustomForm();
+    
+    const successModal = document.getElementById('successModal');
+    if (successModal) successModal.classList.add('active');
+}
+
+function closeSuccessModal() {
+    const successModal = document.getElementById('successModal');
+    if (successModal) successModal.classList.remove('active');
+    openCart();
+}
+
+// Initialize option card click handlers
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.option-card').forEach(card => {
+        const input = card.querySelector('input[type="radio"]');
+        if (input) {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('input[name="' + input.name + '"]').forEach(r => {
+                    r.closest('.option-card')?.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        }
+    });
+
+    document.querySelectorAll('.size-option').forEach(option => {
+        option.addEventListener('click', function() {
+            document.querySelectorAll('.size-option').forEach(o => o.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+});
