@@ -1321,7 +1321,7 @@
             if (orderData.delivery !== 'standard') price += prices[orderData.delivery];
 
             localStorage.setItem('customOrder', JSON.stringify(orderData));
-            addToCart(itemName, price);
+            addToCart({ id: 'custom-' + Date.now(), name: itemName, price: price });
             closeCustomForm();
             document.getElementById('successModal').classList.add('active');
         }
