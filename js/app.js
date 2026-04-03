@@ -87,7 +87,7 @@ function updateCartUI() {
     } else {
         cartItems.innerHTML = cart.map(item => `
             <div class="cart-item">
-                <img src="images/standard-figurine.jpg" alt="${item.name}" class="cart-item-image">
+                <img src="images/standard-figurine.jpeg" alt="${item.name}" class="cart-item-image">
                 <div class="cart-item-details">
                     <div class="cart-item-name">${item.name}</div>
                     <div class="cart-item-price">${item.price}€</div>
