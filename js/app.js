@@ -223,13 +223,36 @@ function updateActiveNavLink() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
+    // Load cart from localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+        try {
+            cart = JSON.parse(savedCart);
+            updateCartUI();
+        } catch (e) {
+            console.error('Failed to parse cart:', e);
+        }
+    }
+    
     // Language toggle
-    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+    document.getElementById('langToggle')?.addEventListener('click', toggleLanguage);
     
     // Cart
-    document.getElementById('cartBtn').addEventListener('click', openCart);
-    document.getElementById('cartClose').addEventListener('click', closeCart);
-    document.getElementById('cartOverlay').addEventListener('click', closeCart);
+    document.getElementById('cartBtn')?.addEventListener('click', openCart);
+    document.getElementById('cartClose')?.addEventListener('click', closeCart);
+    document.getElementById('cartOverlay')?.addEventListener('click', closeCart);
+    
+    // Checkout button on homepage
+    const checkoutBtn = document.querySelector('.checkout-btn');
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener('click', () => {
+            if (cart.length > 0) {
+                window.location.href = 'checkout.html';
+            } else {
+                showToast(currentLanguage === 'fr' ? 'Votre panier est vide' : 'Your cart is empty');
+            }
+        });
+    }
     
     // Mobile menu
     document.getElementById('mobileMenuBtn').addEventListener('click', openMobileMenu);
