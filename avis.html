@@ -328,19 +328,27 @@
                         body: JSON.stringify(formData)
                     });
                     
-                    const result = await response.json();
-                    
                     if (response.ok) {
+                        const result = await response.json();
                         showToast(result.message);
                         setTimeout(() => {
                             window.location.href = 'index.html#reviews';
                         }, 2000);
                     } else {
+                        const result = await response.json();
                         showToast('Error: ' + result.error);
                     }
                 } catch (error) {
-                    showToast('Please ensure the server is running (node server.js)');
-                    console.error('Error:', error);
+                    const localReviews = JSON.parse(localStorage.getItem('tam_reviews') || '[]');
+                    formData.id = Date.now();
+                    formData.date = new Date().toISOString().split('T')[0];
+                    formData.avatar = formData.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    localReviews.push(formData);
+                    localStorage.setItem('tam_reviews', JSON.stringify(localReviews));
+                    showToast(currentLanguage === 'fr' ? 'Avis sauvegardé localement!' : 'Review saved locally!');
+                    setTimeout(() => {
+                        window.location.href = 'index.html#reviews';
+                    }, 2000);
                 }
             });
         });

@@ -328,32 +328,45 @@ async function loadReviews() {
     
     try {
         const response = await fetch('/api/reviews');
-        const data = await response.json();
-        
-        if (data.reviews && data.reviews.length > 0) {
-            reviewsContainer.innerHTML = data.reviews.map(review => `
-                <div class="review-card">
-                    <div class="review-stars">
-                        ${Array(5).fill(0).map((_, i) => 
-                            `<i class="fas fa-star${i < review.rating ? '' : ' disabled'}"></i>`
-                        ).join('')}
-                    </div>
-                    <p class="review-text">${review.text}</p>
-                    <div class="review-author">
-                        <div class="author-avatar">${review.avatar}</div>
-                        <div class="author-info">
-                            <span class="author-name">${review.name}</span>
-                            <span class="review-date">${review.date}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        } else {
-            reviewsContainer.innerHTML = '<p style="text-align: center; color: var(--color-gray);">No reviews yet. Be the first to leave one!</p>';
+        if (response.ok) {
+            const data = await response.json();
+            displayReviews(data.reviews || []);
+            localStorage.setItem('tam_reviews', JSON.stringify(data.reviews || []));
+            return;
         }
     } catch (error) {
-        console.error('Error loading reviews:', error);
-        reviewsContainer.innerHTML = '<p style="text-align: center; color: var(--color-gray);">Reviews will appear here when the server is running.</p>';
+        console.log('API unavailable, using localStorage fallback');
+    }
+    
+    const cached = localStorage.getItem('tam_reviews');
+    const reviews = cached ? JSON.parse(cached) : [];
+    displayReviews(reviews);
+}
+
+function displayReviews(reviews) {
+    const reviewsContainer = document.getElementById('reviewsContainer');
+    if (!reviewsContainer) return;
+    
+    if (reviews && reviews.length > 0) {
+        reviewsContainer.innerHTML = reviews.map(review => `
+            <div class="review-card">
+                <div class="review-stars">
+                    ${Array(5).fill(0).map((_, i) => 
+                        `<i class="fas fa-star${i < review.rating ? '' : ' disabled'}"></i>`
+                    ).join('')}
+                </div>
+                <p class="review-text">${review.text}</p>
+                <div class="review-author">
+                    <div class="author-avatar">${review.avatar}</div>
+                    <div class="author-info">
+                        <span class="author-name">${review.name}</span>
+                        <span class="review-date">${review.date}</span>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        reviewsContainer.innerHTML = '<p style="text-align: center; color: var(--color-gray);">No reviews yet. Be the first to leave one!</p>';
     }
 }
 
