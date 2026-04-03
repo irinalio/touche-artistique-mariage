@@ -1,28 +1,32 @@
-const DB_FILE = '/tmp/database.json';
-const fs = require('fs');
+// In-memory store for serverless (ephemeral, resets on cold start)
+// For production, use a database like Vercel Postgres, MongoDB, or Supabase
+let reviewsStore = [];
 
-// Helper to read database
-function readDatabase() {
-  try {
-    if (fs.existsSync(DB_FILE)) {
-      const data = fs.readFileSync(DB_FILE, 'utf8');
-      return JSON.parse(data);
-    }
-  } catch (error) {
-    // Fall through
-  }
-  return { reviews: [] };
+function getReviews() {
+  return reviewsStore;
 }
 
-// Helper to write database
-function writeDatabase(data) {
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
-    return true;
-  } catch (error) {
-    console.error('Write error:', error);
-    return false;
+function addReview(review) {
+  reviewsStore.push(review);
+  return review;
+}
+
+function updateReview(id, updates) {
+  const index = reviewsStore.findIndex(r => r.id === id);
+  if (index !== -1) {
+    reviewsStore[index] = { ...reviewsStore[index], ...updates };
+    return reviewsStore[index];
   }
+  return null;
+}
+
+function deleteReview(id) {
+  const index = reviewsStore.findIndex(r => r.id === id);
+  if (index !== -1) {
+    reviewsStore.splice(index, 1);
+    return true;
+  }
+  return false;
 }
 
 module.exports = async (req, res) => {
@@ -39,64 +43,50 @@ module.exports = async (req, res) => {
   const url = new URL(req.url, `https://${req.headers.host || 'localhost'}`);
   const pathname = url.pathname;
 
-  // GET /api/reviews - Get approved reviews
   if (pathname === '/api/reviews' && req.method === 'GET') {
-    const db = readDatabase();
-    const approvedReviews = db.reviews.filter(review => review.approved);
-    res.status(200).json({ reviews: approvedReviews });
+    const approved = getReviews().filter(r => r.approved);
+    res.status(200).json({ reviews: approved });
     return;
   }
 
-  // POST /api/reviews - Submit new review
   if (pathname === '/api/reviews' && req.method === 'POST') {
     try {
-      const reviewData = req.body || {};
-      if (!reviewData.name || !reviewData.rating || !reviewData.text) {
+      const data = req.body || {};
+      if (!data.name || !data.rating || !data.text) {
         res.status(400).json({ error: 'Missing required fields' });
         return;
       }
-      const db = readDatabase();
-      const newReview = {
+      const review = {
         id: Date.now(),
-        name: reviewData.name,
-        rating: parseInt(reviewData.rating),
-        text: reviewData.text,
+        name: data.name,
+        rating: parseInt(data.rating),
+        text: data.text,
         date: new Date().toISOString().split('T')[0],
-        photos: reviewData.photos || [],
-        avatar: reviewData.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
+        photos: data.photos || [],
+        avatar: data.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
         approved: false
       };
-      db.reviews.push(newReview);
-      if (writeDatabase(db)) {
-        res.status(201).json({ 
-          message: 'Review submitted successfully! It will be visible after approval.',
-          review: newReview 
-        });
-      } else {
-        res.status(500).json({ error: 'Failed to save review' });
-      }
+      addReview(review);
+      res.status(201).json({ 
+        message: 'Review submitted successfully! It will be visible after approval.',
+        review 
+      });
     } catch (error) {
       res.status(400).json({ error: 'Invalid JSON' });
     }
     return;
   }
 
-  // GET /api/reviews/all - Get all reviews (for admin)
   if (pathname === '/api/reviews/all' && req.method === 'GET') {
-    const db = readDatabase();
-    res.status(200).json({ reviews: db.reviews });
+    res.status(200).json({ reviews: getReviews() });
     return;
   }
 
-  // POST /api/reviews/:id/approve
   const approveMatch = pathname.match(/^\/api\/reviews\/(\d+)\/approve$/);
   if (approveMatch && req.method === 'POST') {
     const id = parseInt(approveMatch[1]);
-    const db = readDatabase();
-    const review = db.reviews.find(r => r.id === id);
-    if (review) {
-      review.approved = true;
-      writeDatabase(db);
+    const updated = updateReview(id, { approved: true });
+    if (updated) {
       res.status(200).json({ message: 'Review approved' });
     } else {
       res.status(404).json({ error: 'Review not found' });
@@ -104,15 +94,11 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // POST /api/reviews/:id/reject
   const rejectMatch = pathname.match(/^\/api\/reviews\/(\d+)\/reject$/);
   if (rejectMatch && req.method === 'POST') {
     const id = parseInt(rejectMatch[1]);
-    const db = readDatabase();
-    const review = db.reviews.find(r => r.id === id);
-    if (review) {
-      review.approved = false;
-      writeDatabase(db);
+    const updated = updateReview(id, { approved: false });
+    if (updated) {
       res.status(200).json({ message: 'Review unapproved' });
     } else {
       res.status(404).json({ error: 'Review not found' });
@@ -120,15 +106,10 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // DELETE /api/reviews/:id
   const deleteMatch = pathname.match(/^\/api\/reviews\/(\d+)$/);
   if (deleteMatch && req.method === 'DELETE') {
     const id = parseInt(deleteMatch[1]);
-    const db = readDatabase();
-    const index = db.reviews.findIndex(r => r.id === id);
-    if (index !== -1) {
-      db.reviews.splice(index, 1);
-      writeDatabase(db);
+    if (deleteReview(id)) {
       res.status(200).json({ message: 'Review deleted' });
     } else {
       res.status(404).json({ error: 'Review not found' });
