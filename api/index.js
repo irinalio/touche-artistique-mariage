@@ -1,29 +1,34 @@
 const DB_FILE = '/tmp/database.json';
+const fs = require('fs');
 
 // Helper to read database
 function readDatabase() {
   try {
-    const data = require('fs').readFileSync(DB_FILE, 'utf8');
-    return JSON.parse(data);
+    if (fs.existsSync(DB_FILE)) {
+      const data = fs.readFileSync(DB_FILE, 'utf8');
+      return JSON.parse(data);
+    }
   } catch (error) {
-    return { reviews: [] };
+    // Fall through
   }
+  return { reviews: [] };
 }
 
 // Helper to write database
 function writeDatabase(data) {
   try {
-    require('fs').writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
     return true;
   } catch (error) {
+    console.error('Write error:', error);
     return false;
   }
 }
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
@@ -31,7 +36,8 @@ module.exports = (req, res) => {
     return;
   }
 
-  const { pathname, query } = req;
+  const url = new URL(req.url, `https://${req.headers.host || 'localhost'}`);
+  const pathname = url.pathname;
 
   // GET /api/reviews - Get approved reviews
   if (pathname === '/api/reviews' && req.method === 'GET') {
@@ -44,7 +50,7 @@ module.exports = (req, res) => {
   // POST /api/reviews - Submit new review
   if (pathname === '/api/reviews' && req.method === 'POST') {
     try {
-      const reviewData = req.body;
+      const reviewData = req.body || {};
       if (!reviewData.name || !reviewData.rating || !reviewData.text) {
         res.status(400).json({ error: 'Missing required fields' });
         return;
