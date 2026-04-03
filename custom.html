@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Wedding Figurine Order | Fully Custom from Photos | Touche Artistique Mariage</title>
+    <meta name="title" content="Custom Wedding Figurine Order | Fully Custom from Photos">
+    <meta name="description" content="Order your custom wedding figurine from photos. Upload your pictures, choose options, and we'll create a perfect replica of you. Starting at €79.99.">
+    <meta name="keywords" content="custom wedding figurine order, order custom figurine, wedding figurine from photos, personalized wedding gift, custom cake topper order">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.toucheartmariage.com/custom.html">
+    
+    <meta property="og:title" content="Order Your Custom Wedding Figurine">
+    <meta property="og:description" content="Create your perfect wedding memory from photos. 3 easy steps to order.">
+    <meta property="og:url" content="https://www.toucheartmariage.com/custom.html">
+    <meta property="og:type" content="website">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Order Custom Wedding Figurine">
+    <meta name="twitter:description" content="Upload your photos and create a custom wedding figurine.">
+    
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .custom-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF5F7 50%, #F0F7F0 100%);
+            padding: 100px 0 80px;
+        }
+        
+        .custom-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .custom-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .custom-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--color-black);
+        }
+        
+        .custom-header p {
+            font-size: 1.1rem;
+            color: var(--color-gray);
+        }
+        
+        /* Form Styles */
+        .custom-form-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .form-header-custom {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .form-header-custom h2 {
+            color: white;
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+        }
+        
+        .form-header-custom p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+        }
+        
+        /* Progress Steps */
+        .form-progress {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f8f8;
+        }
+        
+        .progress-step {
+            width: 50px;
+            height: 6px;
+            border-radius: 3px;
+            background: #ddd;
+            transition: all 0.3s;
+        }
+        
+        .progress-step.active {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+        }
+        
+        .progress-step.completed {
+            background: var(--color-green);
+        }
+        
+        /* Form Body */
+        .form-body-custom {
+            padding: 40px;
+        }
+        
+        .form-step {
+            display: none;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        .step-title {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            color: var(--color-black);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step-title i {
+            color: var(--color-pink);
+        }
+        
+        /* Form Groups */
+        .form-group-custom {
+            margin-bottom: 25px;
+        }
+        
+        .form-label-custom {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        
+        .required {
+            color: var(--color-pink);
+        }
+        
+        .form-input-custom {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        
+        .form-input-custom:focus {
+            outline: none;
+            border-color: var(--color-pink);
+        }
+        
+        /* Option Cards */
+        .option-cards-custom {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .option-card-custom {
+            padding: 20px;
+            border: 2px solid #eee;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-card-custom:hover {
+            border-color: var(--color-pink);
+        }
+        
+        .option-card-custom.selected {
+            border-color: var(--color-pink);
+            background: #FFF5F7;
+        }
+        
+        .option-card-custom i {
+            font-size: 2rem;
+            color: var(--color-pink);
+            margin-bottom: 10px;
+        }
+        
+        .option-card-custom input {
+            display: none;
+        }
+        
+        /* Size Options */
+        .size-options-custom {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .size-option-custom {
+            flex: 1;
+            min-width: 120px;
+            padding: 20px;
+            border: 2px solid #eee;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .size-option-custom:hover {
+            border-color: var(--color-pink);
+        }
+        
+        .size-option-custom.selected {
+            border-color: var(--color-pink);
+            background: #FFF5F7;
+        }
+        
+        .size-label {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-pink-dark);
+        }
+        
+        .size-height {
+            font-size: 0.85rem;
+            color: var(--color-gray);
+            margin: 5px 0;
+        }
+        
+        .size-price {
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        
+        /* File Upload */
+        .file-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--color-pink);
+            background: #FFF5F7;
+        }
+        
+        .file-upload-area i {
+            font-size: 3rem;
+            color: var(--color-pink);
+            margin-bottom: 15px;
+        }
+        
+        .file-upload-area input {
+            display: none;
+        }
+        
+        /* Color Swatches */
+        .color-swatches {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .color-swatch {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-swatch.selected {
+            border-color: var(--color-pink);
+            box-shadow: 0 0 0 3px rgba(255,182,193,0.5);
+        }
+        
+        /* Form Footer */
+        .form-footer-custom {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background: #f8f8f8;
+            border-top: 1px solid #eee;
+        }
+        
+        .btn-form {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-back {
+            background: #eee;
+            color: var(--color-black);
+        }
+        
+        .btn-back:hover {
+            background: #ddd;
+        }
+        
+        .btn-next {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            color: white;
+        }
+        
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,182,193,0.5);
+        }
+        
+        .btn-submit {
+            background: var(--color-green);
+            color: white;
+        }
+        
+        .btn-submit:hover {
+            background: #5CB85C;
+        }
+        
+        /* Review Section */
+        .review-section {
+            background: #f8f8f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .review-section h5 {
+            margin-bottom: 15px;
+            color: var(--color-black);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .review-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        
+        .order-summary {
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            padding: 25px;
+            border-radius: 16px;
+            color: white;
+        }
+        
+        .order-summary h4 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding-top: 15px;
+        }
+        
+        /* Toast */
+        .toast-custom {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #2D2D2D;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .toast-custom.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Photo Tips */
+        .photo-tips {
+            background: #FFF9E6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .photo-tips h5 {
+            color: #D4A500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .photo-tips ul {
+            padding-left: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .photo-tips li {
+            margin-bottom: 5px;
+        }
+        
+        /* Form row */
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .custom-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .form-body-custom {
+                padding: 20px;
+            }
+            
+            .form-footer-custom {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Touche Artistique Mariage" style="height: 50px;">
+            </a>
+            <div class="nav-actions">
+                <a href="store.html" class="btn btn-primary" style="padding: 10px 25px; font-size: 0.9rem;">Back to Store</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="custom-page">
+        <div class="container custom-container">
+            <div class="custom-header">
+                <h1 data-en="Create Your Custom Figurine" data-fr="Créez Votre Figurine Personnalisée">Create Your Custom Figurine</h1>
+                <p data-en="A perfect replica of you! Send us your photos and we'll create your mini me." data-fr="Une réplique parfaite de vous ! Envoyez-nous vos photos et nous créerons votre mini vous.">A perfect replica of you! Send us your photos and we'll create your mini me.</p>
+            </div>
+            
+            <div class="custom-form-card">
+                <div class="form-header-custom">
+                    <h2 data-en="Order Form" data-fr="Formulaire de Commande">Order Form</h2>
+                    <p data-en="Complete all steps to submit your order" data-fr="Complétez toutes les étapes pour soumettre votre commande">Complete all steps to submit your order</p>
+                </div>
+                
+                <div class="form-progress">
+                    <div class="progress-step active" data-step="1"></div>
+                    <div class="progress-step" data-step="2"></div>
+                    <div class="progress-step" data-step="3"></div>
+                    <div class="progress-step" data-step="4"></div>
+                    <div class="progress-step" data-step="5"></div>
+                    <div class="progress-step" data-step="6"></div>
+                    <div class="progress-step" data-step="7"></div>
+                </div>
+                
+                <form id="customOrderForm">
+                    <div class="form-body-custom">
+                        <!-- Step 1: Photos -->
+                        <div class="form-step active" data-step="1">
+                            <h3 class="step-title"><i class="fas fa-camera"></i> <span data-en="Step 1: Upload Your Photos" data-fr="Étape 1: Téléchargez Vos Photos">Step 1: Upload Your Photos</span></h3>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom"><span data-en="Front-facing photo of couple" data-fr="Photo de face du couple">Front-facing photo of couple</span> <span class="required">*</span></label>
+                                <div class="file-upload-area" onclick="document.getElementById('photo1').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p data-en="Click to upload or drag and drop" data-fr="Cliquez pour télécharger ou glissez-déposez">Click to upload or drag and drop</p>
+                                    <span class="hint" data-en="Clear, well-lit front view works best" data-fr="Une vue de face claire et bien éclairée est la meilleure">Clear, well-lit front view works best</span>
+                                    <input type="file" id="photo1" accept="image/*" onchange="handleFileUploadCustom(this, 'photo1-name')">
+                                </div>
+                                <div id="photo1-name" class="uploaded-files"></div>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Additional reference photos (optional)" data-fr="Photos de référence supplémentaires (optionnel)">Additional reference photos (optional)</label>
+                                <div class="file-upload-area" onclick="document.getElementById('photo2').click()">
+                                    <i class="fas fa-images"></i>
+                                    <p data-en="Side profile, poses, details" data-fr="Profil de côté, poses, détails">Side profile, poses, details</p>
+                                    <span class="hint" data-en="More photos = better accuracy" data-fr="Plus de photos = meilleure précision">More photos = better accuracy</span>
+                                    <input type="file" id="photo2" accept="image/*" multiple onchange="handleFileUploadCustom(this, 'photo2-name')">
+                                </div>
+                                <div id="photo2-name" class="uploaded-files"></div>
+                            </div>
+                            
+                            <div class="photo-tips">
+                                <h5><i class="fas fa-lightbulb"></i> <span data-en="Photo Tips" data-fr="Conseils Photos">Photo Tips</span></h5>
+                                <ul>
+                                    <li data-en="Use clear, well-lit photos" data-fr="Utilisez des photos claires et bien éclairées">Use clear, well-lit photos</li>
+                                    <li data-en="Front-facing view is essential" data-fr="La vue de face est essentielle">Front-facing view is essential</li>
+                                    <li data-en="Avoid sunglasses or hats" data-fr="Évitez les lunettes de soleil ou les chapeaux">Avoid sunglasses or hats</li>
+                                    <li data-en="Close-up photos show more detail" data-fr="Les photos de près montrent plus de détails">Close-up photos show more detail</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Product Type -->
+                        <div class="form-step" data-step="2">
+                            <h3 class="step-title"><i class="fas fa-box-open"></i> <span data-en="Step 2: Product Type" data-fr="Étape 2: Type de Produit">Step 2: Product Type</span></h3>
+                            
+                            <div class="option-cards-custom">
+                                <label class="option-card-custom selected" onclick="selectOptionCard(this)">
+                                    <input type="radio" name="productType" value="figurine" checked>
+                                    <i class="fas fa-user-friends"></i>
+                                    <div class="option-name">Figurine</div>
+                                    <div class="option-price" data-en="Base price" data-fr="Prix de base">Base price</div>
+                                </label>
+                                <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                    <input type="radio" name="productType" value="cake-topper">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <div class="option-name"><span data-en="Cake Topper" data-fr="Topper de Gâteau">Cake Topper</span></div>
+                                    <div class="option-price">+10€</div>
+                                </label>
+                                <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                    <input type="radio" name="productType" value="keepsake">
+                                    <i class="fas fa-gift"></i>
+                                    <div class="option-name"><span data-en="Keepsake" data-fr="Porte-bonheur">Keepsake</span></div>
+                                    <div class="option-price">+5€</div>
+                                </label>
+                                <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                    <input type="radio" name="productType" value="gift-box">
+                                    <i class="fas fa-box"></i>
+                                    <div class="option-name"><span data-en="Gift Box" data-fr="Coffret">Gift Box</span></div>
+                                    <div class="option-price">+15€</div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3: Names & Text -->
+                        <div class="form-step" data-step="3">
+                            <h3 class="step-title"><i class="fas fa-font"></i> <span data-en="Step 3: Names & Text" data-fr="Étape 3: Noms & Texte">Step 3: Names & Text</span></h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group-custom">
+                                    <label class="form-label-custom"><span data-en="Groom's name" data-fr="Nom du marié"></span> <span class="required">*</span></label>
+                                    <input type="text" class="form-input-custom" id="groomNameCustom" placeholder="e.g., Jean-Pierre">
+                                </div>
+                                <div class="form-group-custom">
+                                    <label class="form-label-custom"><span data-en="Bride's name" data-fr="Nom de la mariée"></span> <span class="required">*</span></label>
+                                    <input type="text" class="form-input-custom" id="brideNameCustom" placeholder="e.g., Marie-Claire">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom"><span data-en="Wedding date" data-fr="Date du mariage"></span> <span class="required">*</span></label>
+                                <input type="date" class="form-input-custom" id="weddingDateCustom">
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Additional text (optional)" data-fr="Texte supplémentaire (optionnel)">Additional text (optional)</label>
+                                <select class="form-input-custom" id="additionalTextPresetCustom" onchange="toggleCustomTextCustom()">
+                                    <option value="">Select preset or enter custom</option>
+                                    <option value="Mr & Mrs">Mr & Mrs</option>
+                                    <option value="Forever">Forever</option>
+                                    <option value="Love">Love</option>
+                                    <option value="Est. ">Est. [Year]</option>
+                                    <option value="custom">Custom text...</option>
+                                </select>
+                                <input type="text" class="form-input-custom" id="customTextCustom" placeholder="Enter your custom text" style="margin-top: 10px; display: none;">
+                            </div>
+                        </div>
+                        
+                        <!-- Step 4: Font & Base -->
+                        <div class="form-step" data-step="4">
+                            <h3 class="step-title"><i class="fas fa-pen-fancy"></i> <span data-en="Step 4: Font & Base Style" data-fr="Étape 4: Police & Style de Base">Step 4: Font & Base Style</span></h3>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Font style for text" data-fr="Style de police pour le texte">Font style for text</label>
+                                <div class="option-cards-custom">
+                                    <label class="option-card-custom selected" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="fontStyle" value="script" checked>
+                                        <div class="option-name" style="font-family: cursive;">Script</div>
+                                        <div class="option-price" data-en="Elegant cursive" data-fr="Cursive élégante">Elegant cursive</div>
+                                    </label>
+                                    <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="fontStyle" value="block">
+                                        <div class="option-name" style="font-family: sans-serif;">Block</div>
+                                        <div class="option-price" data-en="Modern clean" data-fr="Moderne propre">Modern clean</div>
+                                    </label>
+                                    <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="fontStyle" value="serif">
+                                        <div class="option-name" style="font-family: serif;">Classic</div>
+                                        <div class="option-price" data-en="Traditional serif" data-fr="Serif traditionnel">Traditional serif</div>
+                                    </label>
+                                    <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="fontStyle" value="none">
+                                        <div class="option-name"><span data-en="No Text" data-fr="Sans Texte">No Text</span></div>
+                                        <div class="option-price" data-en="Names only" data-fr="Noms uniquement">Names only</div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Base shape" data-fr="Forme de base">Base shape</label>
+                                <div class="option-cards-custom">
+                                    <label class="option-card-custom selected" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="baseType" value="round" checked>
+                                        <i class="fas fa-circle"></i>
+                                        <div class="option-name">Round</div>
+                                        <div class="option-price" data-en="Included" data-fr="Inclus">Included</div>
+                                    </label>
+                                    <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="baseType" value="square">
+                                        <i class="fas fa-square"></i>
+                                        <div class="option-name">Square</div>
+                                        <div class="option-price" data-en="Included" data-fr="Inclus">Included</div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 5: Colors & Size -->
+                        <div class="form-step" data-step="5">
+                            <h3 class="step-title"><i class="fas fa-palette"></i> <span data-en="Step 5: Colors & Size" data-fr="Étape 5: Couleurs & Taille">Step 5: Colors & Size</span></h3>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Figurine size" data-fr="Taille de la figurine">Figurine size</label>
+                                <div class="size-options-custom">
+                                    <div class="size-option-custom selected" onclick="selectSizeOption(this)" data-value="small">
+                                        <input type="radio" name="figurineSize" value="small" checked>
+                                        <div class="size-label">S</div>
+                                        <div class="size-height">15cm</div>
+                                        <div class="size-price">79,99€</div>
+                                    </div>
+                                    <div class="size-option-custom" onclick="selectSizeOption(this)" data-value="medium">
+                                        <input type="radio" name="figurineSize" value="medium">
+                                        <div class="size-label">M</div>
+                                        <div class="size-height">20cm</div>
+                                        <div class="size-price">99,99€</div>
+                                    </div>
+                                    <div class="size-option-custom" onclick="selectSizeOption(this)" data-value="large">
+                                        <input type="radio" name="figurineSize" value="large">
+                                        <div class="size-label">L</div>
+                                        <div class="size-height">25cm</div>
+                                        <div class="size-price">129,99€</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Outfit color matching" data-fr="Correspondance de couleur de tenue">Outfit color matching</label>
+                                <select class="form-input-custom" id="outfitColorCustom">
+                                    <option value="match-photo">Match the photo exactly</option>
+                                    <option value="classic-white">Classic white wedding dress</option>
+                                    <option value="custom">I'll describe in special requests</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Skin tone preference" data-fr="Préférence de teint">Skin tone preference</label>
+                                <div class="color-swatches">
+                                    <div class="color-swatch selected" style="background: #FDBF94;" onclick="selectSwatchCustom(this)"></div>
+                                    <div class="color-swatch" style="background: #E8A87C;" onclick="selectSwatchCustom(this)"></div>
+                                    <div class="color-swatch" style="background: #D4956A;" onclick="selectSwatchCustom(this)"></div>
+                                    <div class="color-swatch" style="background: #A67C52;" onclick="selectSwatchCustom(this)"></div>
+                                    <div class="color-swatch" style="background: #6B4423;" onclick="selectSwatchCustom(this)"></div>
+                                    <div class="color-swatch" style="background: #3B2414;" onclick="selectSwatchCustom(this)"></div>
+                                    <div class="color-swatch" style="background: #FFDBAC;" onclick="selectSwatchCustom(this)"></div>
+                                </div>
+                                <input type="hidden" id="skinToneCustom" value="Light">
+                            </div>
+                        </div>
+                        
+                        <!-- Step 6: Delivery & Special Requests -->
+                        <div class="form-step" data-step="6">
+                            <h3 class="step-title"><i class="fas fa-truck"></i> <span data-en="Step 6: Delivery & Special Requests" data-fr="Étape 6: Livraison & Demandes Spéciales">Step 6: Delivery & Special Requests</span></h3>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Delivery timeframe" data-fr="Délai de livraison">Delivery timeframe</label>
+                                <div class="option-cards-custom">
+                                    <label class="option-card-custom selected" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="delivery" value="standard" checked>
+                                        <i class="fas fa-clock"></i>
+                                        <div class="option-name">Standard</div>
+                                        <div class="option-price">2-3 weeks (Free)</div>
+                                    </label>
+                                    <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="delivery" value="express">
+                                        <i class="fas fa-bolt"></i>
+                                        <div class="option-name">Express</div>
+                                        <div class="option-price">+25€ (10 days)</div>
+                                    </label>
+                                    <label class="option-card-custom" onclick="selectOptionCard(this)">
+                                        <input type="radio" name="delivery" value="rush">
+                                        <i class="fas fa-fire"></i>
+                                        <div class="option-name">Rush</div>
+                                        <div class="option-price">+50€ (5 days)</div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label-custom" data-en="Special requests or details" data-fr="Demandes spéciales ou détails">Special requests or details</label>
+                                <textarea class="form-input-custom" id="specialRequestsCustom" rows="4" placeholder="Anything else we should know? Hair color, accessories, pose preferences..."></textarea>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="photoConfirmationCustom" style="width: 20px; height: 20px; margin-top: 3px;">
+                                    <span data-en="I have attached all reference photos needed for this order" data-fr="J'ai joint toutes les photos de référence nécessaires pour cette commande">I have attached all reference photos needed for this order</span>
+                                </label>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer;">
+                                    <input type="checkbox" id="proofApprovalCustom" style="width: 20px; height: 20px; margin-top: 3px;">
+                                    <span data-en="I understand I will receive a digital proof for approval before production begins" data-fr="Je comprends que je recevrai un proof numérique pour approbation avant le début de la production">I understand I will receive a digital proof for approval before production begins</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 7: Review & Submit -->
+                        <div class="form-step" data-step="7">
+                            <h3 class="step-title"><i class="fas fa-clipboard-check"></i> <span data-en="Step 7: Review & Submit" data-fr="Étape 7: Vérifiez & Soumettez">Step 7: Review & Submit</span></h3>
+                            
+                            <div class="review-section">
+                                <h5><i class="fas fa-user"></i> <span data-en="Personal Details" data-fr="Détails Personnels">Personal Details</span></h5>
+                                <div class="review-item">
+                                    <span class="label"><span data-en="Couple Names:" data-fr="Noms du Couple :">Couple Names:</span></span>
+                                    <span class="value" id="reviewNamesCustom">-</span>
+                                </div>
+                                <div class="review-item">
+                                    <span class="label"><span data-en="Wedding Date:" data-fr="Date du Mariage :">Wedding Date:</span></span>
+                                    <span class="value" id="reviewDateCustom">-</span>
+                                </div>
+                            </div>
+                            
+                            <div class="review-section">
+                                <h5><i class="fas fa-cog"></i> <span data-en="Product Details" data-fr="Détails du Produit">Product Details</span></h5>
+                                <div class="review-item">
+                                    <span class="label"><span data-en="Product Type:" data-fr="Type de Produit :">Product Type:</span></span>
+                                    <span class="value" id="reviewProductCustom">Figurine</span>
+                                </div>
+                                <div class="review-item">
+                                    <span class="label"><span data-en="Size:" data-fr="Taille :">Size:</span></span>
+                                    <span class="value" id="reviewSizeCustom">Small (15cm) - 79,99€</span>
+                                </div>
+                                <div class="review-item">
+                                    <span class="label"><span data-en="Base:" data-fr="Base :">Base:</span></span>
+                                    <span class="value" id="reviewBaseCustom">Round</span>
+                                </div>
+                            </div>
+                            
+                            <div class="order-summary">
+                                <h4><i class="fas fa-receipt"></i> <span data-en="Order Total" data-fr="Total de la Commande">Order Total</span></h4>
+                                <div class="summary-row">
+                                    <span data-en="Base figurine" data-fr="Figurine de base">Base figurine</span>
+                                    <span id="summaryBaseCustom">79,99€</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span data-en="Total" data-fr="Total">Total</span>
+                                    <span id="summaryTotalCustom">79,99€</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group-custom" style="margin-top: 20px;">
+                                <label class="form-label-custom"><span data-en="Your email for the proof" data-fr="Votre email pour le proof"></span> <span class="required">*</span></label>
+                                <input type="email" class="form-input-custom" id="customerEmailCustom" placeholder="We'll send the digital proof here" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-footer-custom">
+                        <button type="button" class="btn-form btn-back" id="prevBtnCustom" onclick="prevStepCustom()">
+                            <i class="fas fa-arrow-left"></i> <span data-en="Back" data-fr="Retour">Back</span>
+                        </button>
+                        <button type="button" class="btn-form btn-next" id="nextBtnCustom" onclick="nextStepCustom()">
+                            <span data-en="Next" data-fr="Suivant">Next</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div class="toast-custom" id="toastCustom">
+        <i class="fas fa-check-circle" style="color: #C8E6C9;"></i>
+        <span id="toastMessageCustom">Message</span>
+    </div>
+
+    <script>
+        // Form State
+        let currentStepCustom = 1;
+        const totalStepsCustom = 7;
+        
+        const pricesCustom = {
+            small: 79.99,
+            medium: 99.99,
+            large: 129.99,
+            'cake-topper': 10,
+            keepsake: 5,
+            'gift-box': 15,
+            express: 25,
+            rush: 50
+        };
+        
+        function showToastCustom(message) {
+            const toast = document.getElementById('toastCustom');
+            document.getElementById('toastMessageCustom').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        function updateProgressCustom() {
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                if (index + 1 < currentStepCustom) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index + 1 === currentStepCustom) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+            
+            document.querySelectorAll('.form-step').forEach(step => {
+                if (parseInt(step.dataset.step) === currentStepCustom) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+            
+            const prevBtn = document.getElementById('prevBtnCustom');
+            const nextBtn = document.getElementById('nextBtnCustom');
+            
+            prevBtn.style.visibility = currentStepCustom === 1 ? 'hidden' : 'visible';
+            
+            if (currentStepCustom === totalStepsCustom) {
+                nextBtn.innerHTML = '<span data-en="Submit Order" data-fr="Soumettre la Commande">Submit Order</span> <i class="fas fa-check"></i>';
+                nextBtn.classList.add('btn-submit');
+                nextBtn.onclick = submitOrderCustom;
+            } else {
+                nextBtn.innerHTML = '<span data-en="Next" data-fr="Suivant">Next</span> <i class="fas fa-arrow-right"></i>';
+                nextBtn.classList.remove('btn-submit');
+                nextBtn.onclick = nextStepCustom;
+            }
+        }
+        
+        function nextStepCustom() {
+            if (currentStepCustom < totalStepsCustom) {
+                currentStepCustom++;
+                updateProgressCustom();
+                if (currentStepCustom === totalStepsCustom) {
+                    updateReviewCustom();
+                }
+            }
+        }
+        
+        function prevStepCustom() {
+            if (currentStepCustom > 1) {
+                currentStepCustom--;
+                updateProgressCustom();
+            }
+        }
+        
+        function selectOptionCard(element) {
+            const parent = element.closest('.option-cards-custom') || element.parentElement.parentElement;
+            parent.querySelectorAll('.option-card-custom').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+        }
+        
+        function selectSizeOption(element) {
+            document.querySelectorAll('.size-option-custom').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            element.querySelector('input').checked = true;
+            updatePriceCustom();
+        }
+        
+        function selectSwatchCustom(element) {
+            document.querySelectorAll('.color-swatch').forEach(swatch => {
+                swatch.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('skinToneCustom').value = element.title || 'Custom';
+        }
+        
+        function toggleCustomTextCustom() {
+            const select = document.getElementById('additionalTextPresetCustom');
+            const customInput = document.getElementById('customTextCustom');
+            customInput.style.display = select.value === 'custom' ? 'block' : 'none';
+        }
+        
+        function handleFileUploadCustom(input, displayId) {
+            const display = document.getElementById(displayId);
+            if (input.files.length > 0) {
+                display.innerHTML = '<p style="color: green; margin-top: 10px;"><i class="fas fa-check"></i> ' + input.files.length + ' file(s) selected</p>';
+            }
+        }
+        
+        function updatePriceCustom() {
+            const size = document.querySelector('input[name="figurineSize"]:checked').value;
+            const productType = document.querySelector('input[name="productType"]:checked').value;
+            const delivery = document.querySelector('input[name="delivery"]:checked').value;
+            
+            let price = pricesCustom[size];
+            if (productType !== 'figurine') price += pricesCustom[productType];
+            if (delivery !== 'standard') price += pricesCustom[delivery];
+            
+            document.getElementById('summaryBaseCustom').textContent = pricesCustom[size].toFixed(2) + '€';
+            document.getElementById('summaryTotalCustom').textContent = price.toFixed(2) + '€';
+        }
+        
+        function updateReviewCustom() {
+            const groom = document.getElementById('groomNameCustom').value || '-';
+            const bride = document.getElementById('brideNameCustom').value || '-';
+            const date = document.getElementById('weddingDateCustom').value || '-';
+            const productType = document.querySelector('input[name="productType"]:checked').value;
+            const size = document.querySelector('input[name="figurineSize"]:checked').value;
+            const baseType = document.querySelector('input[name="baseType"]:checked').value;
+            
+            const sizeLabels = { small: 'Small (15cm)', medium: 'Medium (20cm)', large: 'Large (25cm)' };
+            const productLabels = { figurine: 'Figurine', 'cake-topper': 'Cake Topper', keepsake: 'Keepsake', 'gift-box': 'Gift Box' };
+            
+            document.getElementById('reviewNamesCustom').textContent = bride + ' & ' + groom;
+            document.getElementById('reviewDateCustom').textContent = date;
+            document.getElementById('reviewProductCustom').textContent = productLabels[productType];
+            document.getElementById('reviewSizeCustom').textContent = sizeLabels[size] + ' - ' + pricesCustom[size].toFixed(2) + '€';
+            document.getElementById('reviewBaseCustom').textContent = baseType.charAt(0).toUpperCase() + baseType.slice(1);
+            
+            updatePriceCustom();
+        }
+        
+        function submitOrderCustom() {
+            const groom = document.getElementById('groomNameCustom').value;
+            const bride = document.getElementById('brideNameCustom').value;
+            const email = document.getElementById('customerEmailCustom').value;
+            
+            if (!groom || !bride || !email) {
+                showToastCustom(currentLanguage === 'fr' ? 'Veuillez remplir tous les champs obligatoires' : 'Please fill in all required fields');
+                return;
+            }
+            
+            const orderData = {
+                productType: document.querySelector('input[name="productType"]:checked').value,
+                groomName: groom,
+                brideName: bride,
+                weddingDate: document.getElementById('weddingDateCustom').value,
+                additionalText: document.getElementById('additionalTextPresetCustom').value,
+                fontStyle: document.querySelector('input[name="fontStyle"]:checked').value,
+                baseType: document.querySelector('input[name="baseType"]:checked').value,
+                figurineSize: document.querySelector('input[name="figurineSize"]:checked').value,
+                outfitColor: document.getElementById('outfitColorCustom').value,
+                skinTone: document.getElementById('skinToneCustom').value,
+                delivery: document.querySelector('input[name="delivery"]:checked').value,
+                specialRequests: document.getElementById('specialRequestsCustom').value,
+                customerEmail: email
+            };
+            
+            const size = orderData.figurineSize;
+            const sizeNames = { small: 'S', medium: 'M', large: 'L' };
+            const productTypeNames = { figurine: 'Custom Figurine', 'cake-topper': 'Custom Cake Topper', keepsake: 'Custom Keepsake', 'gift-box': 'Custom Gift Box' };
+            const itemName = productTypeNames[orderData.productType] + ' (' + sizeNames[size] + ') - ' + orderData.brideName + ' & ' + orderData.groomName;
+            
+            let price = pricesCustom[size];
+            if (orderData.productType !== 'figurine') price += pricesCustom[orderData.productType];
+            if (orderData.delivery !== 'standard') price += pricesCustom[orderData.delivery];
+            
+            localStorage.setItem('customOrder', JSON.stringify(orderData));
+            
+            const cartItem = { id: 'custom-' + Date.now(), name: itemName, price: price };
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(cartItem);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            showToastCustom(currentLanguage === 'fr' ? 'Commande ajoutée au panier!' : 'Order added to cart!');
+            
+            setTimeout(() => {
+                window.location.href = 'checkout.html';
+            }, 1500);
+        }
+        
+        // Language Management
+        let currentLanguage = 'en';
+        
+        function updateLanguage() {
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                element.textContent = element.getAttribute('data-' + currentLanguage);
+            });
+            document.querySelectorAll('[data-fr-placeholder][data-en-placeholder]').forEach(element => {
+                element.placeholder = element.getAttribute('data-' + currentLanguage + '-placeholder');
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressCustom();
+            updateLanguage();
+            
+            document.querySelectorAll('input[name="productType"], input[name="figurineSize"], input[name="delivery"]').forEach(input => {
+                input.addEventListener('change', updatePriceCustom);
+            });
+        });
+    </script>
+</body>
+</html>
