@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.paypal.com/sdk/js?client-id=ASK_NS7p1jvTYGZq-2nKAzbeAXoxufrU4XSzR9MKBkN2GYqXDo8F2JYHgq3b2G-F08_1-DDONh35CvSn&currency=EUR&locale=en_US&components=buttons"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ASK_NS7p1jvTYGZq-2nKAzbeAXoxufrU4XSzR9MKBkN2GYqXDo8F2JYHgq3b2G-F08_1-DDONh35CvSn&currency=EUR&locale=en_US&components=buttons&debug=true"></script>
     <style>
         .checkout-page {
             min-height: 100vh;
@@ -706,8 +706,20 @@
         function initPayPalButton() {
             const totals = displayOrderSummary();
             
-            if (!totals || cart.length === 0) return;
+            if (!totals || cart.length === 0) {
+                console.log('Skipping PayPal: no items in cart or totals not available');
+                return;
+            }
 
+            if (typeof paypal === 'undefined') {
+                console.error('PayPal SDK not loaded');
+                document.getElementById('paypal-button-container').innerHTML = 
+                    '<p style="color: red; text-align: center;">Payment system loading... Please refresh the page.</p>';
+                return;
+            }
+
+            console.log('Initializing PayPal with total:', totals.total);
+            
             paypal.Buttons({
                 style: {
                     layout: 'vertical',
@@ -855,12 +867,20 @@
                 selectedMethod.closest('.shipping-option').style.background = 'var(--color-pink-light)';
             }
             
-            // Wait for PayPal SDK to load
-            if (typeof paypal !== 'undefined') {
-                initPayPalButton();
-            } else {
-                setTimeout(initPayPalButton, 1000);
-            }
+            // Wait for PayPal SDK to load with retry
+            let paypalLoadAttempts = 0;
+            const paypalLoadCheck = setInterval(() => {
+                paypalLoadAttempts++;
+                if (typeof paypal !== 'undefined' && typeof paypal.Buttons === 'function') {
+                    clearInterval(paypalLoadCheck);
+                    initPayPalButton();
+                } else if (paypalLoadAttempts > 20) { // 10 seconds timeout
+                    clearInterval(paypalLoadCheck);
+                    console.error('PayPal SDK failed to load');
+                    document.getElementById('paypal-button-container').innerHTML = 
+                        '<p style="color: red; text-align: center;">Payment system unavailable. Please refresh or try again later.</p>';
+                }
+            }, 500);
         });
     </script>
 </body>
