@@ -1,5 +1,3 @@
-// In-memory store for serverless (ephemeral, resets on cold start)
-// For production, use a database like Vercel Postgres, MongoDB, or Supabase
 let reviewsStore = [];
 
 function getReviews() {
@@ -30,7 +28,6 @@ function deleteReview(id) {
 }
 
 module.exports = async (req, res) => {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -40,8 +37,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const url = new URL(req.url, `https://${req.headers.host || 'localhost'}`);
-  const pathname = url.pathname;
+  const pathname = req.url.split('?')[0];
 
   if (pathname === '/api/reviews' && req.method === 'GET') {
     const approved = getReviews().filter(r => r.approved);
