@@ -46,12 +46,14 @@ function addToCart(product) {
     } else {
         cart.push({ ...product, quantity: 1 });
     }
+    localStorage.setItem('cart', JSON.stringify(cart));
     updateCartUI();
     showToast(currentLanguage === 'fr' ? 'Produit ajouté au panier!' : 'Product added to cart!');
 }
 
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
     updateCartUI();
 }
 
@@ -62,6 +64,7 @@ function updateQuantity(productId, change) {
         if (item.quantity <= 0) {
             removeFromCart(productId);
         } else {
+            localStorage.setItem('cart', JSON.stringify(cart));
             updateCartUI();
         }
     }
