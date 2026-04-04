@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="p:domain_verify" content="f209914fe96841b8f365ef7a35d4001d"/>
     <title>Leave a Review | Touche Artistique Mariage - Wedding Figurine Reviews</title>
     <meta name="description" content="Share your experience with Touche Artistique Mariage. Leave a review of your custom wedding figurine. We value your feedback!">
     <meta name="robots" content="index, follow">
@@ -170,6 +171,12 @@
                         </div>
                     </div>
                     
+                    <!-- Honeypot anti-spam field (hidden from real users) -->
+                    <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+                        <label for="website">Website</label>
+                        <input type="text" name="website" id="honeypotField" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <button type="submit" class="btn btn-primary btn-full" style="margin-top: 30px;" data-en="Post my review" data-fr="Publier mon avis">
                         Post my review
                     </button>
@@ -315,11 +322,20 @@
 
             document.getElementById('reviewForm').addEventListener('submit', async (e) => {
                 e.preventDefault();
+
+                // Honeypot anti-spam check
+                const honeypot = document.getElementById('honeypotField');
+                if (honeypot && honeypot.value) {
+                    // Bot detected — silently pretend success
+                    showToast(currentLanguage === 'fr' ? 'Merci pour votre avis!' : 'Thank you for your review!');
+                    return;
+                }
+
                 if (currentRating === 0) {
                     showToast(currentLanguage === 'fr' ? 'Veuillez sélectionner une note' : 'Please select a rating');
                     return;
                 }
-                
+
                 const formData = {
                     name: document.querySelector('input[name="name"]').value,
                     rating: currentRating,
@@ -361,5 +377,6 @@
             });
         });
     </script>
+<script src="js/cookie-consent.js"></script>
 </body>
 </html>

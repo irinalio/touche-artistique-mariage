@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
   "devDependencies": {
     "netlify-cli": "^24.9.0",
     "vercel": "^50.38.3"

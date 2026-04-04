@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="p:domain_verify" content="f209914fe96841b8f365ef7a35d4001d"/>
     <title>Custom Wedding Figurine Order | Fully Custom from Photos | Touche Artistique Mariage</title>
     <meta name="title" content="Custom Wedding Figurine Order | Fully Custom from Photos">
     <meta name="description" content="Order your custom wedding figurine from photos. Upload your pictures, choose options, and we'll create a perfect replica of you. Starting at €79.99.">
@@ -946,6 +947,31 @@
         
         function handleFileUploadCustom(input, displayId) {
             const display = document.getElementById(displayId);
+            const maxSizeMB = 5;
+            const maxSizeBytes = maxSizeMB * 1024 * 1024;
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            const maxFiles = 5;
+
+            if (input.files.length > maxFiles) {
+                display.innerHTML = '<p style="color: red; margin-top: 10px;"><i class="fas fa-exclamation-triangle"></i> Maximum ' + maxFiles + ' files allowed</p>';
+                input.value = '';
+                return;
+            }
+
+            for (let i = 0; i < input.files.length; i++) {
+                const file = input.files[i];
+                if (!allowedTypes.includes(file.type)) {
+                    display.innerHTML = '<p style="color: red; margin-top: 10px;"><i class="fas fa-exclamation-triangle"></i> Only image files (JPEG, PNG, WebP, GIF) are allowed</p>';
+                    input.value = '';
+                    return;
+                }
+                if (file.size > maxSizeBytes) {
+                    display.innerHTML = '<p style="color: red; margin-top: 10px;"><i class="fas fa-exclamation-triangle"></i> File "' + file.name + '" exceeds ' + maxSizeMB + 'MB limit</p>';
+                    input.value = '';
+                    return;
+                }
+            }
+
             if (input.files.length > 0) {
                 display.innerHTML = '<p style="color: green; margin-top: 10px;"><i class="fas fa-check"></i> ' + input.files.length + ' file(s) selected</p>';
             }
@@ -1055,5 +1081,6 @@
             });
         });
     </script>
+<script src="js/cookie-consent.js"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="p:domain_verify" content="f209914fe96841b8f365ef7a35d4001d"/>
     <title>Thank You - Artistic Touch Wedding</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -296,8 +297,21 @@
             });
         }
 
+        // Escape HTML to prevent XSS from localStorage data
+        function escapeHTML(str) {
+            if (typeof str !== 'string') return str;
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
         function loadOrderDetails() {
-            const orderData = JSON.parse(localStorage.getItem('completedOrder'));
+            let orderData;
+            try {
+                orderData = JSON.parse(localStorage.getItem('completedOrder'));
+            } catch (e) {
+                orderData = null;
+            }
             const orderDetails = document.getElementById('orderDetails');
 
             if (!orderData) {
@@ -311,27 +325,27 @@
                 return;
             }
 
-            const address = orderData.address;
-            const totals = orderData.totals;
+            const address = orderData.address || {};
+            const totals = orderData.totals || {};
 
             orderDetails.innerHTML = `
                 <div class="order-header">
                     <h2>Order Summary</h2>
                     <div class="order-number">
-                        Order #: ${orderData.orderId || 'N/A'}<br>
+                        Order #: ${escapeHTML(orderData.orderId || 'N/A')}<br>
                         Date: ${formatDate(orderData.date)}
                     </div>
                 </div>
 
                 <div class="order-section">
                     <h3><i class="fas fa-box" style="margin-right: 8px;"></i>Items Ordered</h3>
-                    ${orderData.cart.map(item => `
+                    ${(orderData.cart || []).map(item => `
                         <div class="order-item">
                             <div>
-                                <strong>${item.name}</strong>
-                                <span style="color: var(--color-gray); margin-left: 10px;">x${item.quantity}</span>
+                                <strong>${escapeHTML(item.name)}</strong>
+                                <span style="color: var(--color-gray); margin-left: 10px;">x${parseInt(item.quantity) || 0}</span>
                             </div>
-                            <span style="font-weight: 600;">${(item.price * item.quantity).toFixed(2)}€</span>
+                            <span style="font-weight: 600;">${(parseFloat(item.price) * parseInt(item.quantity) || 0).toFixed(2)}€</span>
                         </div>
                     `).join('')}
                 </div>
@@ -339,36 +353,40 @@
                 <div class="order-section">
                     <h3><i class="fas fa-truck" style="margin-right: 8px;"></i>Delivery Address</h3>
                     <div class="delivery-address">
-                        <strong>${address.firstName} ${address.lastName}</strong><br>
-                        ${address.address1}<br>
-                        ${address.address2 ? address.address2 + '<br>' : ''}
-                        ${address.postalCode} ${address.city}<br>
-                        ${address.country}<br><br>
-                        <i class="fas fa-envelope" style="margin-right: 5px;"></i>${address.email}<br>
-                        <i class="fas fa-phone" style="margin-right: 5px;"></i>${address.phone}
-                        ${address.instructions ? `<br><br><em>Instructions: ${address.instructions}</em>` : ''}
+                        <strong>${escapeHTML(address.firstName || '')} ${escapeHTML(address.lastName || '')}</strong><br>
+                        ${escapeHTML(address.address1 || '')}<br>
+                        ${address.address2 ? escapeHTML(address.address2) + '<br>' : ''}
+                        ${escapeHTML(address.postalCode || '')} ${escapeHTML(address.city || '')}<br>
+                        ${escapeHTML(address.country || '')}<br><br>
+                        <i class="fas fa-envelope" style="margin-right: 5px;"></i>${escapeHTML(address.email || '')}<br>
+                        <i class="fas fa-phone" style="margin-right: 5px;"></i>${escapeHTML(address.phone || '')}
+                        ${address.instructions ? `<br><br><em>Instructions: ${escapeHTML(address.instructions)}</em>` : ''}
                     </div>
                 </div>
 
                 <div class="order-totals">
                     <div class="total-row">
                         <span>Subtotal</span>
-                        <span>${totals.subtotal.toFixed(2)}€</span>
+                        <span>${(parseFloat(totals.subtotal) || 0).toFixed(2)}€</span>
                     </div>
                     <div class="total-row">
                         <span>Shipping</span>
-                        <span>${totals.shipping === 0 ? 'FREE' : totals.shipping.toFixed(2) + '€'}</span>
+                        <span>${totals.shipping === 0 ? 'FREE' : (parseFloat(totals.shipping) || 0).toFixed(2) + '€'}</span>
                     </div>
                     <div class="total-row grand-total">
                         <span>Total Paid</span>
-                        <span>${totals.total.toFixed(2)}€</span>
+                        <span>${(parseFloat(totals.total) || 0).toFixed(2)}€</span>
                     </div>
                 </div>
             `;
+
+            // Clear sensitive order data after displaying
+            localStorage.removeItem('completedOrder');
         }
 
         // Load order details when page loads
         document.addEventListener('DOMContentLoaded', loadOrderDetails);
     </script>
+<script src="js/cookie-consent.js"></script>
 </body>
 </html>

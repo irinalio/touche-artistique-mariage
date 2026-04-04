@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="p:domain_verify" content="f209914fe96841b8f365ef7a35d4001d"/>
     <title>Secure Checkout | Touche Artistique Mariage</title>
     <meta name="description" content="Complete your purchase securely. We accept PayPal payments. Custom wedding figurines with worldwide shipping.">
     <meta name="robots" content="noindex, nofollow">
@@ -15,7 +16,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://www.paypal.com/sdk/js?client-id=ASK_NS7p1jvTYGZq-2nKAzbeAXoxufrU4XSzR9MKBkN2GYqXDo8F2JYHgq3b2G-F08_1-DDONh35CvSn&currency=EUR&locale=en_US&components=buttons&debug=true"></script>
+    <!-- PayPal SDK loaded dynamically from server config -->
+    <script>
+        (async function loadPayPalSDK() {
+            try {
+                const resp = await fetch('/api/paypal-config');
+                const config = await resp.json();
+                if (config.clientId) {
+                    const script = document.createElement('script');
+                    script.src = 'https://www.paypal.com/sdk/js?client-id=' + config.clientId + '&currency=EUR&locale=en_US&components=buttons';
+                    document.head.appendChild(script);
+                }
+            } catch (e) {
+                console.error('Failed to load PayPal config:', e);
+            }
+        })();
+    </script>
     <style>
         .checkout-page {
             min-height: 100vh;
@@ -740,9 +756,40 @@
                         return false;
                     }
                 },
-                createOrder: function(data, actions) {
+                createOrder: async function(data, actions) {
                     const address = getShippingAddress();
-                    const items = cart.map(item => ({
+                    const shippingMethod = document.querySelector('input[name="shippingMethod"]:checked');
+
+                    // Server-side price validation before creating PayPal order
+                    try {
+                        const validateResp = await fetch('/api/validate-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                cart: cart,
+                                countryCode: address.country,
+                                shippingMethod: shippingMethod ? shippingMethod.value : 'standard'
+                            })
+                        });
+
+                        if (!validateResp.ok) {
+                            const err = await validateResp.json();
+                            showToast('Order validation failed: ' + (err.error || 'Please try again'));
+                            throw new Error(err.error || 'Validation failed');
+                        }
+
+                        var serverTotals = await validateResp.json();
+                    } catch (e) {
+                        if (e.message !== 'Validation failed') {
+                            // API unreachable — fall back to client totals but log warning
+                            console.warn('Server validation unavailable, using client totals');
+                            serverTotals = { subtotal: totals.subtotal, shipping: totals.shipping, total: totals.total, items: cart };
+                        } else {
+                            throw e;
+                        }
+                    }
+
+                    const items = serverTotals.items.map(item => ({
                         name: item.name,
                         quantity: item.quantity.toString(),
                         unit_amount: {
@@ -751,11 +798,11 @@
                         }
                     }));
 
-                    // Save order details for thank you page
+                    // Save order details for thank you page (using server-validated totals)
                     const orderDetails = {
-                        cart: cart,
+                        cart: serverTotals.items,
                         address: address,
-                        totals: totals,
+                        totals: { subtotal: serverTotals.subtotal, shipping: serverTotals.shipping, total: serverTotals.total },
                         orderId: null
                     };
                     localStorage.setItem('pendingOrder', JSON.stringify(orderDetails));
@@ -765,15 +812,15 @@
                             description: 'Artistic Touch Wedding Figurines',
                             amount: {
                                 currency_code: 'EUR',
-                                value: totals.total.toFixed(2),
+                                value: serverTotals.total.toFixed(2),
                                 breakdown: {
                                     item_total: {
                                         currency_code: 'EUR',
-                                        value: totals.subtotal.toFixed(2)
+                                        value: serverTotals.subtotal.toFixed(2)
                                     },
                                     shipping: {
                                         currency_code: 'EUR',
-                                        value: totals.shipping.toFixed(2)
+                                        value: serverTotals.shipping.toFixed(2)
                                     }
                                 }
                             },
@@ -890,5 +937,6 @@
             }, 500);
         });
     </script>
+<script src="js/cookie-consent.js"></script>
 </body>
 </html>
