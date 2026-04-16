@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ahrefs Analytics -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="r1QmRwWSe5TgwITQChCUFA" async></script>
+
+    <title>FAQ | Touche Artistique Mariage</title>
+    <meta name="description" content="Frequently asked questions about custom 3D printed and hand painted wedding figurines from Touche Artistique Mariage.">
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="https://www.toucheartmariage.com/faq.html">
+    <meta name="theme-color" content="#FFE566">
+
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How are custom 3D printed wedding figurines made?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Each figurine is designed and hand painted by Irina, the artist behind Touche Artistique Mariage. The process starts with a digital design based on your photos, followed by 3D printing in high-quality PLA, and finished with multiple layers of hand-applied acrylic paint for lifelike detail."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How long does it take to receive my figurine?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Standard figurines ship within 5-7 business days. Custom and semi-custom orders typically take 2-4 weeks depending on complexity. Rush orders are available upon request."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use the figurine as a cake topper?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Absolutely! Our figurines are designed to work beautifully as cake toppers. They come with a stable base that sits securely on any tier."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        .faq-hero {
+            background: linear-gradient(135deg, #FFE566 0%, #FFB6C1 50%, #E8A0BF 100%);
+            padding: 140px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .faq-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%);
+            animation: shimmer 8s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5%, 5%); }
+        }
+        .faq-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            color: white;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .faq-hero p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.95);
+            max-width: 650px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .breadcrumb {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .breadcrumb a {
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .breadcrumb a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .faq-content {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 60px 20px 80px;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            padding: 24px 32px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #2D2D2D;
+            background: linear-gradient(135deg, #FFF8E1, #FFF0F5);
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+        .faq-question i {
+            transition: transform 0.3s ease;
+            color: #FFB6C1;
+            font-size: 0.9rem;
+        }
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 32px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #555;
+        }
+        .faq-item.active .faq-answer {
+            padding: 0 32px 24px;
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="images/logo.png" alt="Touche Artistique Mariage" style="height: 50px; margin-right: 10px;">
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link" data-en="Home" data-fr="Accueil">Home</a>
+                <a href="index.html#standard" class="nav-link" data-en="Standard Figurines" data-fr="Figurines Standard">Standard Figurines</a>
+                <a href="index.html#build" class="nav-link" data-en="Build Your Own" data-fr="Créer Votre">Build Your Own</a>
+                <a href="custom.html" class="nav-link" data-en="Custom" data-fr="Sur Mesure">Custom</a>
+                <a href="blog.html" class="nav-link" data-en="Blog" data-fr="Blog">Blog</a>
+            </div>
+            <div class="nav-actions">
+                <button class="lang-toggle" id="langToggle">
+                    <span class="lang-en active">EN</span>
+                    <span class="separator">/</span>
+                    <span class="lang-fr">FR</span>
+                </button>
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="logo-text">Touche Artistique Mariage</span>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link" data-fr="Accueil" data-en="Home">Home</a>
+            <a href="store.html" class="mobile-nav-link" data-fr="Figurines Standard" data-en="Standard Figurines">Standard Figurines</a>
+            <a href="custom.html" class="mobile-nav-link" data-fr="Sur Mesure" data-en="Custom">Custom</a>
+            <a href="blog.html" class="mobile-nav-link" data-fr="Blog" data-en="Blog">Blog</a>
+            <a href="contact.html" class="mobile-nav-link" data-fr="Contact" data-en="Contact">Contact</a>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 data-fr="Votre Panier" data-en="Your Cart">Your Cart</h3>
+            <button class="cart-close" id="cartClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-bag"></i>
+                <p data-fr="Votre panier est vide" data-en="Your cart is empty">Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span data-fr="Total" data-en="Total">Total</span>
+                <span class="total-price" id="totalPrice">0€</span>
+            </div>
+            <button class="checkout-btn" data-fr="Commander" data-en="Checkout">Checkout</button>
+        </div>
+    </div>
+
+    <main>
+        <section class="faq-hero">
+            <div class="breadcrumb">
+                <a href="index.html" data-en="Home" data-fr="Accueil">Home</a> &rsaquo;
+                <span data-en="FAQ" data-fr="FAQ">FAQ</span>
+            </div>
+            <h1 data-en="Frequently Asked Questions" data-fr="Questions Fr&eacute;quentes">Frequently Asked Questions</h1>
+            <p data-en="Everything you need to know about our custom wedding figurines" data-fr="Tout ce que vous devez savoir sur nos figurines de mariage personnalis&eacute;es">Everything you need to know about our custom wedding figurines</p>
+        </section>
+
+        <div class="faq-content">
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="How are your figurines made?" data-fr="Comment sont fabriqu&eacute;es vos figurines ?">How are your figurines made?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Each figurine is designed and hand painted by Irina, the artist behind Touche Artistique Mariage. The process starts with a digital design based on your photos and preferences, followed by 3D printing in high-quality PLA, and finished with multiple layers of hand-applied acrylic paint for lifelike detail." data-fr="Chaque figurine est con&ccedil;ue et peinte &agrave; la main par Irina, l'artiste derri&egrave;re Touche Artistique Mariage. Le processus commence par un design num&eacute;rique bas&eacute; sur vos photos et pr&eacute;f&eacute;rences, suivi d'une impression 3D en PLA de haute qualit&eacute;, et termin&eacute; par plusieurs couches de peinture acrylique appliqu&eacute;es &agrave; la main.">Each figurine is designed and hand painted by Irina, the artist behind Touche Artistique Mariage. The process starts with a digital design based on your photos and preferences, followed by 3D printing in high-quality PLA, and finished with multiple layers of hand-applied acrylic paint for lifelike detail.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="How long does it take to receive my figurine?" data-fr="Combien de temps faut-il pour recevoir ma figurine ?">How long does it take to receive my figurine?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Standard figurines ship within 5-7 business days. Custom and semi-custom orders typically take 2-4 weeks depending on complexity. Rush orders are available upon request." data-fr="Les figurines standard sont exp&eacute;di&eacute;es sous 5 &agrave; 7 jours ouvrables. Les commandes personnalis&eacute;es prennent g&eacute;n&eacute;ralement 2 &agrave; 4 semaines selon la complexit&eacute;. Les commandes urgentes sont disponibles sur demande.">Standard figurines ship within 5-7 business days. Custom and semi-custom orders typically take 2-4 weeks depending on complexity. Rush orders are available upon request.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="Can I use the figurine as a cake topper?" data-fr="Puis-je utiliser la figurine comme d&eacute;coration de g&acirc;teau ?">Can I use the figurine as a cake topper?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Absolutely! Our figurines are designed to work beautifully as cake toppers. They come with a stable base that sits securely on any tier. After the wedding, they become a cherished keepsake you can display at home." data-fr="Absolument ! Nos figurines sont con&ccedil;ues pour servir de d&eacute;coration de g&acirc;teau. Elles sont livr&eacute;es avec une base stable qui se pose en toute s&eacute;curit&eacute; sur n'importe quel &eacute;tage. Apr&egrave;s le mariage, elles deviennent un souvenir pr&eacute;cieux &agrave; exposer chez vous.">Absolutely! Our figurines are designed to work beautifully as cake toppers. They come with a stable base that sits securely on any tier. After the wedding, they become a cherished keepsake you can display at home.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="What materials are the figurines made of?" data-fr="De quels mat&eacute;riaux sont faites les figurines ?">What materials are the figurines made of?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="The figurines are 3D printed using high-quality PLA (polylactic acid), a durable and eco-friendly material that captures fine details beautifully. Each piece is then hand painted by Irina with high-quality acrylic paints and sealed with a protective coating for long-lasting beauty." data-fr="Les figurines sont imprim&eacute;es en 3D avec du PLA (acide polylactique) de haute qualit&eacute;, un mat&eacute;riau durable et &eacute;cologique qui capture magnifiquement les d&eacute;tails fins. Chaque pi&egrave;ce est ensuite peinte &agrave; la main par Irina avec des peintures acryliques de haute qualit&eacute; et scell&eacute;e avec un rev&ecirc;tement protecteur.">The figurines are 3D printed using high-quality PLA (polylactic acid), a durable and eco-friendly material that captures fine details beautifully. Each piece is then hand painted by Irina with high-quality acrylic paints and sealed with a protective coating for long-lasting beauty.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="What is the difference between Standard, Semi-Custom, and Custom figurines?" data-fr="Quelle est la diff&eacute;rence entre les figurines Standard, Semi-Custom et Custom ?">What is the difference between Standard, Semi-Custom, and Custom figurines?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Standard figurines come in pre-designed poses with customizable colors for hair, skin, and outfits. Semi-Custom figurines allow you to choose from a selection of poses and add personal details. Custom figurines are fully bespoke — designed from scratch based on your photos for a truly one-of-a-kind piece." data-fr="Les figurines Standard sont pr&eacute;-design&eacute;es avec des couleurs personnalisables pour les cheveux, la peau et les tenues. Les Semi-Custom vous permettent de choisir parmi une s&eacute;lection de poses et d'ajouter des d&eacute;tails personnels. Les figurines Custom sont enti&egrave;rement sur mesure, cr&eacute;&eacute;es &agrave; partir de vos photos.">Standard figurines come in pre-designed poses with customizable colors for hair, skin, and outfits. Semi-Custom figurines allow you to choose from a selection of poses and add personal details. Custom figurines are fully bespoke — designed from scratch based on your photos for a truly one-of-a-kind piece.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="Do you ship internationally?" data-fr="Livrez-vous &agrave; l'international ?">Do you ship internationally?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Yes! We ship worldwide. Shipping costs and delivery times vary by destination. All orders are carefully packaged to ensure your figurine arrives in perfect condition. Tracking is provided for every order." data-fr="Oui ! Nous livrons dans le monde entier. Les frais et d&eacute;lais de livraison varient selon la destination. Toutes les commandes sont soigneusement emball&eacute;es. Un suivi est fourni pour chaque commande.">Yes! We ship worldwide. Shipping costs and delivery times vary by destination. All orders are carefully packaged to ensure your figurine arrives in perfect condition. Tracking is provided for every order.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="What if I'm not satisfied with my figurine?" data-fr="Que faire si je ne suis pas satisfait(e) de ma figurine ?">What if I'm not satisfied with my figurine?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Your satisfaction is our priority. If you're not happy with your figurine, please contact us within 14 days of receiving it. We offer revisions for custom orders and accept returns for standard figurines in their original condition. See our Returns page for full details." data-fr="Votre satisfaction est notre priorit&eacute;. Si vous n'&ecirc;tes pas satisfait(e), contactez-nous dans les 14 jours suivant la r&eacute;ception. Nous proposons des r&eacute;visions pour les commandes personnalis&eacute;es et acceptons les retours pour les figurines standard dans leur &eacute;tat d'origine.">Your satisfaction is our priority. If you're not happy with your figurine, please contact us within 14 days of receiving it. We offer revisions for custom orders and accept returns for standard figurines in their original condition. See our Returns page for full details.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    <span data-en="How do I place a custom order?" data-fr="Comment passer une commande personnalis&eacute;e ?">How do I place a custom order?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p data-en="Visit our Custom page and fill out the order form with your details, preferences, and reference photos. Irina will personally review your request and get back to you with a quote and timeline. Once approved, she begins crafting your unique figurine!" data-fr="Visitez notre page Custom et remplissez le formulaire avec vos d&eacute;tails, pr&eacute;f&eacute;rences et photos de r&eacute;f&eacute;rence. Irina examinera personnellement votre demande et vous enverra un devis et un d&eacute;lai. Une fois approuv&eacute;, elle commence &agrave; cr&eacute;er votre figurine unique !">Visit our Custom page and fill out the order form with your details, preferences, and reference photos. Irina will personally review your request and get back to you with a quote and timeline. Once approved, she begins crafting your unique figurine!</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="footer-logo">
+                        <img src="images/logo.png" alt="Touche Artistique Mariage" style="height: 40px; margin-bottom: 10px;">
+                    </a>
+                    <p data-en="Creator of unique memories since 2026" data-fr="Cr&eacute;ateur de souvenirs uniques depuis 2026">
+                        Creator of unique memories since 2026
+                    </p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/tambyirina/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.pinterest.com/tambyirina/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+                        <a href="https://www.trustpilot.com/evaluate/toucheartmariage.com" target="_blank" rel="noopener noreferrer" class="social-link trustpilot-link" aria-label="Trustpilot"><i class="fas fa-star"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4 data-en="Navigation" data-fr="Navigation">Navigation</h4>
+                    <a href="index.html#standard" data-en="Standard Figurines" data-fr="Figurines Standard">Standard Figurines</a>
+                    <a href="index.html#build" data-en="Build Your Own" data-fr="Cr&eacute;er Votre">Build Your Own</a>
+                    <a href="custom.html" data-en="Custom" data-fr="Sur Mesure">Custom</a>
+                    <a href="blog.html" data-en="Blog" data-fr="Blog">Blog</a>
+                </div>
+
+                <div class="footer-links">
+                    <h4 data-en="Customer Service" data-fr="Service Client">Customer Service</h4>
+                    <a href="faq.html" data-en="FAQ" data-fr="FAQ">FAQ</a>
+                    <a href="shipping.html" data-en="Shipping" data-fr="Livraison">Shipping</a>
+                    <a href="returns.html" data-en="Returns" data-fr="Retours">Returns</a>
+                    <a href="contact.html" data-en="Contact" data-fr="Contact">Contact</a>
+                </div>
+
+                <div class="footer-newsletter">
+                    <h4 data-en="Newsletter" data-fr="Newsletter">Newsletter</h4>
+                    <p data-en="Subscribe to receive our exclusive offers" data-fr="Inscrivez-vous pour recevoir nos offres exclusives">
+                        Subscribe to receive our exclusive offers
+                    </p>
+                    <form class="newsletter-form">
+                        <input type="email" data-en-placeholder="Your email" data-fr-placeholder="Votre email" placeholder="Your email">
+                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Artistic Touch Wedding. <span data-en="All rights reserved" data-fr="Tous droits r&eacute;serv&eacute;s">All rights reserved</span>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/cookie-consent.js"></script>
+    <script>
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            item.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

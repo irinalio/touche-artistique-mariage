@@ -4,9 +4,9 @@
  */
 
 const prices = {
-  small: 79.99,
-  medium: 99.99,
-  large: 129.99,
+  small: 49,
+  medium: 59,
+  large: 69,
   'cake-topper': 10,
   keepsake: 5,
   'gift-box': 15,

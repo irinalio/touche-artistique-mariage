@@ -4,7 +4,12 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "jsdom": "^29.0.1",
     "netlify-cli": "^24.9.0",
-    "vercel": "^50.38.3"
+    "vercel": "^50.38.3",
+    "vitest": "4.1.2"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.103.0"
   }
 }

@@ -199,6 +199,70 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Newsletter subscription endpoint
+  if (pathname === '/api/newsletter' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        const { email } = JSON.parse(body);
+        if (!email || !email.includes('@')) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Valid email is required' }));
+          return;
+        }
+        const db = readDatabase();
+        if (!db.newsletter) db.newsletter = [];
+        if (db.newsletter.includes(email)) {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ message: 'Already subscribed' }));
+          return;
+        }
+        db.newsletter.push(email);
+        writeDatabase(db);
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Subscribed successfully' }));
+      } catch (error) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON' }));
+      }
+    });
+    return;
+  }
+
+  // Contact form endpoint
+  if (pathname === '/api/contact' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        const { name, email, subject, message } = JSON.parse(body);
+        if (!name || !email || !subject || !message) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'All fields are required' }));
+          return;
+        }
+        const db = readDatabase();
+        if (!db.contacts) db.contacts = [];
+        db.contacts.push({
+          id: Date.now(),
+          name,
+          email,
+          subject,
+          message,
+          date: new Date().toISOString()
+        });
+        writeDatabase(db);
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Message sent successfully' }));
+      } catch (error) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON' }));
+      }
+    });
+    return;
+  }
+
   // PayPal configuration endpoint
   if (pathname === '/api/paypal-config' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });

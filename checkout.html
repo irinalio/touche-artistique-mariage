@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ahrefs Analytics -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="r1QmRwWSe5TgwITQChCUFA" async></script>
     <meta name="p:domain_verify" content="f209914fe96841b8f365ef7a35d4001d"/>
     <title>Secure Checkout | Touche Artistique Mariage</title>
     <meta name="description" content="Complete your purchase securely. We accept PayPal payments. Custom wedding figurines with worldwide shipping.">
@@ -488,6 +490,12 @@
                         </div>
                     </div>
 
+                    <div class="promo-box" style="display:flex; gap:8px; margin:15px 0;">
+                        <input type="text" id="promoInput" placeholder="Discount code (e.g. CUSTOM20)" style="flex:1; padding:12px 14px; border:1px solid #ddd; border-radius:10px; font-size:0.95rem; text-transform:uppercase;">
+                        <button type="button" id="applyPromoBtn" style="padding:0 18px; border:none; background:#2D2D2D; color:#fff; border-radius:10px; font-weight:600; cursor:pointer;">Apply</button>
+                    </div>
+                    <div id="promoMessage" style="font-size:0.85rem; margin:-5px 0 10px; min-height:1em;"></div>
+
                     <div class="order-summary" id="orderSummary">
                         <div id="orderItems">
                             <!-- Items will be loaded here -->
@@ -497,6 +505,10 @@
                             <div class="order-total-row">
                                 <span>Subtotal</span>
                                 <span id="subtotalPrice">0€</span>
+                            </div>
+                            <div class="order-total-row" id="discountRow" style="display:none; color: #2e8540;">
+                                <span>Discount <small id="discountLabel" style="opacity:.8;"></small></span>
+                                <span id="discountAmount">-0€</span>
                             </div>
                             <div class="order-total-row">
                                 <span>Shipping</span>
@@ -532,6 +544,22 @@
         // Load cart from localStorage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const SHIPPING_THRESHOLD = 120;
+
+        // Applied discount state (validated server-side)
+        let appliedDiscount = null; // { code, amount, description }
+
+        function isCustomItem(name) {
+            return name && name.toLowerCase().includes('custom');
+        }
+
+        function calcClientDiscount(code) {
+            if (!code) return 0;
+            const c = code.toUpperCase().trim();
+            const defs = { CUSTOM20: 20, WEDDING20: 20, LOVESTORY20: 20 };
+            if (!defs[c]) return 0;
+            const base = cart.reduce((s, it) => s + (isCustomItem(it.name) ? it.price * it.quantity : 0), 0);
+            return parseFloat(((base * defs[c]) / 100).toFixed(2));
+        }
         
         // Country zones for shipping calculations
         const COUNTRY_ZONES = {
@@ -651,7 +679,26 @@
                 shippingMethodText = 'Standard shipping';
             }
             
-            const total = subtotal + shipping;
+            // Recompute discount on current cart
+            let discountAmt = 0;
+            if (appliedDiscount) {
+                discountAmt = calcClientDiscount(appliedDiscount.code);
+                if (discountAmt <= 0) appliedDiscount = null;
+                else appliedDiscount.amount = discountAmt;
+            }
+
+            const discountRow = document.getElementById('discountRow');
+            const discountAmountEl = document.getElementById('discountAmount');
+            const discountLabel = document.getElementById('discountLabel');
+            if (appliedDiscount && discountAmt > 0) {
+                discountRow.style.display = '';
+                discountAmountEl.textContent = '-' + discountAmt.toFixed(2) + '€';
+                discountLabel.textContent = '(' + appliedDiscount.code + ')';
+            } else if (discountRow) {
+                discountRow.style.display = 'none';
+            }
+
+            const total = Math.max(0, subtotal - discountAmt) + shipping;
 
             subtotalPrice.textContent = subtotal.toFixed(2) + '€';
             shippingPrice.textContent = shipping === 0 ? 'FREE' : shipping.toFixed(2) + '€';
@@ -689,7 +736,7 @@
                 `;
             }
 
-            return { subtotal, shipping, total, method: shippingMethod ? shippingMethod.value : 'standard' };
+            return { subtotal, shipping, total, method: shippingMethod ? shippingMethod.value : 'standard', discount: discountAmt, promoCode: appliedDiscount ? appliedDiscount.code : null };
         }
 
         function getShippingAddress() {
@@ -768,7 +815,8 @@
                             body: JSON.stringify({
                                 cart: cart,
                                 countryCode: address.country,
-                                shippingMethod: shippingMethod ? shippingMethod.value : 'standard'
+                                shippingMethod: shippingMethod ? shippingMethod.value : 'standard',
+                                promoCode: appliedDiscount ? appliedDiscount.code : null
                             })
                         });
 
@@ -783,7 +831,7 @@
                         if (e.message !== 'Validation failed') {
                             // API unreachable — fall back to client totals but log warning
                             console.warn('Server validation unavailable, using client totals');
-                            serverTotals = { subtotal: totals.subtotal, shipping: totals.shipping, total: totals.total, items: cart };
+                            serverTotals = { subtotal: totals.subtotal, shipping: totals.shipping, total: totals.total, discount: totals.discount || 0, discountCode: totals.promoCode || null, items: cart };
                         } else {
                             throw e;
                         }
@@ -821,6 +869,10 @@
                                     shipping: {
                                         currency_code: 'EUR',
                                         value: serverTotals.shipping.toFixed(2)
+                                    },
+                                    discount: {
+                                        currency_code: 'EUR',
+                                        value: (serverTotals.discount || 0).toFixed(2)
                                     }
                                 }
                             },
@@ -854,21 +906,44 @@
                     });
                 },
                 onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(orderData) {
+                    return actions.order.capture().then(async function(orderData) {
                         console.log('Payment successful:', orderData);
-                        
-                        // Save completed order
+
+                        // Save order to database
+                        const address = getShippingAddress();
+                        const selectedMethod = document.querySelector('input[name="shippingMethod"]:checked');
+                        try {
+                            await fetch('/api/orders', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    customerName: address.firstName + ' ' + address.lastName,
+                                    customerEmail: address.email,
+                                    customerPhone: address.phone || '',
+                                    shippingAddress: [address.address1, address.address2, address.city, address.postalCode].filter(Boolean).join(', '),
+                                    countryCode: address.country,
+                                    items: cart.map(function(item) { return { name: item.name, quantity: item.quantity, price: item.price }; }),
+                                    shippingMethod: selectedMethod ? selectedMethod.value : 'standard',
+                                    promoCode: appliedDiscount ? appliedDiscount.code : null,
+                                    paypalOrderId: orderData.id,
+                                }),
+                            });
+                        } catch (err) {
+                            console.error('Failed to save order to database:', err);
+                        }
+
+                        // Save completed order locally for thank-you page
                         const pendingOrder = JSON.parse(localStorage.getItem('pendingOrder') || '{}');
                         pendingOrder.orderId = orderData.id;
                         pendingOrder.transactionId = orderData.purchase_units[0].payments.captures[0].id;
                         pendingOrder.status = 'completed';
                         pendingOrder.date = new Date().toISOString();
                         localStorage.setItem('completedOrder', JSON.stringify(pendingOrder));
-                        
+
                         // Clear cart
                         localStorage.removeItem('cart');
                         localStorage.removeItem('pendingOrder');
-                        
+
                         // Redirect to thank you page
                         window.location.href = 'thank-you.html';
                     });
@@ -886,7 +961,57 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             displayOrderSummary();
-            
+
+            // Promo code apply
+            const applyBtn = document.getElementById('applyPromoBtn');
+            const promoInput = document.getElementById('promoInput');
+            const promoMsg = document.getElementById('promoMessage');
+            if (applyBtn && promoInput) {
+                applyBtn.addEventListener('click', async function () {
+                    const code = (promoInput.value || '').trim().toUpperCase();
+                    promoMsg.style.color = '';
+                    if (!code) {
+                        appliedDiscount = null;
+                        promoMsg.textContent = '';
+                        displayOrderSummary();
+                        return;
+                    }
+                    try {
+                        const resp = await fetch('/api/validate-discount', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ cart: cart, promoCode: code })
+                        });
+                        const payload = await resp.json();
+                        if (!resp.ok) {
+                            appliedDiscount = null;
+                            promoMsg.style.color = '#c0392b';
+                            promoMsg.textContent = payload.error || 'Invalid code';
+                        } else {
+                            appliedDiscount = { code: payload.code, amount: payload.amount, description: payload.description };
+                            promoMsg.style.color = '#2e8540';
+                            promoMsg.textContent = '✓ ' + payload.description + ' applied';
+                        }
+                    } catch (e) {
+                        // Fallback: client-side validation (still re-validated server-side before payment)
+                        const amt = calcClientDiscount(code);
+                        if (amt > 0) {
+                            appliedDiscount = { code: code, amount: amt, description: '20% off custom figurines' };
+                            promoMsg.style.color = '#2e8540';
+                            promoMsg.textContent = '✓ Discount applied';
+                        } else {
+                            appliedDiscount = null;
+                            promoMsg.style.color = '#c0392b';
+                            promoMsg.textContent = 'Code not valid for these items';
+                        }
+                    }
+                    displayOrderSummary();
+                });
+                promoInput.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') { e.preventDefault(); applyBtn.click(); }
+                });
+            }
+
             // Update shipping prices when country changes
             const countrySelect = document.querySelector('select[name="country"]');
             if (countrySelect) {

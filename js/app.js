@@ -3,7 +3,7 @@ function addCustomToCart() {
     const customItem = {
         id: 'custom-figurine',
         name: 'Fully Custom Figurine',
-        price: 99.99
+        price: 59
     };
     addToCart(customItem);
     
@@ -337,10 +337,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     // Newsletter form
-    document.querySelector('.newsletter-form')?.addEventListener('submit', (e) => {
+    document.querySelector('.newsletter-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        showToast(currentLanguage === 'fr' ? 'Merci pour votre inscription!' : 'Thank you for subscribing!');
-        e.target.reset();
+        const emailInput = e.target.querySelector('input[type="email"]');
+        const email = emailInput.value.trim();
+        if (!email) return;
+        try {
+            const resp = await fetch('/api/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            });
+            const data = await resp.json();
+            if (resp.ok) {
+                showToast(currentLanguage === 'fr' ? 'Merci pour votre inscription!' : 'Thank you for subscribing!');
+                e.target.reset();
+            } else {
+                showToast(data.error || 'Error subscribing');
+            }
+        } catch {
+            showToast(currentLanguage === 'fr' ? 'Merci pour votre inscription!' : 'Thank you for subscribing!');
+            e.target.reset();
+        }
     });
     
     // Load reviews from API
@@ -431,9 +449,9 @@ let currentStep = 1;
 const totalSteps = 7;
 
 const prices = {
-    small: 79.99,
-    medium: 99.99,
-    large: 129.99,
+    small: 49,
+    medium: 59,
+    large: 69,
     'cake-topper': 10,
     keepsake: 5,
     'gift-box': 15,
@@ -696,7 +714,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Semi-Custom Configurator
 const semiConfig = {
-    base: { value: 'classic', image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 59.99 },
+    base: { value: 'classic', image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 29 },
     hair: { style: 'short', color: 'dark-brown' },
     outfit: { style: 'classic' },
     skinTone: 'light',
@@ -705,9 +723,9 @@ const semiConfig = {
 };
 
 const baseOptions = {
-    classic: { image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 59.99 },
-    romantic: { image: 'images/standard-figurine1.jpeg', name: 'Romantic Couple', price: 59.99 },
-    elegant: { image: 'images/standard-figurine4.jpeg', name: 'Elegant Couple', price: 59.99 }
+    classic: { image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 29 },
+    romantic: { image: 'images/standard-figurine1.jpeg', name: 'Romantic Couple', price: 29 },
+    elegant: { image: 'images/standard-figurine4.jpeg', name: 'Elegant Couple', price: 29 }
 };
 
 const hairStyles = {

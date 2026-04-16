@@ -84,7 +84,7 @@ describe('isRateLimited', () => {
 // ── lookupPrice ──
 describe('lookupPrice', () => {
   it('returns exact match price', () => {
-    expect(lookupPrice('classic-couple')).toBe(59.99);
+    expect(lookupPrice('classic-couple')).toBe(19);
   });
 
   it('returns null for unknown products', () => {
@@ -92,7 +92,7 @@ describe('lookupPrice', () => {
   });
 
   it('matches case-insensitively', () => {
-    expect(lookupPrice('Classic Couple Figurine')).toBe(59.99);
+    expect(lookupPrice('Classic Couple Figurine')).toBe(19);
   });
 });
 
@@ -200,7 +200,8 @@ describe('API handler', () => {
     expect(res._body.review.name).toBe('&lt;b&gt;Alice&lt;/b&gt;');
     expect(res._body.review.text).toContain('&lt;script&gt;');
     expect(res._body.review.rating).toBe(5);
-    expect(res._body.review.avatar).toBe('&L');
+    // Sanitized name is one "word" so avatar is first char only
+    expect(res._body.review.avatar).toBe('&');
   });
 
   it('generates correct avatar initials', async () => {
@@ -336,7 +337,7 @@ describe('API handler', () => {
         method: 'POST',
         url: '/api/validate-order',
         body: {
-          cart: [{ name: 'classic-couple', quantity: 1, price: 59.99 }],
+          cart: [{ name: 'classic-couple', quantity: 1, price: 19 }],
           countryCode: 'FR',
           shippingMethod: 'standard',
         },
@@ -344,7 +345,7 @@ describe('API handler', () => {
       await handler(req, res);
       expect(res._status).toBe(200);
       expect(res._body.valid).toBe(true);
-      expect(res._body.subtotal).toBe(59.99);
+      expect(res._body.subtotal).toBe(19);
       expect(res._body.shipping).toBe(10);
     });
 

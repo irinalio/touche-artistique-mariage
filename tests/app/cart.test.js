@@ -9,26 +9,26 @@ import {
 
 describe('addItemToCart', () => {
   it('adds a new item to an empty cart', () => {
-    const cart = addItemToCart([], { id: 1, name: 'Figurine', price: 59.99 });
+    const cart = addItemToCart([], { id: 1, name: 'Figurine', price: 19 });
     expect(cart).toHaveLength(1);
-    expect(cart[0]).toEqual({ id: 1, name: 'Figurine', price: 59.99, quantity: 1 });
+    expect(cart[0]).toEqual({ id: 1, name: 'Figurine', price: 19, quantity: 1 });
   });
 
   it('increments quantity for an existing item', () => {
-    const initial = [{ id: 1, name: 'Figurine', price: 59.99, quantity: 1 }];
-    const cart = addItemToCart(initial, { id: 1, name: 'Figurine', price: 59.99 });
+    const initial = [{ id: 1, name: 'Figurine', price: 19, quantity: 1 }];
+    const cart = addItemToCart(initial, { id: 1, name: 'Figurine', price: 19 });
     expect(cart).toHaveLength(1);
     expect(cart[0].quantity).toBe(2);
   });
 
   it('adds a different item alongside existing ones', () => {
-    const initial = [{ id: 1, name: 'Figurine', price: 59.99, quantity: 1 }];
+    const initial = [{ id: 1, name: 'Figurine', price: 19, quantity: 1 }];
     const cart = addItemToCart(initial, { id: 2, name: 'Cake Topper', price: 10 });
     expect(cart).toHaveLength(2);
   });
 
   it('does not mutate the original cart', () => {
-    const initial = [{ id: 1, name: 'Figurine', price: 59.99, quantity: 1 }];
+    const initial = [{ id: 1, name: 'Figurine', price: 19, quantity: 1 }];
     addItemToCart(initial, { id: 2, name: 'Topper', price: 10 });
     expect(initial).toHaveLength(1);
   });
@@ -89,15 +89,15 @@ describe('calculateCartTotal', () => {
   });
 
   it('calculates total for single item', () => {
-    expect(calculateCartTotal([{ price: 59.99, quantity: 2 }])).toBeCloseTo(119.98);
+    expect(calculateCartTotal([{ price: 19, quantity: 2 }])).toBeCloseTo(38);
   });
 
   it('calculates total for multiple items', () => {
     const cart = [
-      { price: 59.99, quantity: 1 },
+      { price: 19, quantity: 1 },
       { price: 10, quantity: 3 },
     ];
-    expect(calculateCartTotal(cart)).toBeCloseTo(89.99);
+    expect(calculateCartTotal(cart)).toBeCloseTo(49);
   });
 });
 

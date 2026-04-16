@@ -1,19 +1,51 @@
+# Touche Artistique Mariage - robots.txt
 # https://www.robotstxt.org/robotstxt.html
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin.html
+Disallow: /tests/
 
-# Sitemap
-Sitemap: https://www.toucheartmariage.com/sitemap.xml
-
-# Crawl-delay for polite bots
 Crawl-delay: 1
 
-# Disallow private areas
-Disallow: /api/
+# Host preference
+Host: https://www.toucheartmariage.com
 
-# Allow search engines to index all public pages
+# Sitemap with hreflang annotations
+Sitemap: https://www.toucheartmariage.com/sitemap.xml
+
+# Google-specific
 User-agent: Googlebot
 Allow: /
+Disallow: /api/
+Disallow: /admin.html
+Disallow: /tests/
 
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /images/
+
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Bing-specific
 User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin.html
+
+User-agent: msnbot
+Allow: /
+Disallow: /api/
+
+# Facebook/Meta
+User-agent: FacebookBot
+Allow: /
+
+# Twitter
+User-agent: Twitterbot
 Allow: /

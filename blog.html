@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ahrefs Analytics -->
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="r1QmRwWSe5TgwITQChCUFA" async></script>
     <meta name="p:domain_verify" content="f209914fe96841b8f365ef7a35d4001d"/>
 
     <!-- Primary Meta Tags -->
@@ -201,7 +203,7 @@
                 "name": "How are custom 3D printed wedding figurines made?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Custom 3D printed wedding figurines are created using high-resolution 3D printing technology, then meticulously hand painted by skilled artisans. The process starts with a digital design based on your photos and preferences, followed by printing in durable resin, and finished with multiple layers of hand-applied acrylic paint for lifelike detail."
+                    "text": "Each figurine is designed and hand painted by Irina, the artist behind Touche Artistique Mariage. The process starts with a digital design based on your photos and preferences, followed by 3D printing in high-quality PLA, and finished with multiple layers of hand-applied acrylic paint for lifelike detail."
                 }
             },
             {
@@ -225,7 +227,7 @@
     </script>
 
     <style>
-        /* Blog Page Styles */
+        /* Blog Hero */
         .blog-hero {
             background: linear-gradient(135deg, #FFE566 0%, #FFB6C1 50%, #E8A0BF 100%);
             padding: 140px 20px 80px;
@@ -236,10 +238,8 @@
         .blog-hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.15) 0%, transparent 50%);
             animation: shimmer 8s ease-in-out infinite;
         }
@@ -252,8 +252,7 @@
             font-size: clamp(2rem, 5vw, 3.2rem);
             color: white;
             margin-bottom: 16px;
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
         .blog-hero p {
@@ -262,206 +261,262 @@
             color: rgba(255,255,255,0.95);
             max-width: 650px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
         }
         .breadcrumb {
             font-family: 'Poppins', sans-serif;
             font-size: 0.85rem;
             color: rgba(255,255,255,0.8);
             margin-bottom: 20px;
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
         }
-        .breadcrumb a {
-            color: rgba(255,255,255,0.9);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .breadcrumb a:hover {
-            color: white;
-            text-decoration: underline;
-        }
+        .breadcrumb a { color: rgba(255,255,255,0.9); text-decoration: none; transition: color 0.3s; }
+        .breadcrumb a:hover { color: white; text-decoration: underline; }
 
+        /* Grid Layout */
         .blog-content {
-            max-width: 860px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 60px 20px 80px;
         }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
 
-        .blog-article {
+        /* Card */
+        .blog-card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-            margin-bottom: 48px;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .blog-article:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+        .blog-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
         }
 
-        .article-header {
-            background: linear-gradient(135deg, #FFF8E1, #FFF0F5);
-            padding: 36px 40px 28px;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+        .card-visual {
+            height: 180px;
+            position: relative;
+            overflow: hidden;
         }
-        .article-meta {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
+        .card-visual-bg {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
         }
-        .article-date {
+        .card-visual-bg i {
+            font-size: 3rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .card-visual-bg.bg-trends { background: linear-gradient(135deg, #FFE566, #FFC857); }
+        .card-visual-bg.bg-behind { background: linear-gradient(135deg, #FFB6C1, #E8A0BF); }
+        .card-visual-bg.bg-gift { background: linear-gradient(135deg, #D4E8D4, #A8D5A2); }
+        .card-visual-bg.bg-guide { background: linear-gradient(135deg, #B8D4E3, #8BBDD9); }
+        .card-visual-bg.bg-tech { background: linear-gradient(135deg, #D5C8E8, #B8A0D4); }
+
+        .card-tag {
+            position: absolute;
+            top: 16px; left: 16px;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.82rem;
-            color: #888;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .article-tag {
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            background: linear-gradient(135deg, #FFE566, #FFB6C1);
-            color: white;
-            padding: 4px 14px;
-            border-radius: 20px;
-        }
-        .article-header h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.4rem, 3vw, 1.75rem);
+            background: rgba(255,255,255,0.95);
             color: #2D2D2D;
-            line-height: 1.35;
-            margin: 0;
-        }
-        .article-header h2 a {
-            color: inherit;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        .article-header h2 a:hover {
-            color: #D4848C;
+            padding: 5px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
         }
 
-        .article-body {
-            padding: 32px 40px 36px;
+        .card-body {
+            padding: 28px 28px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
-        .article-body p {
+        .card-date {
             font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            line-height: 1.8;
-            color: #4A4A4A;
-            margin-bottom: 18px;
+            font-size: 0.78rem;
+            color: #999;
+            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 6px;
         }
-        .article-body p:last-child {
-            margin-bottom: 0;
-        }
-        .article-body h3 {
+        .card-body h2 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: #2D2D2D;
-            margin: 28px 0 14px;
+            line-height: 1.4;
+            margin: 0 0 12px;
         }
-        .article-body h3:first-child {
-            margin-top: 0;
-        }
-        .article-body ul {
-            padding-left: 24px;
-            margin: 14px 0;
-        }
-        .article-body li {
+        .card-excerpt {
             font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            line-height: 1.75;
-            color: #4A4A4A;
-            margin-bottom: 8px;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            color: #666;
+            margin-bottom: 20px;
+            flex: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
-        .article-cta {
+        .read-more-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            margin-top: 20px;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            font-size: 0.95rem;
-            color: #D4848C;
+            font-size: 0.88rem;
+            color: white;
+            background: linear-gradient(135deg, #FFB6C1, #E8A0BF);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-decoration: none;
-            transition: gap 0.3s, color 0.3s;
+            align-self: flex-start;
         }
-        .article-cta:hover {
-            gap: 14px;
-            color: #C06070;
+        .read-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232,160,191,0.4);
+            gap: 12px;
         }
 
+        /* Full Article Overlay */
+        .article-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+            overflow-y: auto;
+            padding: 40px 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .article-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .article-full {
+            background: white;
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            overflow: hidden;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .article-full-header {
+            padding: 36px 40px 28px;
+            position: relative;
+        }
+        .article-full-header.bg-trends { background: linear-gradient(135deg, #FFF8E1, #FFF5E0); }
+        .article-full-header.bg-behind { background: linear-gradient(135deg, #FFF0F5, #FCE4EC); }
+        .article-full-header.bg-gift { background: linear-gradient(135deg, #E8F5E9, #DCEDC8); }
+        .article-full-header.bg-guide { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); }
+        .article-full-header.bg-tech { background: linear-gradient(135deg, #F3E5F5, #E1BEE7); }
+
+        .close-article {
+            position: absolute;
+            top: 16px; right: 20px;
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+            color: #555;
+            transition: all 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .close-article:hover { background: white; color: #2D2D2D; transform: scale(1.1); }
+
+        .article-full-header .article-meta {
+            display: flex; align-items: center; gap: 16px; margin-bottom: 14px; flex-wrap: wrap;
+        }
+        .article-full-header .article-tag {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #FFE566, #FFB6C1);
+            color: white; padding: 4px 14px; border-radius: 20px;
+        }
+        .article-full-header .article-date {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.82rem; color: #888;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .article-full-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.4rem, 3vw, 1.75rem);
+            color: #2D2D2D; line-height: 1.35; margin: 0;
+        }
+
+        .article-full-body {
+            padding: 32px 40px 40px;
+        }
+        .article-full-body p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem; line-height: 1.8; color: #4A4A4A; margin-bottom: 18px;
+        }
+        .article-full-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem; color: #2D2D2D; margin: 28px 0 14px;
+        }
+        .article-full-body h3:first-child { margin-top: 0; }
+        .article-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 20px;
+            font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.95rem;
+            color: #D4848C; text-decoration: none;
+            transition: gap 0.3s, color 0.3s;
+        }
+        .article-cta:hover { gap: 14px; color: #C06070; }
+
+        /* Newsletter */
         .blog-newsletter {
             background: linear-gradient(135deg, #FFE566, #FFB6C1);
             border-radius: 20px;
             padding: 50px 40px;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 48px;
         }
-        .blog-newsletter h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            color: white;
-            margin-bottom: 10px;
-        }
-        .blog-newsletter p {
-            font-family: 'Poppins', sans-serif;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 24px;
-            font-size: 1rem;
-        }
-        .blog-newsletter form {
-            display: flex;
-            max-width: 460px;
-            margin: 0 auto;
-            gap: 10px;
-        }
+        .blog-newsletter h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: white; margin-bottom: 10px; }
+        .blog-newsletter p { font-family: 'Poppins', sans-serif; color: rgba(255,255,255,0.9); margin-bottom: 24px; font-size: 1rem; }
+        .blog-newsletter form { display: flex; max-width: 460px; margin: 0 auto; gap: 10px; }
         .blog-newsletter input {
-            flex: 1;
-            padding: 14px 20px;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.95rem;
-            outline: none;
+            flex: 1; padding: 14px 20px; border: none; border-radius: 50px;
+            font-family: 'Poppins', sans-serif; font-size: 0.95rem; outline: none;
         }
         .blog-newsletter button {
-            background: white;
-            color: #D4848C;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
+            background: white; color: #D4848C; border: none;
+            padding: 14px 28px; border-radius: 50px;
+            font-family: 'Poppins', sans-serif; font-weight: 600; cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s;
         }
-        .blog-newsletter button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-        }
+        .blog-newsletter button:hover { transform: scale(1.05); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
 
+        @media (max-width: 900px) {
+            .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        }
         @media (max-width: 600px) {
-            .article-header {
-                padding: 28px 24px 22px;
-            }
-            .article-body {
-                padding: 24px 24px 28px;
-            }
-            .blog-newsletter {
-                padding: 36px 24px;
-            }
-            .blog-newsletter form {
-                flex-direction: column;
-            }
+            .blog-grid { grid-template-columns: 1fr; gap: 20px; }
+            .article-full-header { padding: 28px 24px 22px; }
+            .article-full-body { padding: 24px 24px 28px; }
+            .article-overlay { padding: 20px 12px; }
+            .blog-newsletter { padding: 36px 24px; }
+            .blog-newsletter form { flex-direction: column; }
         }
     </style>
 </head>
@@ -492,11 +547,50 @@
                     <span class="cart-count" id="cartCount">0</span>
                 </button>
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <span></span><span></span><span></span>
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <span class="logo-text">Touche Artistique Mariage</span>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="mobile-menu-links">
+            <a href="index.html" class="mobile-nav-link" data-fr="Accueil" data-en="Home">Home</a>
+            <a href="store.html" class="mobile-nav-link" data-fr="Figurines Standard" data-en="Standard Figurines">Standard Figurines</a>
+            <a href="custom.html" class="mobile-nav-link" data-fr="Sur Mesure" data-en="Custom">Custom</a>
+            <a href="blog.html" class="mobile-nav-link" data-fr="Blog" data-en="Blog">Blog</a>
+            <a href="contact.html" class="mobile-nav-link" data-fr="Contact" data-en="Contact">Contact</a>
+        </div>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3 data-fr="Votre Panier" data-en="Your Cart">Your Cart</h3>
+            <button class="cart-close" id="cartClose"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <div class="cart-empty" id="cartEmpty">
+                <i class="fas fa-shopping-bag"></i>
+                <p data-fr="Votre panier est vide" data-en="Your cart is empty">Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <span data-fr="Total" data-en="Total">Total</span>
+                <span class="total-price" id="totalPrice">0€</span>
+            </div>
+            <button class="checkout-btn" data-fr="Commander" data-en="Checkout">Checkout</button>
+        </div>
+    </div>
 
     <!-- Blog Hero -->
     <section class="blog-hero">
@@ -507,169 +601,228 @@
         <p data-en="Inspiration, tips, and stories from the world of custom 3D printed and hand painted wedding figurines." data-fr="Inspiration, conseils et histoires du monde des figurines de mariage personnalisées imprimées en 3D et peintes à la main.">Inspiration, tips, and stories from the world of custom 3D printed and hand painted wedding figurines.</p>
     </section>
 
-    <!-- Blog Articles -->
+    <!-- Blog Grid -->
     <main class="blog-content">
+        <div class="blog-grid">
 
-        <!-- ARTICLE 1 -->
-        <article class="blog-article" id="article-1">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="article-tag">Trends</span>
-                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+            <!-- Card 1 -->
+            <article class="blog-card" onclick="openArticle('article-1')">
+                <div class="card-visual">
+                    <div class="card-visual-bg bg-trends"><i class="fas fa-fire"></i></div>
+                    <span class="card-tag" data-en="Trends" data-fr="Tendances">Trends</span>
                 </div>
-                <h2><a href="#article-1">Why Custom 3D Printed Wedding Figurines Are the Must-Have Keepsake of 2026</a></h2>
-            </div>
-            <div class="article-body">
-                <p>Wedding trends come and go, but the desire to hold onto a meaningful memory from your big day never fades. In 2026, more couples than ever are turning to custom 3D printed wedding figurines as the keepsake that truly captures who they are. Unlike generic cake toppers that sit on a shelf collecting dust, a custom figurine is a miniature portrait of your love story — designed from your actual photos, printed in high-resolution resin, and finished entirely by hand.</p>
-
-                <h3>What Makes 3D Printed Figurines Different</h3>
-                <p>Traditional wedding cake toppers are mass-produced. They might vaguely resemble "a bride and groom," but they look nothing like you. Custom 3D printed figurines change the game by starting with a digital sculpt that mirrors your real faces, body proportions, hairstyles, and outfits. The result is a one-of-a-kind piece that guests will crowd around at the reception, trying to believe how lifelike the details are.</p>
-
-                <p>The technology behind it matters too. Modern resin 3D printers achieve layer resolutions as fine as 25 microns — thinner than a human hair. That means the lace pattern on a wedding dress, the texture of a bow tie, or even the couple's pet sitting at their feet can all be faithfully reproduced in miniature form.</p>
-
-                <h3>Why Couples Are Choosing Personalization</h3>
-                <p>Weddings in 2026 are deeply personal. Couples are writing their own vows, curating Spotify playlists instead of hiring DJs, and choosing venues that tell their story. A custom figurine fits seamlessly into this ethos. You choose the pose, the outfits, the expressions, and even small props that carry meaning — perhaps the book you were both reading when you met, or the dog who was there for the proposal.</p>
-
-                <p>Beyond the wedding day, these figurines become heirloom-quality keepsakes. Displayed on a mantel or bookshelf, they spark conversations for decades. Many couples tell us that their figurine is the single item from their wedding that they look at every day.</p>
-
-                <a href="custom.html" class="article-cta">Create your custom figurine <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-
-        <!-- ARTICLE 2 -->
-        <article class="blog-article" id="article-2">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="article-tag">Behind the Scenes</span>
-                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                <div class="card-body">
+                    <span class="card-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                    <h2 data-en="Why Custom 3D Printed Wedding Figurines Are the Must-Have Keepsake of 2026" data-fr="Pourquoi les figurines de mariage 3D sont le souvenir incontournable de 2026">Why Custom 3D Printed Wedding Figurines Are the Must-Have Keepsake of 2026</h2>
+                    <p class="card-excerpt" data-en="Wedding trends come and go, but the desire to hold onto a meaningful memory from your big day never fades. In 2026, more couples than ever are turning to custom 3D printed figurines..." data-fr="Les tendances de mariage vont et viennent, mais le d&eacute;sir de conserver un souvenir significatif ne s'estompe jamais...">Wedding trends come and go, but the desire to hold onto a meaningful memory from your big day never fades. In 2026, more couples than ever are turning to custom 3D printed figurines...</p>
+                    <button class="read-more-btn" data-en="Read More" data-fr="Lire la Suite">Read More <i class="fas fa-arrow-right"></i></button>
                 </div>
-                <h2><a href="#article-2">The Art of Hand Painting: How We Bring Your Wedding Figurine to Life</a></h2>
-            </div>
-            <div class="article-body">
-                <p>A 3D print fresh off the machine is impressive in shape but blank in personality. It is the hand painting stage that breathes life into every figurine, transforming a monochrome resin form into a vibrant, lifelike miniature of you and your partner. At Touche Artistique Mariage, this is where technology ends and true artistry begins.</p>
+            </article>
 
-                <h3>From Raw Print to Ready-to-Paint</h3>
-                <p>Once a figurine is printed, it goes through careful post-processing. Support structures are removed, surfaces are gently sanded to silk-smooth perfection, and the piece is primed with a neutral base coat. This primer is crucial — it gives the acrylic paints something to grip and ensures colours stay vivid for years without chipping or fading.</p>
-
-                <p>Our artisans then study the reference photos you provided. Skin tones, hair colour, eye colour, fabric patterns, even the shade of your bouquet — every detail is colour-matched before a single brushstroke lands. We mix custom shades rather than painting from a limited palette, because no two people share exactly the same complexion or hair tone.</p>
-
-                <h3>Layering for Lifelike Depth</h3>
-                <p>Professional miniature painting is not about slapping on a coat of colour. It is about building depth through thin, translucent layers. We apply a base tone first, then gradually add shadows and highlights to create the illusion of real volume under real light. A wedding dress, for example, will have cool blue-white shadows in the folds and warm ivory highlights along the edges — the same way fabric behaves in a photograph.</p>
-
-                <p>Eyes receive special attention. They are painted in multiple stages: the white, the iris with its subtle colour gradient, the pupil, a tiny dot of white for the light reflection, and finally a gloss coat to give them a realistic wet shine. It is a painstaking process, but the moment a figurine's eyes look like they could blink, you know the effort was worth it.</p>
-
-                <h3>Sealing and Protection</h3>
-                <p>Every finished figurine is sealed with a professional-grade matte or satin varnish that protects against UV light, dust, and humidity. This ensures your keepsake looks as fresh on your tenth anniversary as it did on your wedding day. We take pride in creating pieces that are built to last a lifetime — because that is exactly what your love story deserves.</p>
-
-                <a href="custom.html" class="article-cta">See our craftsmanship up close <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-
-        <!-- ARTICLE 3 -->
-        <article class="blog-article" id="article-3">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="article-tag">Gift Ideas</span>
-                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+            <!-- Card 2 -->
+            <article class="blog-card" onclick="openArticle('article-2')">
+                <div class="card-visual">
+                    <div class="card-visual-bg bg-behind"><i class="fas fa-paint-brush"></i></div>
+                    <span class="card-tag" data-en="Behind the Scenes" data-fr="En Coulisses">Behind the Scenes</span>
                 </div>
-                <h2><a href="#article-3">5 Creative Ways to Use Custom Figurines Beyond Your Wedding Day</a></h2>
-            </div>
-            <div class="article-body">
-                <p>Most people discover custom figurines when planning their wedding, but the magic of a personalised miniature extends far beyond the reception table. Here are five ways our customers have continued to enjoy — and gift — custom 3D printed figurines long after the last dance.</p>
-
-                <h3>1. Anniversary Milestones</h3>
-                <p>Paper for the first year, silver for the twenty-fifth — and a custom figurine for any year you want to make unforgettable. Several of our clients commission a new figurine for milestone anniversaries, capturing how they have grown and changed together. Imagine a shelf displaying figurines from your wedding day, your fifth anniversary with a toddler in tow, and your twenty-fifth with grey hair and wider smiles. It becomes a timeline of love in miniature.</p>
-
-                <h3>2. Retirement and Career Celebrations</h3>
-                <p>Custom figurines are not limited to romantic occasions. A colleague retiring after decades of service, a friend graduating from medical school, or a parent achieving a lifelong dream — these moments deserve more than a card. A figurine dressed in their professional attire, posed in a way that reflects their personality, is a gift that says, "We truly see you."</p>
-
-                <h3>3. Memorial and Tribute Pieces</h3>
-                <p>Some of our most meaningful commissions are memorial figurines. Families have asked us to recreate a grandparent based on vintage photographs, or to sculpt a couple together who could never sit for a portrait in person. These pieces carry enormous emotional weight, and we approach each one with the care and sensitivity it deserves.</p>
-
-                <h3>4. Holiday and Seasonal Displays</h3>
-                <p>A growing trend we love: couples ordering small seasonal versions of their figurine. Picture a miniature of yourselves dressed in matching ugly Christmas sweaters for the holiday mantel, or in Halloween costumes for the October display. It adds personality and humour to seasonal decorating in a way no store-bought ornament can match.</p>
-
-                <h3>5. Unique Home Decor</h3>
-                <p>Forget generic bookends and stock art. A custom figurine on your bookshelf, desk, or entryway console is a conversation piece that tells visitors exactly who lives here. Paired with a small acrylic case for dust protection, it becomes a permanent, gallery-quality addition to your home.</p>
-
-                <a href="store.html" class="article-cta">Explore our figurine collection <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-
-        <!-- ARTICLE 4 -->
-        <article class="blog-article" id="article-4">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="article-tag">Planning Guide</span>
-                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                <div class="card-body">
+                    <span class="card-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                    <h2 data-en="The Art of Hand Painting: How We Bring Your Wedding Figurine to Life" data-fr="L'Art de la Peinture : Comment Nous Donnons Vie &agrave; Votre Figurine">The Art of Hand Painting: How We Bring Your Wedding Figurine to Life</h2>
+                    <p class="card-excerpt" data-en="A 3D print fresh off the machine is impressive in shape but blank in personality. It is the hand painting stage that breathes life into every figurine..." data-fr="Une impression 3D fra&icirc;chement sortie de la machine est impressionnante mais vierge de personnalit&eacute;. C'est l'&eacute;tape de la peinture &agrave; la main...">A 3D print fresh off the machine is impressive in shape but blank in personality. It is the hand painting stage that breathes life into every figurine...</p>
+                    <button class="read-more-btn" data-en="Read More" data-fr="Lire la Suite">Read More <i class="fas fa-arrow-right"></i></button>
                 </div>
-                <h2><a href="#article-4">How to Choose the Perfect Custom Wedding Cake Topper: A Complete Guide</a></h2>
-            </div>
-            <div class="article-body">
-                <p>Your wedding cake is the centrepiece of the reception, and the topper is the centrepiece of the cake. Choosing the right custom figurine cake topper is one of those small decisions that makes a disproportionately large impact on your wedding aesthetic. Here is everything you need to know to get it right.</p>
+            </article>
 
-                <h3>Start with Your Wedding Theme</h3>
-                <p>A rustic barn wedding calls for a different figurine style than a black-tie ballroom affair. Think about the overall mood you are creating. If your wedding is romantic and whimsical, a figurine with soft pastel tones and a gentle pose — perhaps foreheads touching — will complement the atmosphere. For a modern, minimalist celebration, a clean, contemporary pose with bold colour contrast might be the better fit.</p>
-
-                <h3>Decide on Your Customization Level</h3>
-                <p>At Touche Artistique Mariage, we offer three tiers to suit every couple and budget. Standard figurines feature pre-designed poses with your choice of skin tone and basic colour customization — ideal if you want something beautiful without a lengthy design process. Semi-custom figurines let you modify poses, outfits, and add personal touches like specific hairstyles or accessories. Fully custom figurines are sculpted from scratch using your photos, giving you complete creative freedom over every detail.</p>
-
-                <h3>Provide Great Reference Photos</h3>
-                <p>The quality of your custom figurine depends heavily on the reference photos you provide. For the best results, send clear, well-lit photos from multiple angles — front, side, and three-quarter view. Include close-ups of your face, your outfit details (especially lace patterns, embroidery, or unique accessories), and any props you want included. The more visual information our artists have, the more accurate your figurine will be.</p>
-
-                <h3>Consider Scale and Proportion</h3>
-                <p>A figurine cake topper needs to look proportional on top of your cake. For a standard three-tier wedding cake, a figurine between 12 and 18 centimetres tall works beautifully. Too small and it gets lost; too large and it overwhelms the cake design. We always ask about your cake dimensions during the ordering process so we can recommend the ideal size.</p>
-
-                <h3>Order Early</h3>
-                <p>Custom work takes time to do well. We recommend placing your order at least six to eight weeks before your wedding date. This allows time for the digital sculpt, your approval, printing, hand painting, quality checks, and shipping. Rush orders are possible for an additional fee, but giving yourself breathing room ensures a stress-free experience.</p>
-
-                <a href="custom.html" class="article-cta">Start designing your cake topper <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
-
-        <!-- ARTICLE 5 -->
-        <article class="blog-article" id="article-5">
-            <div class="article-header">
-                <div class="article-meta">
-                    <span class="article-tag">Technology</span>
-                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+            <!-- Card 3 -->
+            <article class="blog-card" onclick="openArticle('article-3')">
+                <div class="card-visual">
+                    <div class="card-visual-bg bg-gift"><i class="fas fa-gift"></i></div>
+                    <span class="card-tag" data-en="Gift Ideas" data-fr="Id&eacute;es Cadeaux">Gift Ideas</span>
                 </div>
-                <h2><a href="#article-5">3D Printing Meets Tradition: The Technology Behind Personalized Wedding Figurines</a></h2>
-            </div>
-            <div class="article-body">
-                <p>There is something poetic about using cutting-edge technology to celebrate one of humanity's oldest traditions. At Touche Artistique Mariage, we sit at the intersection of digital innovation and handcrafted artistry. Here is a look at the technology that makes your custom wedding figurine possible — and why the human touch still matters most.</p>
+                <div class="card-body">
+                    <span class="card-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                    <h2 data-en="5 Creative Ways to Use Custom Figurines Beyond Your Wedding Day" data-fr="5 Fa&ccedil;ons Cr&eacute;atives d'Utiliser les Figurines au-del&agrave; du Mariage">5 Creative Ways to Use Custom Figurines Beyond Your Wedding Day</h2>
+                    <p class="card-excerpt" data-en="Most people discover custom figurines when planning their wedding, but the magic of a personalised miniature extends far beyond the reception table..." data-fr="La plupart des gens d&eacute;couvrent les figurines personnalis&eacute;es lors de la planification de leur mariage, mais la magie s'&eacute;tend bien au-del&agrave;...">Most people discover custom figurines when planning their wedding, but the magic of a personalised miniature extends far beyond the reception table...</p>
+                    <button class="read-more-btn" data-en="Read More" data-fr="Lire la Suite">Read More <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </article>
 
-                <h3>Digital Sculpting: Where It All Begins</h3>
-                <p>Every custom figurine starts as a digital 3D model. Using professional sculpting software, our designers build your figurine polygon by polygon, referencing the photos you provide to capture your likeness with precision. This stage is where creative decisions happen: the tilt of a head, the fall of a dress, the position of interlocked hands. It is digital clay in the hands of a trained artist, and the result is a model that can be rotated, refined, and approved on screen before anything is printed.</p>
+            <!-- Card 4 -->
+            <article class="blog-card" onclick="openArticle('article-4')">
+                <div class="card-visual">
+                    <div class="card-visual-bg bg-guide"><i class="fas fa-book-open"></i></div>
+                    <span class="card-tag" data-en="Planning Guide" data-fr="Guide">Planning Guide</span>
+                </div>
+                <div class="card-body">
+                    <span class="card-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                    <h2 data-en="How to Choose the Perfect Custom Wedding Cake Topper: A Complete Guide" data-fr="Comment Choisir le Parfait Topper de G&acirc;teau de Mariage : Guide Complet">How to Choose the Perfect Custom Wedding Cake Topper: A Complete Guide</h2>
+                    <p class="card-excerpt" data-en="Your wedding cake is the centrepiece of the reception, and the topper is the centrepiece of the cake. Here is everything you need to know to get it right." data-fr="Votre g&acirc;teau de mariage est la pi&egrave;ce ma&icirc;tresse de la r&eacute;ception. Voici tout ce que vous devez savoir.">Your wedding cake is the centrepiece of the reception, and the topper is the centrepiece of the cake. Here is everything you need to know to get it right.</p>
+                    <button class="read-more-btn" data-en="Read More" data-fr="Lire la Suite">Read More <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </article>
 
-                <h3>SLA and DLP Resin Printing</h3>
-                <p>We use SLA (stereolithography) and DLP (digital light processing) resin printers — the gold standard for detailed miniatures. Unlike FDM printers that build objects by extruding melted plastic, resin printers use UV light to cure liquid resin layer by layer, achieving incredibly fine surface detail. The result is a smooth, high-resolution print with crisp edges on everything from facial features to the folds of a wedding veil.</p>
+            <!-- Card 5 -->
+            <article class="blog-card" onclick="openArticle('article-5')">
+                <div class="card-visual">
+                    <div class="card-visual-bg bg-tech"><i class="fas fa-cogs"></i></div>
+                    <span class="card-tag" data-en="Technology" data-fr="Technologie">Technology</span>
+                </div>
+                <div class="card-body">
+                    <span class="card-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                    <h2 data-en="3D Printing Meets Tradition: The Technology Behind Personalized Wedding Figurines" data-fr="L'Impression 3D Rencontre la Tradition : La Technologie Derri&egrave;re les Figurines">3D Printing Meets Tradition: The Technology Behind Personalized Wedding Figurines</h2>
+                    <p class="card-excerpt" data-en="There is something poetic about using cutting-edge technology to celebrate one of humanity's oldest traditions. Here is a look at the technology behind your figurine." data-fr="Il y a quelque chose de po&eacute;tique &agrave; utiliser la technologie de pointe pour c&eacute;l&eacute;brer l'une des plus anciennes traditions de l'humanit&eacute;.">There is something poetic about using cutting-edge technology to celebrate one of humanity's oldest traditions. Here is a look at the technology behind your figurine.</p>
+                    <button class="read-more-btn" data-en="Read More" data-fr="Lire la Suite">Read More <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </article>
 
-                <p>Our printers operate at 25 to 50 micron layer heights, which means the staircase effect common in lower-resolution prints is virtually invisible. What comes off the build plate already looks remarkably like the final product — just without colour.</p>
-
-                <h3>Post-Processing: The Bridge Between Machine and Art</h3>
-                <p>After printing, each figurine is carefully washed in isopropyl alcohol to remove uncured resin, then UV-cured in a dedicated chamber to achieve full hardness and durability. Support structures are clipped away, and any minor surface imperfections are sanded smooth by hand. This manual post-processing step is essential — no machine can match the discerning eye and gentle touch of an experienced craftsperson checking for flaws at every angle.</p>
-
-                <h3>Why We Will Always Hand Paint</h3>
-                <p>Full-colour 3D printing exists. We have tested it. And we have chosen not to use it. The reason is simple: hand painting produces results that are warmer, more nuanced, and more emotionally resonant than any machine-applied colour. A skilled painter can blend skin tones, add blush to cheeks, create the illusion of metallic thread in an embroidered gown, and put life into a pair of tiny eyes in ways that automated processes simply cannot replicate.</p>
-
-                <p>Technology gives us precision and scalability. Tradition gives us soul. At Touche Artistique Mariage, we believe the best keepsakes are born where those two forces meet. Every figurine we produce is a collaboration between algorithm and artisan — and we would not have it any other way.</p>
-
-                <a href="index.html" class="article-cta">Discover our full process <i class="fas fa-arrow-right"></i></a>
-            </div>
-        </article>
+        </div>
 
         <!-- Newsletter CTA -->
         <div class="blog-newsletter">
-            <h3 data-en="Stay Inspired" data-fr="Restez inspiré">Stay Inspired</h3>
+            <h3 data-en="Stay Inspired" data-fr="Restez inspir&eacute;">Stay Inspired</h3>
             <p data-en="Subscribe for new articles, exclusive offers, and behind-the-scenes stories." data-fr="Abonnez-vous pour de nouveaux articles, des offres exclusives et des histoires en coulisses.">Subscribe for new articles, exclusive offers, and behind-the-scenes stories.</p>
             <form class="newsletter-form">
                 <input type="email" placeholder="Your email" data-en-placeholder="Your email" data-fr-placeholder="Votre email" required>
                 <button type="submit">Subscribe</button>
             </form>
         </div>
-
     </main>
+
+    <!-- Full Article Overlays -->
+
+    <!-- Article 1 Full -->
+    <div class="article-overlay" id="article-1" onclick="closeArticleOutside(event)">
+        <div class="article-full">
+            <div class="article-full-header bg-trends">
+                <button class="close-article" onclick="closeArticle('article-1')"><i class="fas fa-times"></i></button>
+                <div class="article-meta">
+                    <span class="article-tag">Trends</span>
+                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                </div>
+                <h2>Why Custom 3D Printed Wedding Figurines Are the Must-Have Keepsake of 2026</h2>
+            </div>
+            <div class="article-full-body">
+                <p>Wedding trends come and go, but the desire to hold onto a meaningful memory from your big day never fades. In 2026, more couples than ever are turning to custom 3D printed wedding figurines as the keepsake that truly captures who they are. Unlike generic cake toppers that sit on a shelf collecting dust, a custom figurine is a miniature portrait of your love story — designed from your actual photos, printed in high-quality PLA, and finished entirely by hand.</p>
+                <h3>What Makes 3D Printed Figurines Different</h3>
+                <p>Traditional wedding cake toppers are mass-produced. They might vaguely resemble "a bride and groom," but they look nothing like you. Custom 3D printed figurines change the game by starting with a digital sculpt that mirrors your real faces, body proportions, hairstyles, and outfits. The result is a one-of-a-kind piece that guests will crowd around at the reception, trying to believe how lifelike the details are.</p>
+                <p>The technology behind it matters too. Modern 3D printers achieve layer resolutions fine enough to capture incredible detail. That means the lace pattern on a wedding dress, the texture of a bow tie, or even the couple's pet sitting at their feet can all be faithfully reproduced in miniature form.</p>
+                <h3>Why Couples Are Choosing Personalization</h3>
+                <p>Weddings in 2026 are deeply personal. Couples are writing their own vows, curating Spotify playlists instead of hiring DJs, and choosing venues that tell their story. A custom figurine fits seamlessly into this ethos. You choose the pose, the outfits, the expressions, and even small props that carry meaning — perhaps the book you were both reading when you met, or the dog who was there for the proposal.</p>
+                <p>Beyond the wedding day, these figurines become heirloom-quality keepsakes. Displayed on a mantel or bookshelf, they spark conversations for decades. Many couples tell us that their figurine is the single item from their wedding that they look at every day.</p>
+                <a href="custom.html" class="article-cta">Create your custom figurine <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article 2 Full -->
+    <div class="article-overlay" id="article-2" onclick="closeArticleOutside(event)">
+        <div class="article-full">
+            <div class="article-full-header bg-behind">
+                <button class="close-article" onclick="closeArticle('article-2')"><i class="fas fa-times"></i></button>
+                <div class="article-meta">
+                    <span class="article-tag">Behind the Scenes</span>
+                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                </div>
+                <h2>The Art of Hand Painting: How We Bring Your Wedding Figurine to Life</h2>
+            </div>
+            <div class="article-full-body">
+                <p>A 3D print fresh off the machine is impressive in shape but blank in personality. It is the hand painting stage that breathes life into every figurine, transforming a monochrome PLA form into a vibrant, lifelike miniature of you and your partner. At Touche Artistique Mariage, this is where technology ends and true artistry begins.</p>
+                <h3>From Raw Print to Ready-to-Paint</h3>
+                <p>Once a figurine is printed, it goes through careful post-processing. Support structures are removed, surfaces are gently sanded to silk-smooth perfection, and the piece is primed with a neutral base coat. This primer is crucial — it gives the acrylic paints something to grip and ensures colours stay vivid for years without chipping or fading.</p>
+                <p>Irina then studies the reference photos you provided. Skin tones, hair colour, eye colour, fabric patterns, even the shade of your bouquet — every detail is colour-matched before a single brushstroke lands. She mixes custom shades rather than painting from a limited palette, because no two people share exactly the same complexion or hair tone.</p>
+                <h3>Layering for Lifelike Depth</h3>
+                <p>Professional miniature painting is not about slapping on a coat of colour. It is about building depth through thin, translucent layers. We apply a base tone first, then gradually add shadows and highlights to create the illusion of real volume under real light. A wedding dress, for example, will have cool blue-white shadows in the folds and warm ivory highlights along the edges — the same way fabric behaves in a photograph.</p>
+                <p>Eyes receive special attention. They are painted in multiple stages: the white, the iris with its subtle colour gradient, the pupil, a tiny dot of white for the light reflection, and finally a gloss coat to give them a realistic wet shine. It is a painstaking process, but the moment a figurine's eyes look like they could blink, you know the effort was worth it.</p>
+                <h3>Sealing and Protection</h3>
+                <p>Every finished figurine is sealed with a professional-grade matte or satin varnish that protects against UV light, dust, and humidity. This ensures your keepsake looks as fresh on your tenth anniversary as it did on your wedding day.</p>
+                <a href="custom.html" class="article-cta">See our craftsmanship up close <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article 3 Full -->
+    <div class="article-overlay" id="article-3" onclick="closeArticleOutside(event)">
+        <div class="article-full">
+            <div class="article-full-header bg-gift">
+                <button class="close-article" onclick="closeArticle('article-3')"><i class="fas fa-times"></i></button>
+                <div class="article-meta">
+                    <span class="article-tag">Gift Ideas</span>
+                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                </div>
+                <h2>5 Creative Ways to Use Custom Figurines Beyond Your Wedding Day</h2>
+            </div>
+            <div class="article-full-body">
+                <p>Most people discover custom figurines when planning their wedding, but the magic of a personalised miniature extends far beyond the reception table. Here are five ways our customers have continued to enjoy — and gift — custom 3D printed figurines long after the last dance.</p>
+                <h3>1. Anniversary Milestones</h3>
+                <p>Paper for the first year, silver for the twenty-fifth — and a custom figurine for any year you want to make unforgettable. Several of our clients commission a new figurine for milestone anniversaries, capturing how they have grown and changed together. Imagine a shelf displaying figurines from your wedding day, your fifth anniversary with a toddler in tow, and your twenty-fifth with grey hair and wider smiles. It becomes a timeline of love in miniature.</p>
+                <h3>2. Retirement and Career Celebrations</h3>
+                <p>Custom figurines are not limited to romantic occasions. A colleague retiring after decades of service, a friend graduating from medical school, or a parent achieving a lifelong dream — these moments deserve more than a card. A figurine dressed in their professional attire, posed in a way that reflects their personality, is a gift that says, "We truly see you."</p>
+                <h3>3. Memorial and Tribute Pieces</h3>
+                <p>Some of the most meaningful commissions are memorial figurines. Families have asked Irina to recreate a grandparent based on vintage photographs, or to sculpt a couple together who could never sit for a portrait in person. These pieces carry enormous emotional weight, and we approach each one with the care and sensitivity it deserves.</p>
+                <h3>4. Holiday and Seasonal Displays</h3>
+                <p>A growing trend we love: couples ordering small seasonal versions of their figurine. Picture a miniature of yourselves dressed in matching ugly Christmas sweaters for the holiday mantel, or in Halloween costumes for the October display. It adds personality and humour to seasonal decorating in a way no store-bought ornament can match.</p>
+                <h3>5. Unique Home Decor</h3>
+                <p>Forget generic bookends and stock art. A custom figurine on your bookshelf, desk, or entryway console is a conversation piece that tells visitors exactly who lives here. Paired with a small acrylic case for dust protection, it becomes a permanent, gallery-quality addition to your home.</p>
+                <a href="store.html" class="article-cta">Explore our figurine collection <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article 4 Full -->
+    <div class="article-overlay" id="article-4" onclick="closeArticleOutside(event)">
+        <div class="article-full">
+            <div class="article-full-header bg-guide">
+                <button class="close-article" onclick="closeArticle('article-4')"><i class="fas fa-times"></i></button>
+                <div class="article-meta">
+                    <span class="article-tag">Planning Guide</span>
+                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                </div>
+                <h2>How to Choose the Perfect Custom Wedding Cake Topper: A Complete Guide</h2>
+            </div>
+            <div class="article-full-body">
+                <p>Your wedding cake is the centrepiece of the reception, and the topper is the centrepiece of the cake. Choosing the right custom figurine cake topper is one of those small decisions that makes a disproportionately large impact on your wedding aesthetic. Here is everything you need to know to get it right.</p>
+                <h3>Start with Your Wedding Theme</h3>
+                <p>A rustic barn wedding calls for a different figurine style than a black-tie ballroom affair. Think about the overall mood you are creating. If your wedding is romantic and whimsical, a figurine with soft pastel tones and a gentle pose — perhaps foreheads touching — will complement the atmosphere. For a modern, minimalist celebration, a clean, contemporary pose with bold colour contrast might be the better fit.</p>
+                <h3>Decide on Your Customization Level</h3>
+                <p>At Touche Artistique Mariage, we offer three tiers to suit every couple and budget. Standard figurines feature pre-designed poses with your choice of skin tone and basic colour customization — ideal if you want something beautiful without a lengthy design process. Semi-custom figurines let you modify poses, outfits, and add personal touches like specific hairstyles or accessories. Fully custom figurines are sculpted from scratch using your photos, giving you complete creative freedom over every detail.</p>
+                <h3>Provide Great Reference Photos</h3>
+                <p>The quality of your custom figurine depends heavily on the reference photos you provide. For the best results, send clear, well-lit photos from multiple angles — front, side, and three-quarter view. Include close-ups of your face, your outfit details (especially lace patterns, embroidery, or unique accessories), and any props you want included.</p>
+                <h3>Consider Scale and Proportion</h3>
+                <p>A figurine cake topper needs to look proportional on top of your cake. For a standard three-tier wedding cake, a figurine between 12 and 18 centimetres tall works beautifully. Too small and it gets lost; too large and it overwhelms the cake design. We always ask about your cake dimensions during the ordering process so we can recommend the ideal size.</p>
+                <h3>Order Early</h3>
+                <p>Custom work takes time to do well. We recommend placing your order at least six to eight weeks before your wedding date. This allows time for the digital sculpt, your approval, printing, hand painting, quality checks, and shipping. Rush orders are possible for an additional fee, but giving yourself breathing room ensures a stress-free experience.</p>
+                <a href="custom.html" class="article-cta">Start designing your cake topper <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Article 5 Full -->
+    <div class="article-overlay" id="article-5" onclick="closeArticleOutside(event)">
+        <div class="article-full">
+            <div class="article-full-header bg-tech">
+                <button class="close-article" onclick="closeArticle('article-5')"><i class="fas fa-times"></i></button>
+                <div class="article-meta">
+                    <span class="article-tag">Technology</span>
+                    <span class="article-date"><i class="far fa-calendar-alt"></i> April 4, 2026</span>
+                </div>
+                <h2>3D Printing Meets Tradition: The Technology Behind Personalized Wedding Figurines</h2>
+            </div>
+            <div class="article-full-body">
+                <p>There is something poetic about using cutting-edge technology to celebrate one of humanity's oldest traditions. At Touche Artistique Mariage, we sit at the intersection of digital innovation and handcrafted artistry. Here is a look at the technology that makes your custom wedding figurine possible — and why the human touch still matters most.</p>
+                <h3>Digital Sculpting: Where It All Begins</h3>
+                <p>Every custom figurine starts as a digital 3D model. Using professional sculpting software, Irina builds your figurine polygon by polygon, referencing the photos you provide to capture your likeness with precision. This stage is where creative decisions happen: the tilt of a head, the fall of a dress, the position of interlocked hands. It is digital clay in the hands of a trained artist, and the result is a model that can be rotated, refined, and approved on screen before anything is printed.</p>
+                <h3>PLA-Based 3D Printing</h3>
+                <p>The figurines are printed using high-quality PLA (polylactic acid), a durable and eco-friendly material derived from renewable resources. PLA printing allows for fine detail and smooth surfaces, capturing everything from facial features to the folds of a wedding veil with impressive precision.</p>
+                <p>With carefully tuned print settings and fine layer heights, the staircase effect common in lower-resolution prints is virtually invisible. What comes off the build plate already looks remarkably like the final product — just without colour.</p>
+                <h3>Post-Processing: The Bridge Between Machine and Art</h3>
+                <p>After printing, each figurine goes through careful post-processing. Support structures are removed, and any minor surface imperfections are sanded smooth by hand. This manual step is essential — no machine can match the discerning eye and gentle touch needed to check for flaws at every angle.</p>
+                <h3>Why We Will Always Hand Paint</h3>
+                <p>Full-colour 3D printing exists. We have tested it. And we have chosen not to use it. The reason is simple: hand painting produces results that are warmer, more nuanced, and more emotionally resonant than any machine-applied colour. A skilled painter can blend skin tones, add blush to cheeks, create the illusion of metallic thread in an embroidered gown, and put life into a pair of tiny eyes in ways that automated processes simply cannot replicate.</p>
+                <p>Technology gives precision. Tradition gives soul. At Touche Artistique Mariage, Irina believes the best keepsakes are born where those two forces meet. Every figurine is a collaboration between algorithm and artist — and she would not have it any other way.</p>
+                <a href="index.html" class="article-cta">Discover our full process <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -683,9 +836,9 @@
                         Creator of unique memories since 2026
                     </p>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-pinterest"></i></a>
+                        <a href="https://www.instagram.com/tambyirina/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.pinterest.com/tambyirina/" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a>
+                        <a href="https://www.trustpilot.com/evaluate/toucheartmariage.com" target="_blank" rel="noopener noreferrer" class="social-link trustpilot-link" aria-label="Trustpilot"><i class="fas fa-star"></i></a>
                     </div>
                 </div>
 
@@ -699,10 +852,10 @@
 
                 <div class="footer-links">
                     <h4 data-en="Customer Service" data-fr="Service Client">Customer Service</h4>
-                    <a href="#" data-en="FAQ" data-fr="FAQ">FAQ</a>
-                    <a href="#" data-en="Shipping" data-fr="Livraison">Shipping</a>
-                    <a href="#" data-en="Returns" data-fr="Retours">Returns</a>
-                    <a href="#" data-en="Contact" data-fr="Contact">Contact</a>
+                    <a href="faq.html" data-en="FAQ" data-fr="FAQ">FAQ</a>
+                    <a href="shipping.html" data-en="Shipping" data-fr="Livraison">Shipping</a>
+                    <a href="returns.html" data-en="Returns" data-fr="Retours">Returns</a>
+                    <a href="contact.html" data-en="Contact" data-fr="Contact">Contact</a>
                 </div>
 
                 <div class="footer-newsletter">
@@ -724,6 +877,30 @@
     </footer>
 
     <script src="js/app.js"></script>
-<script src="js/cookie-consent.js"></script>
+    <script src="js/cookie-consent.js"></script>
+    <script>
+        function openArticle(id) {
+            document.getElementById(id).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeArticle(id) {
+            document.getElementById(id).classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        function closeArticleOutside(e) {
+            if (e.target === e.currentTarget) {
+                e.target.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.article-overlay.active').forEach(function(el) {
+                    el.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
 </body>
 </html>
