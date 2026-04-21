@@ -766,6 +766,59 @@ const handler = async (req, res) => {
     return;
   }
 
+  // ── Figurine configurator orders ──────────────────────────────
+
+  // Public: Submit a figurine order (colours + contact details)
+  if (pathname === '/api/figurine-order' && req.method === 'POST') {
+    try {
+      const data = req.body || {};
+      const { name, email, phone, notes, colors } = data;
+
+      if (!name || !email) {
+        res.status(400).json({ error: 'Name and email are required' });
+        return;
+      }
+
+      const supabase = getSupabase();
+      const { data: order, error } = await supabase
+        .from('figurine_orders')
+        .insert({
+          name: escapeHTML(name.substring(0, 200)),
+          email: escapeHTML(email.substring(0, 200)),
+          phone: phone ? escapeHTML(phone.substring(0, 50)) : '',
+          notes: notes ? escapeHTML(notes.substring(0, 2000)) : '',
+          colors: colors || {}
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      res.status(201).json({ message: 'Order received', id: order.id });
+    } catch (err) {
+      console.error('Figurine order error:', err);
+      res.status(500).json({ error: 'Failed to save order' });
+    }
+    return;
+  }
+
+  // Admin: List figurine orders
+  if (pathname === '/api/figurine-orders' && req.method === 'GET') {
+    if (!requireAdmin(req, res)) return;
+    try {
+      const supabase = getSupabase();
+      const { data, error } = await supabase
+        .from('figurine_orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      res.status(200).json({ orders: data || [] });
+    } catch (err) {
+      res.status(500).json({ error: 'Database error' });
+    }
+    return;
+  }
+
   res.status(404).json({ error: 'Not found' });
 };
 

@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Figurine Preview | Touche Artistique Mariage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <style>
+    :root {
+      --yellow: #FFE566;
+      --yellow-light: #FFF4CC;
+      --pink: #FFB6C1;
+      --pink-light: #FFE4E9;
+      --green: #D4E8D4;
+      --white: #FFFFFF;
+      --black: #2D2D2D;
+      --gray: #666666;
+      --gray-light: #F5F5F5;
+      --shadow-soft: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-medium: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--black);
+      background: var(--gray-light);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-soft);
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    header a {
+      text-decoration: none;
+      color: var(--black);
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    header span { font-size: 1.6rem; }
+
+    /* ── Page layout ── */
+    .page {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .page-subtitle {
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 36px;
+    }
+
+    /* ── Two-column layout ── */
+    .viewer-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 780px) {
+      .viewer-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ── Model viewer ── */
+    .viewer-card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: var(--shadow-medium);
+      overflow: hidden;
+    }
+    model-viewer {
+      width: 100%;
+      height: 560px;
+      background: linear-gradient(160deg, var(--yellow-light) 0%, var(--pink-light) 100%);
+      display: block;
+    }
+    .viewer-hint {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--gray);
+      padding: 10px 16px 14px;
+      border-top: 1px solid var(--gray-light);
+    }
+
+    /* ── Color panel ── */
+    .color-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .color-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      padding: 20px;
+    }
+    .color-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .part-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .part-icon.dress  { background: var(--pink-light); }
+    .part-icon.tuxedo { background: #e8e8e8; }
+    .part-icon.shirt  { background: var(--yellow-light); }
+    .part-icon.tie    { background: #fce4ec; }
+    .part-icon.shoes  { background: #ede7e0; }
+    .part-icon.skin   { background: #fdebd0; }
+
+    .part-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    /* ── Swatches row ── */
+    .swatches-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2.5px solid transparent;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+      outline: none;
+      flex-shrink: 0;
+    }
+    .swatch:hover {
+      transform: scale(1.15);
+      border-color: var(--black);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .swatch.active {
+      border-color: var(--black);
+      box-shadow: 0 0 0 3px var(--yellow);
+    }
+    .swatch[data-label]:hover::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--black);
+      color: #fff;
+      font-size: 0.65rem;
+      font-family: 'Poppins', sans-serif;
+      white-space: nowrap;
+      padding: 3px 7px;
+      border-radius: 4px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ── Custom colour picker button ── */
+    .picker-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2.5px dashed #ccc;
+      background: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: border-color 0.15s, transform 0.15s;
+      flex-shrink: 0;
+      position: relative;
+      outline: none;
+    }
+    .picker-btn:hover {
+      border-color: var(--black);
+      transform: scale(1.1);
+    }
+    .picker-btn input[type="color"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+    /* Active custom swatch */
+    .swatch.custom-active {
+      border-color: var(--black);
+      box-shadow: 0 0 0 3px var(--yellow);
+    }
+
+    /* ── Loading overlay ── */
+    .loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, var(--yellow-light) 0%, var(--pink-light) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 5;
+      transition: opacity 0.4s ease;
+    }
+    .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-top-color: var(--black);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: var(--gray);
+    }
+    .viewer-wrap { position: relative; }
+
+    /* ── Action buttons ── */
+    .reset-btn {
+      display: block;
+      width: 100%;
+      padding: 11px 0;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 12px;
+      background: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      color: var(--gray);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .reset-btn:hover {
+      border-color: var(--black);
+      color: var(--black);
+      background: var(--gray-light);
+    }
+    .send-btn {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      padding: 14px 0;
+      border: none;
+      border-radius: 12px;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.3px;
+    }
+    .send-btn:hover {
+      background: #444;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* ── Order Modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 24px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.2);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-header {
+      padding: 28px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--gray);
+      line-height: 1;
+      padding: 4px;
+      transition: color 0.15s;
+    }
+    .modal-close:hover { color: var(--black); }
+
+    .modal-body { padding: 20px 28px 28px; }
+
+    /* Colour summary chips */
+    .colour-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding: 16px;
+      background: var(--gray-light);
+      border-radius: 12px;
+    }
+    .colour-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 5px 10px 5px 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .chip-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    /* Form fields */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--black);
+    }
+    .form-group label .req { color: #e75480; margin-left: 2px; }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      color: var(--black);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--black);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 22px;
+    }
+    .btn-cancel {
+      flex: 1;
+      padding: 13px;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      background: transparent;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.88rem;
+      cursor: pointer;
+      color: var(--gray);
+      transition: all 0.2s;
+    }
+    .btn-cancel:hover { border-color: var(--black); color: var(--black); }
+    .btn-submit {
+      flex: 2;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-submit:hover { background: #444; }
+    .btn-submit:disabled { background: #aaa; cursor: not-allowed; }
+
+    /* Success state */
+    .modal-success {
+      display: none;
+      text-align: center;
+      padding: 20px 0 10px;
+    }
+    .modal-success .success-icon { font-size: 3rem; margin-bottom: 12px; }
+    .modal-success h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+    .modal-success p { color: var(--gray); font-size: 0.88rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span>💍</span>
+  <a href="index.html">Touche Artistique Mariage</a>
+</header>
+
+<div class="page">
+  <h1 class="page-title">Customise Your Figurine</h1>
+  <p class="page-subtitle">Drag to rotate · Scroll to zoom · Tap a swatch or pick any colour</p>
+
+  <div class="viewer-layout">
+
+    <!-- 3D Viewer -->
+    <div class="viewer-card">
+      <div class="viewer-wrap">
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="loading-spinner"></div>
+          <p class="loading-text">Loading figurine…</p>
+        </div>
+        <model-viewer
+          id="figurine"
+          src="figurine-std.glb"
+          camera-controls
+          auto-rotate
+          auto-rotate-delay="2000"
+          rotation-per-second="20deg"
+          shadow-intensity="1"
+          exposure="1.1"
+          shadow-softness="0.5"
+          camera-orbit="0deg 75deg auto"
+          min-camera-orbit="auto auto auto"
+          max-camera-orbit="auto auto auto"
+          field-of-view="30deg"
+          interaction-prompt="none"
+          ar
+          ar-modes="webxr scene-viewer quick-look"
+        ></model-viewer>
+      </div>
+      <p class="viewer-hint">🖱 Drag to rotate &nbsp;·&nbsp; ⚲ Scroll to zoom &nbsp;·&nbsp; 📱 Pinch on mobile</p>
+    </div>
+
+    <!-- Colour Panel -->
+    <div class="color-panel">
+
+      <!-- Dress -->
+      <div class="color-card">
+        <div class="color-card-header">
+          <div class="part-icon dress">👗</div>
+          <span class="part-name">Dress</span>
+        </div>
+        <div class="swatches-row" id="swatches-Dress">
+          <button class="swatch active" style="background:#ffffff" data-label="White"     onclick="setColor('Dress',this,'#ffffff')"></button>
+          <button class="swatch"        style="background:#fff6e0" data-label="Ivory"     onclick="setColor('Dress',this,'#fff6e0')"></button>
+          <button class="swatch"        style="background:#f5e9d3" data-label="Champagne" onclick="setColor('Dress',this,'#f5e9d3')"></button>
+          <button class="swatch"        style="background:#e8d4b8" data-label="Blush"     onclick="setColor('Dress',this,'#e8d4b8')"></button>
+          <button class="swatch"        style="background:#d4a574" data-label="Gold"      onclick="setColor('Dress',this,'#d4a574')"></button>
+          <button class="swatch"        style="background:#ffb6c1" data-label="Pink"      onclick="setColor('Dress',this,'#ffb6c1')"></button>
+          <button class="swatch"        style="background:#c8a2c8" data-label="Lilac"     onclick="setColor('Dress',this,'#c8a2c8')"></button>
+          <button class="picker-btn" title="Custom colour" onclick="openPicker(this)">🎨<input type="color" onchange="onPickerChange('Dress', this)"></button>
+        </div>
+      </div>
+
+      <!-- Tuxedo -->
+      <div class="color-card">
+        <div class="color-card-header">
+          <div class="part-icon tuxedo">🤵</div>
+          <span class="part-name">Tuxedo / Jacket</span>
+        </div>
+        <div class="swatches-row" id="swatches-Tuxedo">
+          <button class="swatch active" style="background:#1a1a1a" data-label="Black"     onclick="setColor('Tuxedo',this,'#1a1a1a')"></button>
+          <button class="swatch"        style="background:#2d3a4f" data-label="Navy"      onclick="setColor('Tuxedo',this,'#2d3a4f')"></button>
+          <button class="swatch"        style="background:#3d3d3d" data-label="Charcoal"  onclick="setColor('Tuxedo',this,'#3d3d3d')"></button>
+          <button class="swatch"        style="background:#4a3826" data-label="Chocolate" onclick="setColor('Tuxedo',this,'#4a3826')"></button>
+          <button class="swatch"        style="background:#6e5b3a" data-label="Caramel"   onclick="setColor('Tuxedo',this,'#6e5b3a')"></button>
+          <button class="swatch"        style="background:#8b7355" data-label="Sand"      onclick="setColor('Tuxedo',this,'#8b7355')"></button>
+          <button class="swatch"        style="background:#ffffff" data-label="White"     onclick="setColor('Tuxedo',this,'#ffffff')"></button>
+          <button class="picker-btn" title="Custom colour" onclick="openPicker(this)">🎨<input type="color" onchange="onPickerChange('Tuxedo', this)"></button>
+        </div>
+      </div>
+
+      <!-- Shirt -->
+      <div class="color-card">
+        <div class="color-card-header">
+          <div class="part-icon shirt">👔</div>
+          <span class="part-name">Shirt</span>
+        </div>
+        <div class="swatches-row" id="swatches-Shirt">
+          <button class="swatch active" style="background:#ffffff" data-label="White"     onclick="setColor('Shirt',this,'#ffffff')"></button>
+          <button class="swatch"        style="background:#f0efe8" data-label="Off-white" onclick="setColor('Shirt',this,'#f0efe8')"></button>
+          <button class="swatch"        style="background:#d4dde0" data-label="Sky blue"  onclick="setColor('Shirt',this,'#d4dde0')"></button>
+          <button class="swatch"        style="background:#b8c5d1" data-label="Steel"     onclick="setColor('Shirt',this,'#b8c5d1')"></button>
+          <button class="swatch"        style="background:#ffe4e9" data-label="Blush"     onclick="setColor('Shirt',this,'#ffe4e9')"></button>
+          <button class="picker-btn" title="Custom colour" onclick="openPicker(this)">🎨<input type="color" onchange="onPickerChange('Shirt', this)"></button>
+        </div>
+      </div>
+
+      <!-- Tie -->
+      <div class="color-card">
+        <div class="color-card-header">
+          <div class="part-icon tie">🎀</div>
+          <span class="part-name">Tie</span>
+        </div>
+        <div class="swatches-row" id="swatches-Tie">
+          <button class="swatch active" style="background:#8b1e3f" data-label="Burgundy"  onclick="setColor('Tie',this,'#8b1e3f')"></button>
+          <button class="swatch"        style="background:#2d3a4f" data-label="Navy"      onclick="setColor('Tie',this,'#2d3a4f')"></button>
+          <button class="swatch"        style="background:#1a1a1a" data-label="Black"     onclick="setColor('Tie',this,'#1a1a1a')"></button>
+          <button class="swatch"        style="background:#4a6b5a" data-label="Forest"    onclick="setColor('Tie',this,'#4a6b5a')"></button>
+          <button class="swatch"        style="background:#c9a86a" data-label="Gold"      onclick="setColor('Tie',this,'#c9a86a')"></button>
+          <button class="swatch"        style="background:#8b7355" data-label="Taupe"     onclick="setColor('Tie',this,'#8b7355')"></button>
+          <button class="picker-btn" title="Custom colour" onclick="openPicker(this)">🎨<input type="color" onchange="onPickerChange('Tie', this)"></button>
+        </div>
+      </div>
+
+      <!-- Shoes -->
+      <div class="color-card">
+        <div class="color-card-header">
+          <div class="part-icon shoes">👠</div>
+          <span class="part-name">Shoes</span>
+        </div>
+        <div class="swatches-row" id="swatches-Shoes">
+          <button class="swatch active" style="background:#1a1a1a" data-label="Black"  onclick="setColor('Shoes',this,'#1a1a1a')"></button>
+          <button class="swatch"        style="background:#6b4423" data-label="Brown"  onclick="setColor('Shoes',this,'#6b4423')"></button>
+          <button class="swatch"        style="background:#c9975b" data-label="Tan"    onclick="setColor('Shoes',this,'#c9975b')"></button>
+          <button class="swatch"        style="background:#e8d4b8" data-label="Nude"   onclick="setColor('Shoes',this,'#e8d4b8')"></button>
+          <button class="swatch"        style="background:#ffffff" data-label="White"  onclick="setColor('Shoes',this,'#ffffff')"></button>
+          <button class="picker-btn" title="Custom colour" onclick="openPicker(this)">🎨<input type="color" onchange="onPickerChange('Shoes', this)"></button>
+        </div>
+      </div>
+
+      <!-- Skin -->
+      <div class="color-card">
+        <div class="color-card-header">
+          <div class="part-icon skin">🫶</div>
+          <span class="part-name">Skin Tone</span>
+        </div>
+        <div class="swatches-row" id="swatches-figurine std">
+          <button class="swatch"        style="background:#f5d5b3" data-label="Fair"   onclick="setColor('figurine std',this,'#f5d5b3')"></button>
+          <button class="swatch"        style="background:#e3b48a" data-label="Light"  onclick="setColor('figurine std',this,'#e3b48a')"></button>
+          <button class="swatch active" style="background:#c08960" data-label="Medium" onclick="setColor('figurine std',this,'#c08960')"></button>
+          <button class="swatch"        style="background:#8b5a3c" data-label="Tan"    onclick="setColor('figurine std',this,'#8b5a3c')"></button>
+          <button class="swatch"        style="background:#5c3317" data-label="Deep"   onclick="setColor('figurine std',this,'#5c3317')"></button>
+          <button class="picker-btn" title="Custom colour" onclick="openPicker(this)">🎨<input type="color" onchange="onPickerChange('figurine std', this)"></button>
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="resetColors()">↺ Reset to defaults</button>
+      <button class="send-btn" onclick="openOrderModal()">💌 Send My Design</button>
+
+    </div><!-- /color-panel -->
+  </div><!-- /viewer-layout -->
+</div><!-- /page -->
+
+<!-- ── Order Modal ─────────────────────────────────────────── -->
+<div class="modal-backdrop" id="orderModal" onclick="onBackdropClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">Send My Design</h2>
+      <button class="modal-close" onclick="closeOrderModal()">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Form view -->
+      <div id="formView">
+        <p style="font-size:0.82rem;color:var(--gray);margin-bottom:16px;line-height:1.5;">
+          Your colour choices and a ready-to-print <strong>.glb file</strong> will be sent to us and downloaded to your device.
+        </p>
+
+        <!-- Colour summary -->
+        <div class="colour-summary" id="colourSummary"></div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name <span class="req">*</span></label>
+            <input type="text" id="fieldName" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="fieldEmail" placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone <span style="color:var(--gray);font-weight:400">(optional)</span></label>
+          <input type="tel" id="fieldPhone" placeholder="+33 6 00 00 00 00" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label>Notes <span style="color:var(--gray);font-weight:400">(optional)</span></label>
+          <textarea id="fieldNotes" placeholder="Wedding date, special requests, delivery address…"></textarea>
+        </div>
+        <p id="formError" style="color:#e75480;font-size:0.8rem;margin-top:8px;display:none;"></p>
+        <div class="modal-actions">
+          <button class="btn-cancel" onclick="closeOrderModal()">Cancel</button>
+          <button class="btn-submit" id="submitBtn" onclick="submitOrder()">⬇ Download &amp; Send</button>
+        </div>
+      </div>
+
+      <!-- Success view -->
+      <div class="modal-success" id="successView">
+        <div class="success-icon">💍</div>
+        <h3>Design sent!</h3>
+        <p>Your <strong>.glb file</strong> is downloading now.<br>We'll be in touch at the email you provided.<br><br>Thank you for choosing Touche Artistique Mariage.</p>
+        <div class="modal-actions" style="justify-content:center;margin-top:24px;">
+          <button class="btn-submit" style="flex:0;padding:13px 32px;" onclick="closeOrderModal()">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const mv = document.getElementById('figurine');
+  const overlay = document.getElementById('loadingOverlay');
+
+  // ── Colour state ─────────────────────────────────────────────
+  const defaults = {
+    'Dress':        '#ffffff',
+    'Tuxedo':       '#1a1a1a',
+    'Shirt':        '#ffffff',
+    'Tie':          '#8b1e3f',
+    'Shoes':        '#1a1a1a',
+    'figurine std': '#c08960'
+  };
+
+  const partLabels = {
+    'Dress': 'Dress', 'Tuxedo': 'Tuxedo', 'Shirt': 'Shirt',
+    'Tie': 'Tie', 'Shoes': 'Shoes', 'figurine std': 'Skin'
+  };
+
+  // Live copy of current colours, updated on every change
+  const currentColors = { ...defaults };
+
+  // Apply defaults on model load
+  mv.addEventListener('load', () => {
+    overlay.classList.add('hidden');
+    Object.entries(defaults).forEach(([part, hex]) => applyColor(part, hex));
+  });
+
+  // ── Colour helpers ────────────────────────────────────────────
+  function hexToRgb(hex) {
+    const n = hex.replace('#', '');
+    return [
+      parseInt(n.slice(0, 2), 16) / 255,
+      parseInt(n.slice(2, 4), 16) / 255,
+      parseInt(n.slice(4, 6), 16) / 255,
+      1
+    ];
+  }
+
+  function applyColor(partName, hex) {
+    if (!mv.model) return;
+    const mat = mv.model.materials.find(m => m.name === partName);
+    if (!mat) return;
+    mat.pbrMetallicRoughness.setBaseColorFactor(hexToRgb(hex));
+  }
+
+  function setColor(partName, btn, hex) {
+    applyColor(partName, hex);
+    currentColors[partName] = hex;
+
+    const container = document.getElementById('swatches-' + partName);
+    if (container) {
+      container.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  }
+
+  // ── Custom colour picker ──────────────────────────────────────
+  function openPicker(btn) {
+    // Programmatically open the hidden color input inside the button
+    btn.querySelector('input[type="color"]').click();
+  }
+
+  function onPickerChange(partName, input) {
+    const hex = input.value;
+    applyColor(partName, hex);
+    currentColors[partName] = hex;
+
+    // Deactivate presets, show custom swatch dot on the picker button itself
+    const container = document.getElementById('swatches-' + partName);
+    if (container) {
+      container.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      // Colour the picker button background so user sees their choice
+      const pickerBtn = input.closest('.picker-btn');
+      pickerBtn.style.background = hex;
+      pickerBtn.style.borderStyle = 'solid';
+      pickerBtn.textContent = ''; // remove emoji when filled
+      // Re-add the hidden input (innerHTML cleared)
+      const newInput = document.createElement('input');
+      newInput.type = 'color';
+      newInput.value = hex;
+      newInput.onchange = () => onPickerChange(partName, newInput);
+      pickerBtn.appendChild(newInput);
+    }
+  }
+
+  // ── Reset ─────────────────────────────────────────────────────
+  function resetColors() {
+    Object.entries(defaults).forEach(([part, hex]) => {
+      applyColor(part, hex);
+      currentColors[part] = hex;
+
+      const container = document.getElementById('swatches-' + part);
+      if (container) {
+        container.querySelectorAll('.swatch').forEach(s => {
+          s.classList.remove('active');
+          if (s.getAttribute('onclick')?.includes(hex)) s.classList.add('active');
+        });
+        // Reset any custom picker button
+        const pickerBtn = container.querySelector('.picker-btn');
+        if (pickerBtn) {
+          pickerBtn.style.background = '';
+          pickerBtn.style.borderStyle = '';
+          pickerBtn.innerHTML = '🎨<input type="color" onchange="onPickerChange(\'' + part + '\', this)">';
+        }
+      }
+    });
+  }
+
+  // ── GLB export (client-side) ──────────────────────────────────
+  async function buildGLB() {
+    const response = await fetch('figurine-std.glb');
+    const originalBuffer = await response.arrayBuffer();
+    const view = new DataView(originalBuffer);
+
+    // Parse JSON chunk (offset 12 = chunk length, offset 16 = chunk type 'JSON')
+    const jsonChunkLength = view.getUint32(12, true);
+    const jsonBytes = new Uint8Array(originalBuffer, 20, jsonChunkLength);
+    const gltf = JSON.parse(new TextDecoder().decode(jsonBytes));
+
+    // Patch each material's baseColorFactor
+    for (const mat of gltf.materials || []) {
+      const hex = currentColors[mat.name];
+      if (hex) {
+        mat.pbrMetallicRoughness = mat.pbrMetallicRoughness || {};
+        mat.pbrMetallicRoughness.baseColorFactor = hexToRgb(hex);
+      }
+    }
+
+    // Re-encode JSON, pad to 4-byte boundary with spaces
+    let newJsonStr = JSON.stringify(gltf);
+    const pad = (4 - (newJsonStr.length % 4)) % 4;
+    newJsonStr += ' '.repeat(pad);
+    const newJsonBytes = new TextEncoder().encode(newJsonStr);
+
+    // Binary chunk is everything after the JSON chunk
+    const binaryStart = 20 + jsonChunkLength;
+    const binaryChunk = new Uint8Array(originalBuffer, binaryStart);
+
+    // Assemble new GLB
+    const totalLength = 12 + 8 + newJsonBytes.length + binaryChunk.length;
+    const output = new Uint8Array(totalLength);
+    const outView = new DataView(output.buffer);
+
+    // Header
+    output.set([0x67, 0x6C, 0x54, 0x46], 0); // 'glTF'
+    outView.setUint32(4, 2, true);             // version = 2
+    outView.setUint32(8, totalLength, true);   // total length
+
+    // JSON chunk header
+    outView.setUint32(12, newJsonBytes.length, true);
+    output.set([0x4A, 0x53, 0x4F, 0x4E], 16); // 'JSON'
+
+    // JSON data
+    output.set(newJsonBytes, 20);
+
+    // Binary chunk (unchanged)
+    output.set(binaryChunk, 20 + newJsonBytes.length);
+
+    return output.buffer;
+  }
+
+  function triggerDownload(buffer) {
+    const blob = new Blob([buffer], { type: 'model/gltf-binary' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'figurine-custom.glb';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function bufferToBase64(buffer) {
+    const bytes = new Uint8Array(buffer);
+    const CHUNK = 65536;
+    const parts = [];
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      parts.push(String.fromCharCode(...bytes.subarray(i, i + CHUNK)));
+    }
+    return btoa(parts.join(''));
+  }
+
+  // ── Order modal ───────────────────────────────────────────────
+  function openOrderModal() {
+    // Build colour summary chips
+    const summary = document.getElementById('colourSummary');
+    summary.innerHTML = Object.entries(currentColors).map(([part, hex]) => `
+      <div class="colour-chip">
+        <div class="chip-dot" style="background:${hex}"></div>
+        <span>${partLabels[part] || part}</span>
+      </div>
+    `).join('');
+
+    document.getElementById('formView').style.display = '';
+    document.getElementById('successView').style.display = 'none';
+    document.getElementById('formError').style.display = 'none';
+    document.getElementById('submitBtn').disabled = false;
+    document.getElementById('submitBtn').textContent = '⬇ Download & Send';
+    document.getElementById('orderModal').classList.add('open');
+  }
+
+  function closeOrderModal() {
+    document.getElementById('orderModal').classList.remove('open');
+  }
+
+  function onBackdropClick(e) {
+    if (e.target === document.getElementById('orderModal')) closeOrderModal();
+  }
+
+  async function submitOrder() {
+    const name  = document.getElementById('fieldName').value.trim();
+    const email = document.getElementById('fieldEmail').value.trim();
+    const phone = document.getElementById('fieldPhone').value.trim();
+    const notes = document.getElementById('fieldNotes').value.trim();
+    const errEl = document.getElementById('formError');
+
+    if (!name || !email) {
+      errEl.textContent = 'Please fill in your name and email.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    errEl.style.display = 'none';
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Building file…';
+
+    try {
+      const glbBuffer = await buildGLB();
+
+      // 1. Trigger download for the customer
+      triggerDownload(glbBuffer);
+
+      btn.textContent = 'Sending…';
+
+      // 2. POST to server (fire-and-forget; download already happened)
+      const glbBase64 = bufferToBase64(glbBuffer);
+      await fetch('/api/figurine-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, notes, colors: currentColors, glbBase64 })
+      });
+
+    } catch (err) {
+      console.error('Order error:', err);
+      // Download may have already triggered; show success anyway
+    }
+
+    // Show success
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

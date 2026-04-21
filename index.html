@@ -250,6 +250,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
     <style>
         .form-modal {
             display: none;
@@ -773,6 +774,10 @@
         </div>
     </section>
 
+    <!-- POWR Banner Slider -->
+    <div class="powr-banner-slider" id="fdf747a2_1776338609"></div>
+    <script src="https://www.powr.io/powr.js?platform=wordpress"></script>
+
     <!-- Standard Figurines Section -->
     <section class="section standard-section" id="standard">
         <div class="container">
@@ -835,181 +840,490 @@
         </div>
     </section>
 
-    <!-- Build Your Own Section -->
+    <!-- Customise Your Figurine — 3D Viewer Section -->
     <section class="section build-section" id="build">
         <div class="container">
             <div class="section-header">
                 <span class="section-tag" data-en="Semi-Custom" data-fr="Semi-Personnalisé">Semi-Custom</span>
-                <h2 class="section-title" data-en="Build Your Figurine" data-fr="Créez Votre Figurine">Build Your Figurine</h2>
-                <p class="section-description" data-en="Start with a base that looks like you, then adjust the details — hair, outfit, and more — to create your perfect mini me." data-fr="Commencez avec une base qui vous ressemble, puis ajustez les détails — cheveux, tenue, et plus — pour créer votre parfait mini vous.">
-                    Start with a base that looks like you, then adjust the details — hair, outfit, and more — to create your perfect mini me.
+                <h2 class="section-title" data-en="Customise Your Figurine" data-fr="Personnalisez Votre Figurine">Customise Your Figurine</h2>
+                <p class="section-description" data-en="Spin the 3D model, pick colours for every part, then send us your design — we'll prepare a print-ready file." data-fr="Faites pivoter le modèle 3D, choisissez les couleurs de chaque partie, puis envoyez-nous votre design.">
+                    Spin the 3D model, pick colours for every part, then send us your design — we'll prepare a print-ready file.
                 </p>
             </div>
 
-            <div style="background: white; border-radius: 24px; padding: 40px; box-shadow: var(--shadow-soft);">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
-                    <!-- Preview Area -->
-                    <div style="text-align: center;">
-                        <div id="figurinePreview" style="background: linear-gradient(135deg, #FFF4CC, #FFE4E9); border-radius: 20px; padding: 40px; min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                            <img src="images/standard-figurine.jpeg" id="previewImage" alt="Semi-Custom Figurine Preview - Your Custom Wedding Couple" loading="lazy" style="width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 4px solid white; box-shadow: 0 8px 30px rgba(0,0,0,0.15);">
-                            <div id="previewName" style="margin-top: 20px; font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 600;">Classic Couple</div>
-                            <div id="previewPrice" style="font-size: 1.5rem; font-weight: 700; color: #FF9EB5; margin-top: 10px;">29€</div>
+            <!-- ── 3D viewer layout ── -->
+            <div class="fv-layout">
+
+                <!-- Left: 3D Model -->
+                <div class="fv-viewer-card">
+                    <div class="fv-viewer-wrap">
+                        <div class="fv-loading-overlay" id="fvLoadingOverlay">
+                            <div class="fv-spinner"></div>
+                            <p class="fv-loading-text">Loading figurine…</p>
                         </div>
-                        <div id="customizationSummary" style="margin-top: 20px; font-size: 0.9rem; color: #666;">
-                            <span id="hairSummary">Short Hair</span> • <span id="outfitSummary">Classic Dress</span> • <span id="skinSummary">Light Skin</span>
+                        <model-viewer
+                            id="fvModel"
+                            src="figurine-std.glb"
+                            camera-controls
+                            auto-rotate
+                            auto-rotate-delay="2000"
+                            rotation-per-second="20deg"
+                            shadow-intensity="1"
+                            exposure="1.1"
+                            shadow-softness="0.5"
+                            camera-orbit="0deg 75deg auto"
+                            field-of-view="30deg"
+                            interaction-prompt="none"
+                            ar
+                            ar-modes="webxr scene-viewer quick-look"
+                        ></model-viewer>
+                    </div>
+                    <p class="fv-hint">🖱 Drag to rotate &nbsp;·&nbsp; ⚲ Scroll to zoom &nbsp;·&nbsp; 📱 Pinch on mobile</p>
+                </div>
+
+                <!-- Right: Colour Panel -->
+                <div class="fv-panel">
+
+                    <!-- Dress -->
+                    <div class="fv-card">
+                        <div class="fv-card-hd"><div class="fv-icon fv-dress">👗</div><span class="fv-part">Dress</span></div>
+                        <div class="fv-swatches" id="fv-swatches-Dress">
+                            <button class="fv-swatch fv-active" style="background:#ffffff" data-label="White"     onclick="fvSet('Dress',this,'#ffffff')"></button>
+                            <button class="fv-swatch" style="background:#fff6e0" data-label="Ivory"               onclick="fvSet('Dress',this,'#fff6e0')"></button>
+                            <button class="fv-swatch" style="background:#f5e9d3" data-label="Champagne"           onclick="fvSet('Dress',this,'#f5e9d3')"></button>
+                            <button class="fv-swatch" style="background:#e8d4b8" data-label="Blush"               onclick="fvSet('Dress',this,'#e8d4b8')"></button>
+                            <button class="fv-swatch" style="background:#d4a574" data-label="Gold"                onclick="fvSet('Dress',this,'#d4a574')"></button>
+                            <button class="fv-swatch" style="background:#ffb6c1" data-label="Pink"                onclick="fvSet('Dress',this,'#ffb6c1')"></button>
+                            <button class="fv-swatch" style="background:#c8a2c8" data-label="Lilac"               onclick="fvSet('Dress',this,'#c8a2c8')"></button>
+                            <button class="fv-picker-btn" title="Custom colour" onclick="fvOpenPicker(this)">🎨<input type="color" onchange="fvPickerChange('Dress',this)"></button>
                         </div>
                     </div>
 
-                    <!-- Configurator Options -->
-                    <div>
-                        <!-- Step 1: Base Style -->
-                        <div style="margin-bottom: 30px;">
-                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">1</span>
-                                <span data-en="Choose Your Base Style" data-fr="Choisissez Votre Style de Base">Choose Your Base Style</span>
-                            </h4>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                                <label class="config-option selected" data-value="classic" onclick="selectBase('classic', this)">
-                                    <img src="images/standard-figurine.jpeg" alt="Classic" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
-                                    <span>Classic</span>
-                                </label>
-                                <label class="config-option" data-value="romantic" onclick="selectBase('romantic', this)">
-                                    <img src="images/standard-figurine1.jpeg" alt="Romantic" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
-                                    <span>Romantic</span>
-                                </label>
-                                <label class="config-option" data-value="elegant" onclick="selectBase('elegant', this)">
-                                    <img src="images/standard-figurine4.jpeg" alt="Elegant" loading="lazy" style="width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;">
-                                    <span>Elegant</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Step 2: Hair Style -->
-                        <div style="margin-bottom: 30px;">
-                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">2</span>
-                                <span data-en="Hair Style" data-fr="Style de Cheveux">Hair Style</span>
-                            </h4>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                <button class="hair-btn selected" data-value="short" onclick="selectHair('short', this)">Short</button>
-                                <button class="hair-btn" data-value="long" onclick="selectHair('long', this)">Long</button>
-                                <button class="hair-btn" data-value="curly" onclick="selectHair('curly', this)">Curly</button>
-                                <button class="hair-btn" data-value="bun" onclick="selectHair('bun', this)">Updo/Bun</button>
-                            </div>
-                            <h5 style="margin: 15px 0 10px; font-size: 0.9rem;" data-en="Hair Color" data-fr="Couleur des Cheveux">Hair Color</h5>
-                            <div class="color-swatches">
-                                <span class="color-swatch selected" style="background: #2C1810;" title="Dark Brown" onclick="selectHairColor('dark-brown', this); updateHairOverlay()"></span>
-                                <span class="color-swatch" style="background: #8B4513;" title="Auburn" onclick="selectHairColor('auburn', this); updateHairOverlay()"></span>
-                                <span class="color-swatch" style="background: #DAA520;" title="Blonde" onclick="selectHairColor('blonde', this); updateHairOverlay()"></span>
-                                <span class="color-swatch" style="background: #1a1a1a;" title="Black" onclick="selectHairColor('black', this); updateHairOverlay()"></span>
-                                <span class="color-swatch" style="background: #C9A9A6;" title="Light/Red" onclick="selectHairColor('light-red', this); updateHairOverlay()"></span>
-                            </div>
-                        </div>
-
-                        <!-- Step 3: Outfit -->
-                        <div style="margin-bottom: 30px;">
-                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">3</span>
-                                <span data-en="Outfit Style" data-fr="Style de Tenue">Outfit Style</span>
-                            </h4>
-                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                                <button class="outfit-btn selected" data-value="classic" onclick="selectOutfit('classic', this)">Classic Dress</button>
-                                <button class="outfit-btn" data-value="mermaid" onclick="selectOutfit('mermaid', this)">Mermaid</button>
-                                <button class="outfit-btn" data-value="ballgown" onclick="selectOutfit('ballgown', this)">Ball Gown</button>
-                                <button class="outfit-btn" data-value="suit" onclick="selectOutfit('suit', this)">Suit</button>
-                            </div>
-                        </div>
-
-                        <!-- Step 4: Skin Tone -->
-                        <div style="margin-bottom: 30px;">
-                            <h4 style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                                <span style="width: 30px; height: 30px; background: #FFE566; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">4</span>
-                                <span data-en="Skin Tone" data-fr="Teint">Skin Tone</span>
-                            </h4>
-                            <div class="color-swatches">
-                                <span class="color-swatch selected" style="background: #FFDBAC;" title="Light" onclick="selectSkinTone('light', this); updateSkinOverlay()"></span>
-                                <span class="color-swatch" style="background: #F1C27D;" title="Light Medium" onclick="selectSkinTone('light-medium', this); updateSkinOverlay()"></span>
-                                <span class="color-swatch" style="background: #E0AC69;" title="Medium" onclick="selectSkinTone('medium', this); updateSkinOverlay()"></span>
-                                <span class="color-swatch" style="background: #C68642;" title="Medium Dark" onclick="selectSkinTone('medium-dark', this); updateSkinOverlay()"></span>
-                                <span class="color-swatch" style="background: #8D5524;" title="Dark" onclick="selectSkinTone('dark', this); updateSkinOverlay()"></span>
-                                <span class="color-swatch" style="background: #5C3317;" title="Deep Dark" onclick="selectSkinTone('deep-dark', this); updateSkinOverlay()"></span>
-                            </div>
-                        </div>
-
-                        <!-- Names -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
-                            <div>
-                                <label style="font-size: 0.9rem; color: #666; margin-bottom: 5px; display: block;" data-en="Groom's Name (optional)" data-fr="Nom du Marié (optionnel)">Groom's Name (optional)</label>
-                                <input type="text" id="semiGroomName" class="form-input" placeholder="Jean" style="padding: 10px 12px;">
-                            </div>
-                            <div>
-                                <label style="font-size: 0.9rem; color: #666; margin-bottom: 5px; display: block;" data-en="Bride's Name (optional)" data-fr="Nom de la Mariée (optionnel)">Bride's Name (optional)</label>
-                                <input type="text" id="semiBrideName" class="form-input" placeholder="Marie" style="padding: 10px 12px;">
-                            </div>
-                        </div>
-
-                        <!-- Total & Add to Cart -->
-                        <div style="background: linear-gradient(135deg, #FFF4CC, #FFE4E9); border-radius: 16px; padding: 25px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                                <span style="font-size: 1.2rem; font-weight: 600;" data-en="Total Price" data-fr="Prix Total">Total Price</span>
-                                <span id="semiTotalPrice" style="font-size: 2rem; font-weight: 700; color: #FF9EB5;">29€</span>
-                            </div>
-                            <button onclick="addSemiCustomToCart()" class="btn btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem; background: linear-gradient(135deg, #FFE566, #FFB6C1); border: none; border-radius: 12px; font-weight: 600; color: white; cursor: pointer;">
-                                <i class="fas fa-shopping-cart"></i> <span data-en="Add to Cart" data-fr="Ajouter au Panier">Add to Cart</span>
-                            </button>
+                    <!-- Tuxedo -->
+                    <div class="fv-card">
+                        <div class="fv-card-hd"><div class="fv-icon fv-tuxedo">🤵</div><span class="fv-part">Tuxedo / Jacket</span></div>
+                        <div class="fv-swatches" id="fv-swatches-Tuxedo">
+                            <button class="fv-swatch fv-active" style="background:#1a1a1a" data-label="Black"     onclick="fvSet('Tuxedo',this,'#1a1a1a')"></button>
+                            <button class="fv-swatch" style="background:#2d3a4f" data-label="Navy"                onclick="fvSet('Tuxedo',this,'#2d3a4f')"></button>
+                            <button class="fv-swatch" style="background:#3d3d3d" data-label="Charcoal"            onclick="fvSet('Tuxedo',this,'#3d3d3d')"></button>
+                            <button class="fv-swatch" style="background:#4a3826" data-label="Chocolate"           onclick="fvSet('Tuxedo',this,'#4a3826')"></button>
+                            <button class="fv-swatch" style="background:#6e5b3a" data-label="Caramel"             onclick="fvSet('Tuxedo',this,'#6e5b3a')"></button>
+                            <button class="fv-swatch" style="background:#8b7355" data-label="Sand"                onclick="fvSet('Tuxedo',this,'#8b7355')"></button>
+                            <button class="fv-swatch" style="background:#ffffff" data-label="White"               onclick="fvSet('Tuxedo',this,'#ffffff')"></button>
+                            <button class="fv-picker-btn" title="Custom colour" onclick="fvOpenPicker(this)">🎨<input type="color" onchange="fvPickerChange('Tuxedo',this)"></button>
                         </div>
                     </div>
+
+                    <!-- Shirt -->
+                    <div class="fv-card">
+                        <div class="fv-card-hd"><div class="fv-icon fv-shirt">👔</div><span class="fv-part">Shirt</span></div>
+                        <div class="fv-swatches" id="fv-swatches-Shirt">
+                            <button class="fv-swatch fv-active" style="background:#ffffff" data-label="White"     onclick="fvSet('Shirt',this,'#ffffff')"></button>
+                            <button class="fv-swatch" style="background:#f0efe8" data-label="Off-white"           onclick="fvSet('Shirt',this,'#f0efe8')"></button>
+                            <button class="fv-swatch" style="background:#d4dde0" data-label="Sky blue"            onclick="fvSet('Shirt',this,'#d4dde0')"></button>
+                            <button class="fv-swatch" style="background:#b8c5d1" data-label="Steel"               onclick="fvSet('Shirt',this,'#b8c5d1')"></button>
+                            <button class="fv-swatch" style="background:#ffe4e9" data-label="Blush"               onclick="fvSet('Shirt',this,'#ffe4e9')"></button>
+                            <button class="fv-picker-btn" title="Custom colour" onclick="fvOpenPicker(this)">🎨<input type="color" onchange="fvPickerChange('Shirt',this)"></button>
+                        </div>
+                    </div>
+
+                    <!-- Tie -->
+                    <div class="fv-card">
+                        <div class="fv-card-hd"><div class="fv-icon fv-tie">🎀</div><span class="fv-part">Tie</span></div>
+                        <div class="fv-swatches" id="fv-swatches-Tie">
+                            <button class="fv-swatch fv-active" style="background:#8b1e3f" data-label="Burgundy"  onclick="fvSet('Tie',this,'#8b1e3f')"></button>
+                            <button class="fv-swatch" style="background:#2d3a4f" data-label="Navy"                onclick="fvSet('Tie',this,'#2d3a4f')"></button>
+                            <button class="fv-swatch" style="background:#1a1a1a" data-label="Black"               onclick="fvSet('Tie',this,'#1a1a1a')"></button>
+                            <button class="fv-swatch" style="background:#4a6b5a" data-label="Forest"              onclick="fvSet('Tie',this,'#4a6b5a')"></button>
+                            <button class="fv-swatch" style="background:#c9a86a" data-label="Gold"                onclick="fvSet('Tie',this,'#c9a86a')"></button>
+                            <button class="fv-swatch" style="background:#8b7355" data-label="Taupe"               onclick="fvSet('Tie',this,'#8b7355')"></button>
+                            <button class="fv-picker-btn" title="Custom colour" onclick="fvOpenPicker(this)">🎨<input type="color" onchange="fvPickerChange('Tie',this)"></button>
+                        </div>
+                    </div>
+
+                    <!-- Shoes -->
+                    <div class="fv-card">
+                        <div class="fv-card-hd"><div class="fv-icon fv-shoes">👠</div><span class="fv-part">Shoes</span></div>
+                        <div class="fv-swatches" id="fv-swatches-Shoes">
+                            <button class="fv-swatch fv-active" style="background:#1a1a1a" data-label="Black"     onclick="fvSet('Shoes',this,'#1a1a1a')"></button>
+                            <button class="fv-swatch" style="background:#6b4423" data-label="Brown"               onclick="fvSet('Shoes',this,'#6b4423')"></button>
+                            <button class="fv-swatch" style="background:#c9975b" data-label="Tan"                 onclick="fvSet('Shoes',this,'#c9975b')"></button>
+                            <button class="fv-swatch" style="background:#e8d4b8" data-label="Nude"                onclick="fvSet('Shoes',this,'#e8d4b8')"></button>
+                            <button class="fv-swatch" style="background:#ffffff" data-label="White"               onclick="fvSet('Shoes',this,'#ffffff')"></button>
+                            <button class="fv-picker-btn" title="Custom colour" onclick="fvOpenPicker(this)">🎨<input type="color" onchange="fvPickerChange('Shoes',this)"></button>
+                        </div>
+                    </div>
+
+                    <!-- Skin Tone -->
+                    <div class="fv-card">
+                        <div class="fv-card-hd"><div class="fv-icon fv-skin">🫶</div><span class="fv-part">Skin Tone</span></div>
+                        <div class="fv-swatches" id="fv-swatches-figurine std">
+                            <button class="fv-swatch" style="background:#f5d5b3" data-label="Fair"                onclick="fvSet('figurine std',this,'#f5d5b3')"></button>
+                            <button class="fv-swatch" style="background:#e3b48a" data-label="Light"               onclick="fvSet('figurine std',this,'#e3b48a')"></button>
+                            <button class="fv-swatch fv-active" style="background:#c08960" data-label="Medium"    onclick="fvSet('figurine std',this,'#c08960')"></button>
+                            <button class="fv-swatch" style="background:#8b5a3c" data-label="Tan"                 onclick="fvSet('figurine std',this,'#8b5a3c')"></button>
+                            <button class="fv-swatch" style="background:#5c3317" data-label="Deep"                onclick="fvSet('figurine std',this,'#5c3317')"></button>
+                            <button class="fv-picker-btn" title="Custom colour" onclick="fvOpenPicker(this)">🎨<input type="color" onchange="fvPickerChange('figurine std',this)"></button>
+                        </div>
+                    </div>
+
+                    <button class="fv-reset-btn" onclick="fvReset()">↺ Reset to defaults</button>
+                    <button class="fv-send-btn" onclick="fvOpenModal()">💌 Send My Design</button>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ── Order Modal ── -->
+    <div class="fv-modal-backdrop" id="fvModal" onclick="fvBackdropClick(event)">
+        <div class="fv-modal">
+            <div class="fv-modal-hd">
+                <h2 class="fv-modal-title">Send My Design</h2>
+                <button class="fv-modal-close" onclick="fvCloseModal()">✕</button>
+            </div>
+            <div class="fv-modal-body">
+                <div id="fvFormView">
+                    <p style="font-size:.82rem;color:#666;margin-bottom:16px;line-height:1.5;">
+                        Your colour choices and a ready-to-print <strong>.glb file</strong> will be sent to us and downloaded to your device.
+                    </p>
+                    <div class="fv-summary" id="fvSummary"></div>
+                    <div class="fv-form-row">
+                        <div class="fv-fg"><label>Name <span style="color:#e75480">*</span></label><input type="text" id="fvName" placeholder="Your name" autocomplete="name"></div>
+                        <div class="fv-fg"><label>Email <span style="color:#e75480">*</span></label><input type="email" id="fvEmail" placeholder="you@example.com" autocomplete="email"></div>
+                    </div>
+                    <div class="fv-fg"><label>Phone <span style="color:#999;font-weight:400">(optional)</span></label><input type="tel" id="fvPhone" placeholder="+33 6 00 00 00 00"></div>
+                    <div class="fv-fg" style="margin-top:12px"><label>Notes <span style="color:#999;font-weight:400">(optional)</span></label><textarea id="fvNotes" placeholder="Wedding date, special requests…"></textarea></div>
+                    <p id="fvError" style="color:#e75480;font-size:.8rem;margin-top:8px;display:none;"></p>
+                    <div class="fv-modal-actions">
+                        <button class="fv-btn-cancel" onclick="fvCloseModal()">Cancel</button>
+                        <button class="fv-btn-submit" id="fvSubmitBtn" onclick="fvSubmit()">⬇ Download &amp; Send</button>
+                    </div>
+                </div>
+                <div class="fv-success" id="fvSuccess">
+                    <div style="font-size:3rem;margin-bottom:12px;">💍</div>
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:8px;">Design sent!</h3>
+                    <p style="color:#666;font-size:.88rem;line-height:1.6;">Your <strong>.glb file</strong> is downloading now.<br>We'll be in touch at the email you provided.<br><br>Thank you for choosing Touche Artistique Mariage.</p>
+                    <div class="fv-modal-actions" style="justify-content:center;margin-top:24px;">
+                        <button class="fv-btn-submit" style="flex:0;padding:13px 32px;" onclick="fvCloseModal()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <style>
-        .config-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            padding: 10px;
-            border: 2px solid #E8E8E8;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
+        /* ── Figurine Viewer embedded styles (fv- namespace) ── */
+        .fv-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 28px;
+            align-items: start;
         }
-        .config-option:hover {
-            border-color: #FFB6C1;
+        @media (max-width: 900px) { .fv-layout { grid-template-columns: 1fr; } }
+
+        .fv-viewer-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: var(--shadow-medium);
+            overflow: hidden;
         }
-        .config-option.selected {
-            border-color: #FFB6C1;
-            background: #FFF5F7;
+        .fv-viewer-wrap { position: relative; }
+        #fvModel {
+            width: 100%;
+            height: 520px;
+            background: linear-gradient(160deg, #FFF4CC 0%, #FFE4E9 100%);
+            display: block;
         }
-        .config-option span {
-            font-weight: 500;
-            font-size: 0.85rem;
+        .fv-hint {
+            text-align: center;
+            font-size: .75rem;
+            color: #666;
+            padding: 10px 16px 14px;
+            border-top: 1px solid #f5f5f5;
         }
-        .hair-btn, .outfit-btn {
-            padding: 10px 20px;
-            border: 2px solid #E8E8E8;
-            border-radius: 25px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
+        .fv-loading-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(160deg, #FFF4CC 0%, #FFE4E9 100%);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 12px;
+            z-index: 5; transition: opacity .4s ease;
         }
-        .hair-btn:hover, .outfit-btn:hover {
-            border-color: #FFB6C1;
+        .fv-loading-overlay.fv-hidden { opacity: 0; pointer-events: none; }
+        .fv-spinner {
+            width: 40px; height: 40px;
+            border: 3px solid rgba(0,0,0,.1);
+            border-top-color: #2D2D2D;
+            border-radius: 50%;
+            animation: fvSpin .8s linear infinite;
         }
-        .hair-btn.selected, .outfit-btn.selected {
-            border-color: #FFB6C1;
-            background: #FFF5F7;
-            color: #FF9EB5;
+        @keyframes fvSpin { to { transform: rotate(360deg); } }
+        .fv-loading-text { font-family: 'Playfair Display', serif; font-size: .95rem; color: #666; }
+
+        /* Panel */
+        .fv-panel { display: flex; flex-direction: column; gap: 14px; }
+        .fv-card { background: #fff; border-radius: 14px; box-shadow: var(--shadow-soft); padding: 16px; }
+        .fv-card-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .fv-icon {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0;
         }
-        @media (max-width: 768px) {
-            .build-section .container > div > div {
-                grid-template-columns: 1fr !important;
-            }
+        .fv-dress  { background: #FFE4E9; }
+        .fv-tuxedo { background: #e8e8e8; }
+        .fv-shirt  { background: #FFF4CC; }
+        .fv-tie    { background: #fce4ec; }
+        .fv-shoes  { background: #ede7e0; }
+        .fv-skin   { background: #fdebd0; }
+        .fv-part { font-family: 'Playfair Display', serif; font-size: .95rem; font-weight: 600; }
+
+        /* Swatches */
+        .fv-swatches { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+        .fv-swatch {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2.5px solid transparent;
+            cursor: pointer; outline: none; position: relative;
+            transition: transform .15s, border-color .15s, box-shadow .15s;
+            flex-shrink: 0;
         }
+        .fv-swatch:hover { transform: scale(1.15); border-color: #2D2D2D; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+        .fv-swatch.fv-active { border-color: #2D2D2D; box-shadow: 0 0 0 3px #FFE566; }
+        .fv-swatch[data-label]:hover::after {
+            content: attr(data-label);
+            position: absolute; bottom: calc(100% + 5px); left: 50%;
+            transform: translateX(-50%);
+            background: #2D2D2D; color: #fff;
+            font-size: .62rem; white-space: nowrap;
+            padding: 2px 6px; border-radius: 4px;
+            pointer-events: none; z-index: 20;
+        }
+        .fv-picker-btn {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2.5px dashed #ccc; background: #fff;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: .9rem; transition: border-color .15s, transform .15s;
+            flex-shrink: 0; position: relative; outline: none;
+        }
+        .fv-picker-btn:hover { border-color: #2D2D2D; transform: scale(1.1); }
+        .fv-picker-btn input[type="color"] {
+            position: absolute; inset: 0; opacity: 0;
+            width: 100%; height: 100%; cursor: pointer; border: none; padding: 0;
+        }
+
+        /* Buttons */
+        .fv-reset-btn {
+            display: block; width: 100%; padding: 10px 0;
+            border: 1.5px solid #e0e0e0; border-radius: 10px;
+            background: transparent; font-family: 'Poppins', sans-serif;
+            font-size: .8rem; color: #666; cursor: pointer; transition: all .2s;
+        }
+        .fv-reset-btn:hover { border-color: #2D2D2D; color: #2D2D2D; background: #f5f5f5; }
+        .fv-send-btn {
+            display: block; width: 100%; padding: 14px 0;
+            border: none; border-radius: 10px;
+            background: #2D2D2D; color: #fff;
+            font-family: 'Playfair Display', serif; font-size: .95rem; font-weight: 600;
+            cursor: pointer; transition: all .2s; letter-spacing: .3px;
+        }
+        .fv-send-btn:hover { background: #444; transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+
+        /* Modal */
+        .fv-modal-backdrop {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,.45); backdrop-filter: blur(4px);
+            z-index: 9999; align-items: center; justify-content: center; padding: 20px;
+        }
+        .fv-modal-backdrop.fv-open { display: flex; }
+        .fv-modal {
+            background: #fff; border-radius: 22px;
+            width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 24px 60px rgba(0,0,0,.2);
+            animation: fvSlideUp .25s ease;
+        }
+        @keyframes fvSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .fv-modal-hd {
+            padding: 26px 26px 0;
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        .fv-modal-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 600; }
+        .fv-modal-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #666; padding: 4px; }
+        .fv-modal-close:hover { color: #2D2D2D; }
+        .fv-modal-body { padding: 18px 26px 26px; }
+        .fv-summary {
+            display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px;
+            padding: 14px; background: #f5f5f5; border-radius: 10px;
+        }
+        .fv-chip {
+            display: flex; align-items: center; gap: 5px;
+            background: #fff; border-radius: 20px; padding: 4px 9px 4px 5px;
+            font-size: .74rem; font-weight: 500; box-shadow: 0 1px 4px rgba(0,0,0,.07);
+        }
+        .fv-chip-dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.1); flex-shrink: 0; }
+        .fv-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .fv-fg { margin-bottom: 12px; }
+        .fv-fg label { display: block; font-size: .78rem; font-weight: 600; margin-bottom: 5px; }
+        .fv-fg input, .fv-fg textarea {
+            width: 100%; padding: 10px 12px;
+            border: 1.5px solid #e0e0e0; border-radius: 9px;
+            font-family: 'Poppins', sans-serif; font-size: .85rem;
+            color: #2D2D2D; outline: none; transition: border-color .2s;
+        }
+        .fv-fg input:focus, .fv-fg textarea:focus { border-color: #2D2D2D; }
+        .fv-fg textarea { resize: vertical; min-height: 72px; }
+        .fv-modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .fv-btn-cancel {
+            flex: 1; padding: 12px; border: 1.5px solid #e0e0e0; border-radius: 9px;
+            background: transparent; font-family: 'Poppins', sans-serif;
+            font-size: .85rem; cursor: pointer; color: #666; transition: all .2s;
+        }
+        .fv-btn-cancel:hover { border-color: #2D2D2D; color: #2D2D2D; }
+        .fv-btn-submit {
+            flex: 2; padding: 12px; border: none; border-radius: 9px;
+            background: #2D2D2D; color: #fff;
+            font-family: 'Playfair Display', serif; font-size: .9rem; font-weight: 600;
+            cursor: pointer; transition: all .2s;
+        }
+        .fv-btn-submit:hover { background: #444; }
+        .fv-btn-submit:disabled { background: #aaa; cursor: not-allowed; }
+        .fv-success { display: none; text-align: center; padding: 16px 0 8px; }
     </style>
+
+    <script>
+    (function () {
+        const mv   = document.getElementById('fvModel');
+        const fvOv = document.getElementById('fvLoadingOverlay');
+
+        const fvDefaults = {
+            'Dress': '#ffffff', 'Tuxedo': '#1a1a1a', 'Shirt': '#ffffff',
+            'Tie': '#8b1e3f', 'Shoes': '#1a1a1a', 'figurine std': '#c08960'
+        };
+        const fvLabels = {
+            'Dress': 'Dress', 'Tuxedo': 'Tuxedo', 'Shirt': 'Shirt',
+            'Tie': 'Tie', 'Shoes': 'Shoes', 'figurine std': 'Skin'
+        };
+        const fvColors = { ...fvDefaults };
+
+        mv.addEventListener('load', () => {
+            fvOv.classList.add('fv-hidden');
+            Object.entries(fvDefaults).forEach(([p, h]) => fvApply(p, h));
+        });
+
+        function fvHex(hex) {
+            const n = hex.replace('#', '');
+            return [parseInt(n.slice(0,2),16)/255, parseInt(n.slice(2,4),16)/255, parseInt(n.slice(4,6),16)/255, 1];
+        }
+        function fvApply(part, hex) {
+            if (!mv.model) return;
+            const mat = mv.model.materials.find(m => m.name === part);
+            if (mat) mat.pbrMetallicRoughness.setBaseColorFactor(fvHex(hex));
+        }
+        window.fvSet = function (part, btn, hex) {
+            fvApply(part, hex);
+            fvColors[part] = hex;
+            const c = document.getElementById('fv-swatches-' + part);
+            if (c) { c.querySelectorAll('.fv-swatch').forEach(s => s.classList.remove('fv-active')); btn.classList.add('fv-active'); }
+        };
+        window.fvOpenPicker = function (btn) { btn.querySelector('input[type="color"]').click(); };
+        window.fvPickerChange = function (part, inp) {
+            const hex = inp.value;
+            fvApply(part, hex);
+            fvColors[part] = hex;
+            const c = document.getElementById('fv-swatches-' + part);
+            if (c) c.querySelectorAll('.fv-swatch').forEach(s => s.classList.remove('fv-active'));
+            const pb = inp.closest('.fv-picker-btn');
+            pb.style.background = hex; pb.style.borderStyle = 'solid'; pb.textContent = '';
+            const ni = document.createElement('input'); ni.type = 'color'; ni.value = hex;
+            ni.onchange = () => fvPickerChange(part, ni);
+            pb.appendChild(ni);
+        };
+        window.fvReset = function () {
+            Object.entries(fvDefaults).forEach(([p, h]) => {
+                fvApply(p, h); fvColors[p] = h;
+                const c = document.getElementById('fv-swatches-' + p);
+                if (c) {
+                    c.querySelectorAll('.fv-swatch').forEach(s => {
+                        s.classList.remove('fv-active');
+                        if (s.getAttribute('onclick')?.includes(h)) s.classList.add('fv-active');
+                    });
+                    const pb = c.querySelector('.fv-picker-btn');
+                    if (pb) { pb.style.background = ''; pb.style.borderStyle = ''; pb.innerHTML = '🎨<input type="color" onchange="fvPickerChange(\'' + p + '\',this)">'; }
+                }
+            });
+        };
+
+        // GLB export
+        async function fvBuildGLB() {
+            const buf = await (await fetch('figurine-std.glb')).arrayBuffer();
+            const view = new DataView(buf);
+            const jLen = view.getUint32(12, true);
+            const gltf = JSON.parse(new TextDecoder().decode(new Uint8Array(buf, 20, jLen)));
+            for (const m of gltf.materials || []) {
+                const h = fvColors[m.name];
+                if (h) { m.pbrMetallicRoughness = m.pbrMetallicRoughness || {}; m.pbrMetallicRoughness.baseColorFactor = fvHex(h); }
+            }
+            let js = JSON.stringify(gltf); js += ' '.repeat((4 - js.length % 4) % 4);
+            const jb = new TextEncoder().encode(js);
+            const bin = new Uint8Array(buf, 20 + jLen);
+            const total = 12 + 8 + jb.length + bin.length;
+            const out = new Uint8Array(total); const ov = new DataView(out.buffer);
+            out.set([0x67,0x6C,0x54,0x46]); ov.setUint32(4,2,true); ov.setUint32(8,total,true);
+            ov.setUint32(12,jb.length,true); out.set([0x4A,0x53,0x4F,0x4E],16);
+            out.set(jb,20); out.set(bin,20+jb.length);
+            return out.buffer;
+        }
+        function fvDownload(buf) {
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(new Blob([buf],{type:'model/gltf-binary'}));
+            a.download = 'figurine-custom.glb'; a.click();
+        }
+        function fvToBase64(buf) {
+            const b = new Uint8Array(buf); const C = 65536; const p = [];
+            for (let i=0;i<b.length;i+=C) p.push(String.fromCharCode(...b.subarray(i,i+C)));
+            return btoa(p.join(''));
+        }
+
+        // Modal
+        window.fvOpenModal = function () {
+            document.getElementById('fvSummary').innerHTML = Object.entries(fvColors).map(([p,h]) =>
+                `<div class="fv-chip"><div class="fv-chip-dot" style="background:${h}"></div><span>${fvLabels[p]||p}</span></div>`
+            ).join('');
+            document.getElementById('fvFormView').style.display = '';
+            document.getElementById('fvSuccess').style.display = 'none';
+            document.getElementById('fvError').style.display = 'none';
+            document.getElementById('fvSubmitBtn').disabled = false;
+            document.getElementById('fvSubmitBtn').textContent = '⬇ Download & Send';
+            document.getElementById('fvModal').classList.add('fv-open');
+        };
+        window.fvCloseModal = function () { document.getElementById('fvModal').classList.remove('fv-open'); };
+        window.fvBackdropClick = function (e) { if (e.target===document.getElementById('fvModal')) fvCloseModal(); };
+        window.fvSubmit = async function () {
+            const name  = document.getElementById('fvName').value.trim();
+            const email = document.getElementById('fvEmail').value.trim();
+            const phone = document.getElementById('fvPhone').value.trim();
+            const notes = document.getElementById('fvNotes').value.trim();
+            const err   = document.getElementById('fvError');
+            if (!name || !email) { err.textContent='Please fill in your name and email.'; err.style.display='block'; return; }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent='Please enter a valid email address.'; err.style.display='block'; return; }
+            err.style.display = 'none';
+            const btn = document.getElementById('fvSubmitBtn');
+            btn.disabled = true; btn.textContent = 'Building file…';
+            try {
+                const glbBuffer = await fvBuildGLB();
+                fvDownload(glbBuffer);
+                btn.textContent = 'Sending…';
+                await fetch('/api/figurine-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, phone, notes, colors: fvColors, glbBase64: fvToBase64(glbBuffer) })
+                });
+            } catch(e) { console.error(e); }
+            document.getElementById('fvFormView').style.display = 'none';
+            document.getElementById('fvSuccess').style.display = 'block';
+        };
+    })();
+    </script>
 
     <!-- Fully Custom Figurines Section -->
     <section class="section custom-section" id="custom">

@@ -682,6 +682,9 @@
                 <button class="main-tab-btn" onclick="switchMainTab('newsletter', this)">
                     <i class="fas fa-newspaper"></i> Newsletter
                 </button>
+                <button class="main-tab-btn" onclick="switchMainTab('figurine', this)">
+                    <i class="fas fa-cube"></i> Figurine Designs
+                </button>
             </div>
 
             <!-- Orders Tab -->
@@ -726,6 +729,14 @@
                     <div class="loading-spinner"><i class="fas fa-spinner"></i><p>Loading subscribers...</p></div>
                 </div>
             </div>
+
+            <!-- Figurine Designs Tab -->
+            <div id="panel-figurine" class="tab-panel">
+                <div id="figurineContent">
+                    <div class="loading-spinner"><i class="fas fa-spinner"></i><p>Loading figurine orders...</p></div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -825,6 +836,7 @@
             loadReviews();
             loadContacts();
             loadNewsletter();
+            loadFigurineOrders();
         }
 
         async function loadStats() {
@@ -1172,6 +1184,58 @@
 
         function exportCSV() {
             window.open('/api/newsletter/export?token=' + encodeURIComponent(adminToken), '_blank');
+        }
+
+        // ─── Figurine Orders ───
+
+        async function loadFigurineOrders() {
+            const container = document.getElementById('figurineContent');
+            try {
+                const res = await fetch('/api/figurine-orders');
+                if (!res.ok) throw new Error('Not found');
+                const data = await res.json();
+                const orders = data.orders || [];
+
+                if (!orders.length) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-cube"></i><p>No figurine designs yet</p></div>';
+                    return;
+                }
+
+                container.innerHTML = orders.slice().reverse().map(o => {
+                    const chips = Object.entries(o.colors || {}).map(([part, hex]) =>
+                        `<span style="display:inline-flex;align-items:center;gap:5px;background:#f5f5f5;border-radius:20px;padding:4px 10px 4px 6px;font-size:0.75rem;margin:3px;">
+                            <span style="width:14px;height:14px;border-radius:50%;background:${escapeHTML(hex)};border:1px solid rgba(0,0,0,0.1);display:inline-block;flex-shrink:0;"></span>
+                            ${escapeHTML(part)}
+                        </span>`
+                    ).join('');
+
+                    const dlLink = o.glbFile
+                        ? `<a href="/orders/${escapeHTML(o.glbFile)}" download style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:#2D2D2D;color:#fff;border-radius:8px;text-decoration:none;font-size:0.8rem;font-weight:600;margin-top:12px;">
+                              <i class="fas fa-download"></i> Download .glb
+                           </a>`
+                        : '<span style="font-size:0.8rem;color:#999;margin-top:12px;display:block;">No file saved</span>';
+
+                    return `
+                    <div class="admin-card">
+                        <div class="order-header">
+                            <div>
+                                <div class="order-number" style="font-size:1rem;">${escapeHTML(o.name)}</div>
+                                <div class="order-date">${formatDate(o.date)}</div>
+                            </div>
+                            <span class="badge badge-new">New</span>
+                        </div>
+                        <div class="order-customer">
+                            <div><i class="fas fa-envelope"></i> ${escapeHTML(o.email)}</div>
+                            ${o.phone ? `<div><i class="fas fa-phone"></i> ${escapeHTML(o.phone)}</div>` : ''}
+                            ${o.notes ? `<div style="margin-top:6px;font-size:0.85rem;color:#666;"><i class="fas fa-comment"></i> ${escapeHTML(o.notes)}</div>` : ''}
+                        </div>
+                        <div style="margin-top:12px;"><strong style="font-size:0.8rem;">Colours:</strong><br>${chips}</div>
+                        ${dlLink}
+                    </div>`;
+                }).join('');
+            } catch (e) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-cube"></i><p>No figurine designs yet</p></div>';
+            }
         }
 
         // ─── Tab Switching ───

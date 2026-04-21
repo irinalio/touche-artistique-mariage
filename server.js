@@ -263,6 +263,81 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // ── Figurine orders list (admin) ─────────────────────────────
+  if (pathname === '/api/figurine-orders' && req.method === 'GET') {
+    const db = readDatabase();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ orders: db.figurineOrders || [] }));
+    return;
+  }
+
+  // ── Figurine order endpoint ──────────────────────────────────
+  if (pathname === '/api/figurine-order' && req.method === 'POST') {
+    let body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    req.on('end', () => {
+      try {
+        const { name, email, phone, notes, colors, glbBase64 } = JSON.parse(body);
+
+        if (!name || !email) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Name and email are required' }));
+          return;
+        }
+
+        // Ensure orders/ directory exists
+        const ordersDir = path.join(__dirname, 'orders');
+        if (!fs.existsSync(ordersDir)) fs.mkdirSync(ordersDir);
+
+        // Save GLB file
+        const timestamp = Date.now();
+        const safeName = (name || 'client').replace(/[^a-z0-9]/gi, '-').toLowerCase();
+        const glbFilename = `${timestamp}-${safeName}.glb`;
+        const glbPath = path.join(ordersDir, glbFilename);
+
+        if (glbBase64) {
+          const glbBuffer = Buffer.from(glbBase64, 'base64');
+          fs.writeFileSync(glbPath, glbBuffer);
+        }
+
+        // Save order record to database
+        const db = readDatabase();
+        if (!db.figurineOrders) db.figurineOrders = [];
+        const order = {
+          id: timestamp,
+          name,
+          email,
+          phone: phone || '',
+          notes: notes || '',
+          colors: colors || {},
+          glbFile: glbBase64 ? glbFilename : null,
+          date: new Date().toISOString()
+        };
+        db.figurineOrders.push(order);
+        writeDatabase(db);
+
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Order received', id: timestamp }));
+      } catch (err) {
+        console.error('Figurine order error:', err);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to save order' }));
+      }
+    });
+    return;
+  }
+
+  // Serve saved GLB files from orders/
+  if (pathname.startsWith('/orders/') && req.method === 'GET') {
+    const safePath = path.join(__dirname, pathname);
+    // Prevent path traversal
+    if (!safePath.startsWith(path.join(__dirname, 'orders'))) {
+      res.writeHead(403); res.end('Forbidden'); return;
+    }
+    serveFile(res, safePath, 'model/gltf-binary');
+    return;
+  }
+
   // PayPal configuration endpoint
   if (pathname === '/api/paypal-config' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -287,7 +362,9 @@ const server = http.createServer((req, res) => {
     '.jpg': 'image/jpeg',
     '.jpeg': 'image/jpeg',
     '.gif': 'image/gif',
-    '.svg': 'image/svg+xml'
+    '.svg': 'image/svg+xml',
+    '.glb': 'model/gltf-binary',
+    '.gltf': 'model/gltf+json'
   };
 
   const contentType = contentTypes[ext] || 'application/octet-stream';
