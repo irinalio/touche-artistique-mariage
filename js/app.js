@@ -725,7 +725,9 @@ const semiConfig = {
 const baseOptions = {
     classic: { image: 'images/standard-figurine.jpeg', name: 'Classic Couple', price: 29 },
     romantic: { image: 'images/standard-figurine1.jpeg', name: 'Romantic Couple', price: 29 },
-    elegant: { image: 'images/standard-figurine4.jpeg', name: 'Elegant Couple', price: 29 }
+    elegant: { image: 'images/standard-figurine4.jpeg', name: 'Elegant Couple', price: 29 },
+    'two-grooms': { image: 'images/standard-figurine5.png', name: 'Two Grooms', price: 29 },
+    'two-brides': { image: 'images/standard-figurine6.png', name: 'Two Brides', price: 29 }
 };
 
 const hairStyles = {
@@ -882,3 +884,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (groomInput) groomInput.addEventListener('input', updateSemiPreview);
     if (brideInput) brideInput.addEventListener('input', updateSemiPreview);
 });
+// Figurine slider
+function initFigurineSliders() {
+    document.querySelectorAll('.figurine-slider').forEach(slider => {
+        const track = slider.querySelector('.figurine-slider-track');
+        const prev = slider.querySelector('.figurine-slider-btn.prev');
+        const next = slider.querySelector('.figurine-slider-btn.next');
+        if (!track || !prev || !next) return;
+        const scrollAmount = () => {
+            const card = track.firstElementChild;
+            if (!card) return 300;
+            const styles = getComputedStyle(track);
+            const gap = parseFloat(styles.columnGap || styles.gap || 0) || 0;
+            return card.getBoundingClientRect().width + gap;
+        };
+        prev.addEventListener('click', () => track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+        next.addEventListener('click', () => track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+        const update = () => {
+            prev.disabled = track.scrollLeft <= 1;
+            next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+        };
+        track.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
+    });
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFigurineSliders);
+} else {
+    initFigurineSliders();
+}
